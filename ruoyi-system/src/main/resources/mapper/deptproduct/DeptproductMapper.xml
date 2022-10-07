@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DeptproductMapper">
+
+    <resultMap type="Deptproduct" id="DeptproductResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="CODE"    />
+        <result property="deptzhuId"    column="deptzhu_id"    />
+        <result property="type"    column="type"    />
+        <result property="size"    column="size"    />
+        <result property="name"    column="NAME"    />
+        <result property="cboItemmasterId"    column="cbo_itemmaster_id"    />
+        <result property="deptziId"    column="deptzi_id"    />
+        <result property="deptpoId"    column="deptpo_id"    />
+    </resultMap>
+
+    <sql id="selectDeptproductVo">
+        select id, CODE, deptzhu_id, type, size, NAME, cbo_itemmaster_id, deptzi_id, deptpo_id from cy_deptproduct
+    </sql>
+
+    <select id="selectDeptproductList" parameterType="Deptproduct" resultMap="DeptproductResult">
+        <include refid="selectDeptproductVo"/>
+        <where>
+            <if test="code != null  and code != ''"> and CODE = #{code}</if>
+            <if test="deptzhuId != null "> and deptzhu_id = #{deptzhuId}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="size != null "> and size = #{size}</if>
+            <if test="name != null  and name != ''"> and NAME like concat('%', #{name}, '%')</if>
+            <if test="cboItemmasterId != null  and cboItemmasterId != ''"> and cbo_itemmaster_id = #{cboItemmasterId}</if>
+            <if test="deptziId != null "> and deptzi_id = #{deptziId}</if>
+            <if test="deptpoId != null "> and deptpo_id = #{deptpoId}</if>
+        </where>
+    </select>
+
+    <select id="selectDeptproductById" parameterType="Integer" resultMap="DeptproductResult">
+        <include refid="selectDeptproductVo"/>
+        where id = #{id}
+    </select>
+    <!--useGeneratedKeys = "true" keyProperty = "id"插入时返回他的id-->
+    <insert id="insertDeptproduct" parameterType="Deptproduct" useGeneratedKeys = "true" keyProperty = "id">
+        insert into cy_deptproduct
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="code != null">CODE,</if>
+            <if test="deptzhuId != null">deptzhu_id,</if>
+            <if test="type != null">type,</if>
+            <if test="size != null">size,</if>
+            <if test="name != null">NAME,</if>
+            <if test="cboItemmasterId != null">cbo_itemmaster_id,</if>
+            <if test="deptziId != null">deptzi_id,</if>
+            <if test="deptpoId != null">deptpo_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="code != null">#{code},</if>
+            <if test="deptzhuId != null">#{deptzhuId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="size != null">#{size},</if>
+            <if test="name != null">#{name},</if>
+            <if test="cboItemmasterId != null">#{cboItemmasterId},</if>
+            <if test="deptziId != null">#{deptziId},</if>
+            <if test="deptpoId != null">#{deptpoId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateDeptproduct" parameterType="Deptproduct">
+        update cy_deptproduct
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null">CODE = #{code},</if>
+            <if test="deptzhuId != null">deptzhu_id = #{deptzhuId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="size != null">size = #{size},</if>
+            <if test="name != null">NAME = #{name},</if>
+            <if test="cboItemmasterId != null">cbo_itemmaster_id = #{cboItemmasterId},</if>
+            <if test="deptziId != null">deptzi_id = #{deptziId},</if>
+            <if test="deptpoId != null">deptpo_id = #{deptpoId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeptproductById" parameterType="Integer">
+        delete from cy_deptproduct where id = #{id}
+    </delete>
+
+    <delete id="deleteDeptproductByIds" parameterType="String">
+        delete from cy_deptproduct where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

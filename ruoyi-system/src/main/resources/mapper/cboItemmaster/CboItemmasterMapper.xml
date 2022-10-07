@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CboItemmasterMapper">
+    
+    <resultMap type="CboItemmaster" id="CboItemmasterResult">
+        <result property="id"    column="ID"    />
+        <result property="code"    column="Code"    />
+        <result property="name"    column="Name"    />
+    </resultMap>
+
+    <sql id="selectCboItemmasterVo">
+        select ID, Code, Name from CBO_ItemMaster
+    </sql>
+
+    <select id="selectCboItemmasterList" parameterType="CboItemmaster" resultMap="CboItemmasterResult">
+        <include refid="selectCboItemmasterVo"/>
+        where code like '3-50%' GROUP BY name,code
+    </select>
+    
+    <select id="selectCboItemmasterById" parameterType="Long" resultMap="CboItemmasterResult">
+        <include refid="selectCboItemmasterVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertCboItemmaster" parameterType="CboItemmaster">
+        insert into CBO_ItemMaster
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">ID,</if>
+            <if test="code != null and code != ''">Code,</if>
+            <if test="name != null and name != ''">Name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="code != null and code != ''">#{code},</if>
+            <if test="name != null and name != ''">#{name},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCboItemmaster" parameterType="CboItemmaster">
+        update CBO_ItemMaster
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null and code != ''">Code = #{code},</if>
+            <if test="name != null and name != ''">Name = #{name},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteCboItemmasterById" parameterType="Long">
+        delete from CBO_ItemMaster where ID = #{id}
+    </delete>
+
+    <delete id="deleteCboItemmasterByIds" parameterType="String">
+        delete from CBO_ItemMaster where ID in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

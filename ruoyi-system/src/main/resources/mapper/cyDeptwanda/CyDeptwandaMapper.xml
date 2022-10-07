@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CyDeptwandaMapper">
+
+    <resultMap type="CyDeptwanda" id="CyDeptwandaResult">
+        <result property="id"    column="id"    />
+        <result property="modifiedon"    column="ModifiedOn"    />
+        <result property="demandname"    column="DemandName"    />
+        <result property="code"    column="Code"    />
+        <result property="name"    column="Name"    />
+        <result property="plmname2"    column="PLMName2"    />
+        <result property="seibancode"    column="SeibanCode"    />
+        <result property="plmname5"    column="PLMName5"    />
+        <result property="plmname3"    column="PLMName3"    />
+        <result property="descflexfieldPubdescseg32"    column="DescFlexField_PubDescSeg32"    />
+        <result property="shuliang"    column="shuliang"    />
+        <result property="ljpc"    column="ljpc"    />
+        <result property="t3"    column="T3"    />
+        <result property="xq"    column="xq"    />
+        <result property="mark"    column="mark"    />
+        <result property="descflexfieldPrivatedescseg7"    column="DescFlexField_PrivateDescSeg7"    />
+        <result property="descflexfieldPrivatedescseg9"    column="DescFlexField_PrivateDescSeg9"    />
+        <result property="descflexfieldPrivatedescseg11"    column="DescFlexField_PrivateDescSeg11"    />
+        <result property="deptformId"    column="deptform_id"    />
+        <result property="deptsumziId"    column="deptsumzi_id"    />
+        <result property="deptsumId"    column="deptsum_id"    />
+        <result property="saleslineId"    column="salesLine_id"    />
+    </resultMap>
+
+    <resultMap type="CyDeptwanda" id="CyDeptdeptExWan">
+        <result property="modifiedon"    column="ModifiedOn"    />
+        <result property="demandname"    column="DemandName"    />
+        <result property="code"    column="Code"    />
+        <result property="name"    column="Name"    />
+        <result property="plmname2"    column="PLMName2"    />
+        <result property="seibancode"    column="SeibanCode"    />
+        <result property="descflexfieldPubdescseg32"    column="DescFlexField_PubDescSeg32"    />
+        <result property="shuliang"    column="shuliang"    />
+        <result property="ljpc"    column="ljpc"    />
+        <result property="t3"    column="T3"    />
+        <result property="descflexfieldPrivatedescseg7"    column="DescFlexField_PrivateDescSeg7"    />
+        <result property="descflexfieldPrivatedescseg9"    column="DescFlexField_PrivateDescSeg9"    />
+        <result property="saleslineId"    column="salesLine_id"    />
+    </resultMap>
+
+    <sql id="selectCyDeptwandaVo"> -- Cy_deptExWan
+        select ModifiedOn, DemandName, Code, Name, PLMName2, SeibanCode,DescFlexField_PubDescSeg32, shuliang, ljpc, T3, DescFlexField_PrivateDescSeg7, DescFlexField_PrivateDescSeg9, salesLine_id from Cy_deptExWan
+    </sql>
+
+    <sql id="selectCydeptWanda"> -- cy_deptwanda
+    select id, ModifiedOn, DemandName, Code, Name, PLMName2, SeibanCode, PLMName5, PLMName3, DescFlexField_PubDescSeg32, shuliang, ljpc, T3, xq, mark, DescFlexField_PrivateDescSeg7, DescFlexField_PrivateDescSeg9, DescFlexField_PrivateDescSeg11, deptform_id, deptsumzi_id, deptsum_id, salesLine_id from cy_deptwanda
+    </sql>
+
+
+<!--查询的远程库-->
+    <select id="selectCyDeptwandaList" parameterType="CyDeptwanda" resultMap="CyDeptdeptExWan">
+        <include refid="selectCyDeptwandaVo"/>
+        <where>
+            <if test="modifiedon != null "> and ModifiedOn = #{modifiedon}</if>
+            <if test="demandname != null  and demandname != ''"> and DemandName like concat('%', #{demandname}, '%')</if>
+            <if test="code != null  and code != ''"> and Code = #{code}</if>
+            <if test="name != null  and name != ''"> and Name like concat('%', #{name}, '%')</if>
+            <if test="plmname2 != null  and plmname2 != ''"> and PLMName2 = #{plmname2}</if>
+            <if test="seibancode != null  and seibancode != ''"> and SeibanCode = #{seibancode}</if>
+            <if test="descflexfieldPubdescseg32 != null  and descflexfieldPubdescseg32 != ''"> and DescFlexField_PubDescSeg32 = #{descflexfieldPubdescseg32}</if>
+            <if test="shuliang != null "> and shuliang = #{shuliang}</if>
+            <if test="ljpc != null "> and ljpc = #{ljpc}</if>
+            <if test="t3 != null "> and T3 = #{t3}</if>
+            <if test="descflexfieldPrivatedescseg7 != null  and descflexfieldPrivatedescseg7 != ''"> and DescFlexField_PrivateDescSeg7 = #{descflexfieldPrivatedescseg7}</if>
+            <if test="descflexfieldPrivatedescseg9 != null "> and DescFlexField_PrivateDescSeg9 = #{descflexfieldPrivatedescseg9}</if>
+            <if test="saleslineId != null "> and salesLine_id = #{saleslineId}</if>
+        </where>
+        GROUP BY ModifiedOn,DemandName,Code,Name,PLMName2,SeibanCode,DescFlexField_PubDescSeg32,shuliang,ljpc,T3,DescFlexField_PrivateDescSeg7,DescFlexField_PrivateDescSeg9,salesLine_id
+        order by ModifiedOn desc, Name desc
+    </select>
+
+    <select id="selectCyDeptwandaById" parameterType="Integer" resultMap="CyDeptwandaResult">
+        <include refid="selectCyDeptwandaVo"/>
+        where id = #{id}
+    </select>
+<!--查询的本地库-->
+    <select id="selectBySaleslineIdList" parameterType="CyDeptwanda" resultMap="CyDeptwandaResult">
+        <include refid="selectCydeptWanda"/>
+        <where>
+            <if test="modifiedon != null "> and ModifiedOn = #{modifiedon}</if>
+            <if test="demandname != null  and demandname != ''"> and DemandName like concat('%', #{demandname}, '%')</if>
+            <if test="code != null  and code != ''"> and Code = #{code}</if>
+            <if test="name != null  and name != ''"> and Name like concat('%', #{name}, '%')</if>
+            <if test="plmname2 != null  and plmname2 != ''"> and PLMName2 = #{plmname2}</if>
+            <if test="seibancode != null  and seibancode != ''"> and SeibanCode = #{seibancode}</if>
+            <if test="plmname5 != null  and plmname5 != ''"> and PLMName5 = #{plmname5}</if>
+            <if test="plmname3 != null  and plmname3 != ''"> and PLMName3 = #{plmname3}</if>
+            <if test="descflexfieldPubdescseg32 != null  and descflexfieldPubdescseg32 != ''"> and DescFlexField_PubDescSeg32 = #{descflexfieldPubdescseg32}</if>
+            <if test="shuliang != null "> and shuliang = #{shuliang}</if>
+            <if test="ljpc != null "> and ljpc = #{ljpc}</if>
+            <if test="t3 != null "> and T3 = #{t3}</if>
+            <if test="xq != null "> and xq = #{xq}</if>
+            <if test="mark != null  and mark != ''"> and mark = #{mark}</if>
+            <if test="descflexfieldPrivatedescseg7 != null  and descflexfieldPrivatedescseg7 != ''"> and DescFlexField_PrivateDescSeg7 = #{descflexfieldPrivatedescseg7}</if>
+            <if test="descflexfieldPrivatedescseg9 != null "> and DescFlexField_PrivateDescSeg9 = #{descflexfieldPrivatedescseg9}</if>
+            <if test="descflexfieldPrivatedescseg11 != null  and descflexfieldPrivatedescseg11 != ''"> and DescFlexField_PrivateDescSeg11 = #{descflexfieldPrivatedescseg11}</if>
+            <if test="deptformId != null "> and deptform_id = #{deptformId}</if>
+            <if test="deptsumziId != null "> and deptsumzi_id = #{deptsumziId}</if>
+            <if test="deptsumId != null "> and deptsum_id = #{deptsumId}</if>
+            <if test="saleslineId != null "> and salesLine_id = #{saleslineId}</if>
+        </where>
+    </select>
+
+
+    <insert id="insertCyDeptwanda" parameterType="CyDeptwanda">
+        insert into cy_deptwanda
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="modifiedon != null">ModifiedOn,</if>
+            <if test="demandname != null">DemandName,</if>
+            <if test="code != null">Code,</if>
+            <if test="name != null">Name,</if>
+            <if test="plmname2 != null">PLMName2,</if>
+            <if test="seibancode != null">SeibanCode,</if>
+            <if test="plmname5 != null">PLMName5,</if>
+            <if test="plmname3 != null">PLMName3,</if>
+            <if test="descflexfieldPubdescseg32 != null">DescFlexField_PubDescSeg32,</if>
+            <if test="shuliang != null">shuliang,</if>
+            <if test="ljpc != null">ljpc,</if>
+            <if test="t3 != null">T3,</if>
+            <if test="xq != null">xq,</if>
+            <if test="mark != null">mark,</if>
+            <if test="descflexfieldPrivatedescseg7 != null">DescFlexField_PrivateDescSeg7,</if>
+            <if test="descflexfieldPrivatedescseg9 != null">DescFlexField_PrivateDescSeg9,</if>
+            <if test="descflexfieldPrivatedescseg11 != null">DescFlexField_PrivateDescSeg11,</if>
+            <if test="deptformId != null">deptform_id,</if>
+            <if test="deptsumziId != null">deptsumzi_id,</if>
+            <if test="deptsumId != null">deptsum_id,</if>
+            <if test="saleslineId != null">salesLine_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="modifiedon != null">#{modifiedon},</if>
+            <if test="demandname != null">#{demandname},</if>
+            <if test="code != null">#{code},</if>
+            <if test="name != null">#{name},</if>
+            <if test="plmname2 != null">#{plmname2},</if>
+            <if test="seibancode != null">#{seibancode},</if>
+            <if test="plmname5 != null">#{plmname5},</if>
+            <if test="plmname3 != null">#{plmname3},</if>
+            <if test="descflexfieldPubdescseg32 != null">#{descflexfieldPubdescseg32},</if>
+            <if test="shuliang != null">#{shuliang},</if>
+            <if test="ljpc != null">#{ljpc},</if>
+            <if test="t3 != null">#{t3},</if>
+            <if test="xq != null">#{xq},</if>
+            <if test="mark != null">#{mark},</if>
+            <if test="descflexfieldPrivatedescseg7 != null">#{descflexfieldPrivatedescseg7},</if>
+            <if test="descflexfieldPrivatedescseg9 != null">#{descflexfieldPrivatedescseg9},</if>
+            <if test="descflexfieldPrivatedescseg11 != null">#{descflexfieldPrivatedescseg11},</if>
+            <if test="deptformId != null">#{deptformId},</if>
+            <if test="deptsumziId != null">#{deptsumziId},</if>
+            <if test="deptsumId != null">#{deptsumId},</if>
+            <if test="saleslineId != null">#{saleslineId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCyDeptwanda" parameterType="CyDeptwanda">
+        update cy_deptwanda
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modifiedon != null">ModifiedOn = #{modifiedon},</if>
+            <if test="demandname != null">DemandName = #{demandname},</if>
+            <if test="code != null">Code = #{code},</if>
+            <if test="name != null">Name = #{name},</if>
+            <if test="plmname2 != null">PLMName2 = #{plmname2},</if>
+            <if test="seibancode != null">SeibanCode = #{seibancode},</if>
+            <if test="plmname5 != null">PLMName5 = #{plmname5},</if>
+            <if test="plmname3 != null">PLMName3 = #{plmname3},</if>
+            <if test="descflexfieldPubdescseg32 != null">DescFlexField_PubDescSeg32 = #{descflexfieldPubdescseg32},</if>
+            <if test="shuliang != null">shuliang = #{shuliang},</if>
+            <if test="ljpc != null">ljpc = #{ljpc},</if>
+            <if test="t3 != null">T3 = #{t3},</if>
+            <if test="xq != null">xq = #{xq},</if>
+            <if test="mark != null">mark = #{mark},</if>
+            <if test="descflexfieldPrivatedescseg7 != null">DescFlexField_PrivateDescSeg7 = #{descflexfieldPrivatedescseg7},</if>
+            <if test="descflexfieldPrivatedescseg9 != null">DescFlexField_PrivateDescSeg9 = #{descflexfieldPrivatedescseg9},</if>
+            <if test="descflexfieldPrivatedescseg11 != null">DescFlexField_PrivateDescSeg11 = #{descflexfieldPrivatedescseg11},</if>
+            <if test="deptformId != null">deptform_id = #{deptformId},</if>
+            <if test="deptsumziId != null">deptsumzi_id = #{deptsumziId},</if>
+            <if test="deptsumId != null">deptsum_id = #{deptsumId},</if>
+            <if test="saleslineId != null">salesLine_id = #{saleslineId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCyDeptwandaById" parameterType="Integer">
+        delete from cy_deptwanda where id = #{id}
+    </delete>
+
+    <delete id="deleteCyDeptwandaByIds" parameterType="String">
+        delete from cy_deptwanda where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

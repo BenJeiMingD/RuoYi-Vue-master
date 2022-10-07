@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DeptsumMapper">
+
+    <resultMap type="Deptsum" id="DeptsumResult">
+        <result property="id"    column="id"    />
+        <result property="summaryTime"    column="summary_time"    />
+        <result property="issueNumber"    column="Issue_number"    />
+        <result property="summaryBy"    column="summary_by"    />
+        <result property="merge"    column="merge"    />
+        <result property="mergeBy"    column="merge_by"    />
+        <result property="mergeTime"    column="merge_time"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="sumStatus"    column="sum_status"    />
+    </resultMap>
+
+    <sql id="selectDeptsumVo">
+        select id, summary_time, Issue_number, summary_by, merge, merge_by, merge_time, start_time, end_time, sum_status from cy_deptsum
+    </sql>
+
+    <select id="selectDeptsumList" parameterType="Deptsum" resultMap="DeptsumResult">
+        <include refid="selectDeptsumVo"/>
+        <where>
+            <if test="summaryTime != null "> and summary_time = #{summaryTime}</if>
+            <if test="issueNumber != null "> and Issue_number = #{issueNumber}</if>
+            <if test="summaryBy != null  and summaryBy != ''"> and summary_by = #{summaryBy}</if>
+            <if test="merge != null "> and merge = #{merge}</if>
+            <if test="mergeBy != null  and mergeBy != ''"> and merge_by = #{mergeBy}</if>
+            <if test="mergeTime != null "> and merge_time = #{mergeTime}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="sumStatus != null  and sumStatus != ''"> and sum_status = #{sumStatus}</if>
+        </where>
+    </select>
+
+    <select id="selectDeptsumById" parameterType="Integer" resultMap="DeptsumResult">
+        <include refid="selectDeptsumVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDeptsum" parameterType="Deptsum">
+        insert into cy_deptsum
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="summaryTime != null">summary_time,</if>
+            <if test="issueNumber != null">Issue_number,</if>
+            <if test="summaryBy != null">summary_by,</if>
+            <if test="merge != null">merge,</if>
+            <if test="mergeBy != null">merge_by,</if>
+            <if test="mergeTime != null">merge_time,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="sumStatus != null">sum_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="summaryTime != null">#{summaryTime},</if>
+            <if test="issueNumber != null">#{issueNumber},</if>
+            <if test="summaryBy != null">#{summaryBy},</if>
+            <if test="merge != null">#{merge},</if>
+            <if test="mergeBy != null">#{mergeBy},</if>
+            <if test="mergeTime != null">#{mergeTime},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="sumStatus != null">#{sumStatus},</if>
+        </trim>
+    </insert>
+
+    <update id="updateDeptsum" parameterType="Deptsum">
+        update cy_deptsum
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="summaryTime != null">summary_time = #{summaryTime},</if>
+            <if test="issueNumber != null">Issue_number = #{issueNumber},</if>
+            <if test="summaryBy != null">summary_by = #{summaryBy},</if>
+            <if test="merge != null">merge = #{merge},</if>
+            <if test="mergeBy != null">merge_by = #{mergeBy},</if>
+            <if test="mergeTime != null">merge_time = #{mergeTime},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="sumStatus != null">sum_status = #{sumStatus},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeptsumById" parameterType="Integer">
+        delete from cy_deptsum where id = #{id}
+    </delete>
+
+    <delete id="deleteDeptsumByIds" parameterType="String">
+        delete from cy_deptsum where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

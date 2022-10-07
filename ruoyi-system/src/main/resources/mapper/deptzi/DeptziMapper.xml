@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DeptziMapper">
+    <resultMap type="Deptzi" id="DeptziResult">
+        <result property="deptId"    column="dept_id"    />
+        <result property="size"    column="size"    />
+        <result property="todayNumber"    column="today_number"    />
+        <result property="sumNumber"    column="sum_number"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="type"    column="type"    />
+        <result property="remark"    column="remark"    />
+        <result property="classification"    column="classification"    />
+        <result property="deptqiId"    column="deptqi_id"    />
+        <result property="deptzhuId"    column="deptzhu_id"    />
+        <result property="level"    column="level"    />
+        <result property="indexId"    column="index_id"    />
+        <result property="symbol"    column="symbol"    />
+    </resultMap>
+
+    <sql id="selectDeptziVo">
+        select dept_id, size, today_number, sum_number, start_time, type, remark, deptqi_id, deptzhu_id, classification,symbol,level,index_id from Cy_deptzi
+    </sql>
+
+    <select id="selectDeptziList" parameterType="Deptzi" resultMap="DeptziResult">
+        <include refid="selectDeptziVo"/>
+        <where>
+            <if test="size != null "> and size = #{size}</if>
+            <if test="todayNumber != null "> and today_number = #{todayNumber}</if>
+            <if test="sumNumber != null "> and sum_number = #{sumNumber}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="startTime != null "> and classification = #{classification}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="deptqiId != null "> and deptqi_id = #{deptqiId}</if>
+            <if test="deptzhuId != null "> and deptzhu_id = #{deptzhuId}</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="indexId != null "> and index_id = #{indexId}</if>
+            <if test="symbol != null  and symbol != ''"> and symbol = #{symbol}</if>
+        </where>
+    </select>
+
+
+    <select id="selectDeptziListDeptid" parameterType="com.ruoyi.system.domain.Deptzi" resultMap="DeptziResult">
+        <include refid="selectDeptziVo"/>
+        where deptzhu_id = #{deptzhuId}
+    </select>
+
+    <select id="selectDeptziById" parameterType="Integer" resultMap="DeptziResult">
+        <include refid="selectDeptziVo"/>
+        where dept_id = #{deptId}
+    </select>
+
+    <insert id="insertDeptzi" parameterType="Deptzi" useGeneratedKeys="true" keyProperty="deptId">
+        insert into Cy_deptzi
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+           <!-- <if test="deptId != null">dept_id,</if>-->
+            <if test="size != null">size,</if>
+            <if test="todayNumber != null">today_number,</if>
+            <if test="sumNumber != null">sum_number,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="type != null">type,</if>
+            <if test="remark != null">remark,</if>
+            <if test="classification != null">classification,</if>
+            <if test="deptqiId != null">deptqi_id,</if>
+            <if test="deptzhuId != null">deptzhu_id,</if>
+            <if test="level != null "> level,</if>
+            <if test="indexId != null "> index_id,</if>
+            <if test="symbol != null">symbol,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <!--<if test="deptId != null">#{dept_id},</if>-->
+            <if test="size != null">#{size},</if>
+            <if test="todayNumber != null">#{todayNumber},</if>
+            <if test="sumNumber != null">#{sumNumber},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="type != null">#{type},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="classification != null">#{classification},</if>
+            <if test="deptqiId != null">#{deptqiId},</if>
+            <if test="deptzhuId != null">#{deptzhuId},</if>
+            <if test="level != null ">#{level},</if>
+            <if test="indexId != null ">#{indexId},</if>
+            <if test="symbol != null">#{symbol},</if>
+        </trim>
+    </insert>
+
+    <update id="updateDeptzi" parameterType="Deptzi">
+        update Cy_deptzi
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="size != null">size = #{size},</if>
+            <if test="todayNumber != null">today_number = #{todayNumber},</if>
+            <if test="sumNumber != null">sum_number = #{sumNumber},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="classification != null">classification = #{classification},</if>
+            <if test="deptqiId != null">deptqi_id = #{deptqiId},</if>
+            <if test="deptzhuId != null">deptzhu_id = #{deptzhuId},</if>
+            <if test="level != null "> level = #{level},</if>
+            <if test="indexId != null "> index_id = #{indexId},</if>
+            <if test="symbol != null">symbol = #{symbol},</if>
+        </trim>
+        where dept_id = #{deptId}
+    </update>
+
+    <delete id="deleteDeptziById" parameterType="Integer">
+        delete from Cy_deptzi where dept_id = #{dept_id}
+    </delete>
+
+    <delete id="deleteDeptziByIds" parameterType="String">
+        delete from Cy_deptzi where dept_id in
+        <foreach item="deptId" collection="array" open="(" separator="," close=")">
+            #{deptId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteDeptziByIdst" parameterType="com.ruoyi.system.domain.Deptzi">
+        delete from Cy_deptzi
+        <trim prefix="where " suffix="" suffixOverrides=",">
+            <if test="deptId != null"> dept_id = #{deptId}</if>
+            <if test="deptzhuId != null"> and deptzhu_id = #{deptzhuId}</if>
+        </trim>
+    </delete>
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CyDeptpoZiMapper">
+
+    <resultMap type="CyDeptpoZi" id="CyDeptpoZiResult">
+        <result property="deptpoziId"    column="deptpozi_id"    />
+        <result property="size"    column="size"    />
+        <result property="todayNumber"    column="today_number"    />
+        <result property="sumProductive"    column="sum_productive"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="type"    column="type"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptqiId"    column="deptqi_id"    />
+        <result property="deptzhuId"    column="deptzhu_id"    />
+        <result property="symbol"    column="symbol"    />
+        <result property="classification"    column="classification"    />
+        <result property="issueNumber"    column="Issue_number"    />
+        <result property="deptziId"    column="deptzi_id"    />
+        <result property="duration"    column="duration"    />
+    </resultMap>
+
+    <sql id="selectCyDeptpoZiVo">
+        select deptpozi_id, size, today_number, sum_productive, start_time, type, remark, deptqi_id, deptzhu_id, symbol, classification, Issue_number, deptzi_id, duration from cy_deptpo_zi
+    </sql>
+
+    <select id="selectCyDeptpoZiList" parameterType="CyDeptpoZi" resultMap="CyDeptpoZiResult">
+        <include refid="selectCyDeptpoZiVo"/>
+        <where>
+            <if test="size != null "> and size = #{size}</if>
+            <if test="todayNumber != null "> and today_number = #{todayNumber}</if>
+            <if test="sumProductive != null "> and sum_productive = #{sumProductive}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="deptqiId != null "> and deptqi_id = #{deptqiId}</if>
+            <if test="deptzhuId != null "> and deptzhu_id = #{deptzhuId}</if>
+            <if test="symbol != null  and symbol != ''"> and symbol = #{symbol}</if>
+            <if test="classification != null  and classification != ''"> and classification = #{classification}</if>
+            <if test="issueNumber != null "> and Issue_number = #{issueNumber}</if>
+            <if test="deptziId != null "> and deptzi_id = #{deptziId}</if>
+            <if test="duration != null "> and duration = #{duration}</if>
+        </where>
+    </select>
+
+    <select id="selectCyDeptpoZiByDeptpoziId" parameterType="Integer" resultMap="CyDeptpoZiResult">
+        <include refid="selectCyDeptpoZiVo"/>
+        where deptpozi_id = #{deptpoziId}
+    </select>
+
+    <insert id="insertCyDeptpoZi" parameterType="CyDeptpoZi">
+        insert into cy_deptpo_zi
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deptpoziId != null">deptpozi_id,</if>
+            <if test="size != null">size,</if>
+            <if test="todayNumber != null">today_number,</if>
+            <if test="sumProductive != null">sum_productive,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="type != null">type,</if>
+            <if test="remark != null">remark,</if>
+            <if test="deptqiId != null">deptqi_id,</if>
+            <if test="deptzhuId != null">deptzhu_id,</if>
+            <if test="symbol != null">symbol,</if>
+            <if test="classification != null">classification,</if>
+            <if test="issueNumber != null">Issue_number,</if>
+            <if test="deptziId != null">deptzi_id,</if>
+            <if test="duration != null">duration,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptpoziId != null">#{deptpoziId},</if>
+            <if test="size != null">#{size},</if>
+            <if test="todayNumber != null">#{todayNumber},</if>
+            <if test="sumProductive != null">#{sumProductive},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="type != null">#{type},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="deptqiId != null">#{deptqiId},</if>
+            <if test="deptzhuId != null">#{deptzhuId},</if>
+            <if test="symbol != null">#{symbol},</if>
+            <if test="classification != null">#{classification},</if>
+            <if test="issueNumber != null">#{issueNumber},</if>
+            <if test="deptziId != null">#{deptziId},</if>
+            <if test="duration != null">#{duration},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCyDeptpoZi" parameterType="CyDeptpoZi">
+        update cy_deptpo_zi
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="size != null">size = #{size},</if>
+            <if test="todayNumber != null">today_number = #{todayNumber},</if>
+            <if test="sumProductive != null">sum_productive = #{sumProductive},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="deptqiId != null">deptqi_id = #{deptqiId},</if>
+            <if test="deptzhuId != null">deptzhu_id = #{deptzhuId},</if>
+            <if test="symbol != null">symbol = #{symbol},</if>
+            <if test="classification != null">classification = #{classification},</if>
+            <if test="issueNumber != null">Issue_number = #{issueNumber},</if>
+            <if test="deptziId != null">deptzi_id = #{deptziId},</if>
+            <if test="duration != null">duration = #{duration},</if>
+        </trim>
+        where deptpozi_id = #{deptpoziId}
+    </update>
+
+    <delete id="deleteCyDeptpoZiByDeptpoziId" parameterType="Integer">
+        delete from cy_deptpo_zi where deptpozi_id = #{deptpoziId}
+    </delete>
+
+    <delete id="deleteCyDeptpoZiByDeptpoziIds" parameterType="String">
+        delete from cy_deptpo_zi where deptpozi_id in
+        <foreach item="deptpoziId" collection="array" open="(" separator="," close=")">
+            #{deptpoziId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DeptsumziMapper">
+    
+    <resultMap type="Deptsumzi" id="DeptsumziResult">
+        <result property="id"    column="id"    />
+        <result property="deptsumId"    column="deptsum_id"    />
+        <result property="jsonData"    column="json_data"    />
+        <result property="dispatcher"    column="dispatcher"    />
+        <result property="confirmedBy"    column="confirmed_by"    />
+    </resultMap>
+
+    <sql id="selectDeptsumziVo">
+        select id, deptsum_id, json_data, dispatcher, confirmed_by from Cy_deptsum
+    </sql>
+
+    <select id="selectDeptsumziList" parameterType="Deptsumzi" resultMap="DeptsumziResult">
+        <include refid="selectDeptsumziVo"/>
+        <where>  
+            <if test="deptsumId != null "> and deptsum_id = #{deptsumId}</if>
+            <if test="jsonData != null  and jsonData != ''"> and json_data = #{jsonData}</if>
+            <if test="dispatcher != null  and dispatcher != ''"> and dispatcher = #{dispatcher}</if>
+            <if test="confirmedBy != null  and confirmedBy != ''"> and confirmed_by = #{confirmedBy}</if>
+        </where>
+    </select>
+    
+    <select id="selectDeptsumziById" parameterType="Integer" resultMap="DeptsumziResult">
+        <include refid="selectDeptsumziVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDeptsumzi" parameterType="Deptsumzi">
+        insert into Cy_deptsum
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deptsumId != null">deptsum_id,</if>
+            <if test="jsonData != null">json_data,</if>
+            <if test="dispatcher != null">dispatcher,</if>
+            <if test="confirmedBy != null">confirmed_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptsumId != null">#{deptsumId},</if>
+            <if test="jsonData != null">#{jsonData},</if>
+            <if test="dispatcher != null">#{dispatcher},</if>
+            <if test="confirmedBy != null">#{confirmedBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeptsumzi" parameterType="Deptsumzi">
+        update Cy_deptsum
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deptsumId != null">deptsum_id = #{deptsumId},</if>
+            <if test="jsonData != null">json_data = #{jsonData},</if>
+            <if test="dispatcher != null">dispatcher = #{dispatcher},</if>
+            <if test="confirmedBy != null">confirmed_by = #{confirmedBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeptsumziById" parameterType="Integer">
+        delete from Cy_deptsum where id = #{id}
+    </delete>
+
+    <delete id="deleteDeptsumziByIds" parameterType="String">
+        delete from Cy_deptsum where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

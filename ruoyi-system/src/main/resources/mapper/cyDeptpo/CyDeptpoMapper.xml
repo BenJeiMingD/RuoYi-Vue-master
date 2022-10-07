@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CyDeptpoMapper">
+    <resultMap type="CyDeptpo" id="CyDeptpoResult">
+        <result property="issueNumber"    column="Issue_number"    />
+        <result property="deptzhuId"    column="deptzhu_id"    />
+        <result property="deptziId"    column="deptzi_id"    />
+        <result property="type"    column="type"    />
+        <result property="size"    column="size"    />
+        <result property="todayNumber"    column="today_number"    />
+        <result property="sumProductive"    column="sum_productive"    />
+        <result property="deptqiId"    column="deptqi_id"    />
+        <result property="deptpoId"    column="deptpo_id"    />
+        <result property="duration"    column="duration"    />
+        <result property="classification"    column="classification"    />
+        <result property="indexId"    column="index_id"    />
+        <result property="level"    column="level"    />
+        <result property="sumZhu"    column="sum_zhu"    />
+    </resultMap>
+
+    <sql id="selectCyDeptpoVo">
+        select Issue_number, deptzhu_id, deptzi_id, type, size, today_number, sum_productive, deptqi_id, deptpo_id, duration, classification, index_id, level, sum_zhu from cy_deptpo
+    </sql>
+
+    <select id="selectCyDeptpoList" parameterType="CyDeptpo" resultMap="CyDeptpoResult">
+        <include refid="selectCyDeptpoVo"/>
+        <where>
+            <if test="issueNumber != null "> and Issue_number = #{issueNumber}</if>
+            <if test="deptzhuId != null "> and deptzhu_id = #{deptzhuId}</if>
+            <if test="deptziId != null "> and deptzi_id = #{deptziId}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="size != null "> and size = #{size}</if>
+            <if test="todayNumber != null "> and today_number = #{todayNumber}</if>
+            <if test="sumProductive != null "> and sum_productive = #{sumProductive}</if>
+            <if test="deptqiId != null "> and deptqi_id = #{deptqiId}</if>
+            <if test="duration != null "> and duration = #{duration}</if>
+            <if test="classification != null  and classification != ''"> and classification = #{classification}</if>
+            <if test="indexId != null "> and index_id = #{indexId}</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="sumZhu != null "> and sum_zhu = #{sumZhu}</if>
+        </where>
+    </select>
+
+    <select id="selectCyDeptpoByDeptpoId" parameterType="Integer" resultMap="CyDeptpoResult">
+        <include refid="selectCyDeptpoVo"/>
+        where deptpo_id = #{deptpoId}
+    </select>
+
+    <insert id="insertCyDeptpo" parameterType="CyDeptpo" useGeneratedKeys="true" keyProperty="deptpoId">
+        insert into cy_deptpo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="issueNumber != null">Issue_number,</if>
+            <if test="deptzhuId != null">deptzhu_id,</if>
+            <if test="deptziId != null">deptzi_id,</if>
+            <if test="type != null">type,</if>
+            <if test="size != null">size,</if>
+            <if test="todayNumber != null">today_number,</if>
+            <if test="sumProductive != null">sum_productive,</if>
+            <if test="deptqiId != null">deptqi_id,</if>
+            <if test="duration != null">duration,</if>
+            <if test="classification != null">classification,</if>
+            <if test="indexId != null">index_id,</if>
+            <if test="level != null">level,</if>
+            <if test="sumZhu != null">sum_zhu,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="issueNumber != null">#{issueNumber},</if>
+            <if test="deptzhuId != null">#{deptzhuId},</if>
+            <if test="deptziId != null">#{deptziId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="size != null">#{size},</if>
+            <if test="todayNumber != null">#{todayNumber},</if>
+            <if test="sumProductive != null">#{sumProductive},</if>
+            <if test="deptqiId != null">#{deptqiId},</if>
+            <if test="duration != null">#{duration},</if>
+            <if test="classification != null">#{classification},</if>
+            <if test="indexId != null">#{indexId},</if>
+            <if test="level != null">#{level},</if>
+            <if test="sumZhu != null">#{sumZhu},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCyDeptpo" parameterType="CyDeptpo">
+        update cy_deptpo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="issueNumber != null">Issue_number = #{issueNumber},</if>
+            <if test="deptzhuId != null">deptzhu_id = #{deptzhuId},</if>
+            <if test="deptziId != null">deptzi_id = #{deptziId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="size != null">size = #{size},</if>
+            <if test="todayNumber != null">today_number = #{todayNumber},</if>
+            <if test="sumProductive != null">sum_productive = #{sumProductive},</if>
+            <if test="deptqiId != null">deptqi_id = #{deptqiId},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="classification != null">classification = #{classification},</if>
+            <if test="indexId != null">index_id = #{indexId},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="sumZhu != null">sum_zhu = #{sumZhu},</if>
+        </trim>
+        where deptpo_id = #{deptpoId}
+    </update>
+
+    <delete id="deleteCyDeptpoByDeptpoId" parameterType="Integer">
+        delete from cy_deptpo where deptpo_id = #{deptpoId}
+    </delete>
+
+    <delete id="deleteCyDeptpoByDeptpoIds" parameterType="String">
+        delete from cy_deptpo where deptpo_id in
+        <foreach item="deptpoId" collection="array" open="(" separator="," close=")">
+            #{deptpoId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DeptzhuMapper">
+
+    <resultMap type="Deptzhu" id="DeptzhuResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="todayNumber"    column="today_number"    />
+        <result property="deptqiId"    column="deptqi_id"    />
+        <result property="level"    column="level"    />
+        <result property="indexId"    column="index_id"    />
+        <result property="classification"    column="classification"    />
+        <result property="sumProductive"    column="sum_productive"    />
+        <result property="issueNumber"    column="Issue_number"    />
+    </resultMap>
+
+    <sql id="selectDeptzhuVo">
+        select id, type, today_number, deptqi_id, level, index_id ,classification,sum_productive,Issue_number from cy_deptzhu
+    </sql>
+
+    <select id="selectDeptzhuList" parameterType="Deptzhu" resultMap="DeptzhuResult">
+        <include refid="selectDeptzhuVo"/>
+        <where>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="todayNumber != null "> and sum_number = #{todayNumber}</if>
+            <if test="deptqiId != null "> and deptqi_id = #{deptqiId}</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="indexId != null "> and index_id = #{indexId}</if>
+            <if test="classification != null  and classification != ''"> and classification = #{classification}</if>
+            <if test="sumProductive != null "> and sum_productive = #{sumProductive}</if>
+            <if test="issueNumber != null "> and Issue_number = #{issueNumber}</if>
+        </where>
+    </select>
+
+    <select id="selectDeptzhuById" parameterType="Integer" resultMap="DeptzhuResult">
+        <include refid="selectDeptzhuVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDeptzhu" parameterType="Deptzhu" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+        insert into cy_deptzhu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">id,</if>-->
+            <if test="type != null">type,</if>
+            <if test="todayNumber != null">today_number,</if>
+            <if test="deptqiId != null">deptqi_id,</if>
+            <if test="level != null ">  level ,</if>
+            <if test="indexId != null ">  index_id ,</if>
+            <if test="classification != null">classification,</if>
+            <if test="sumProductive != null">sum_productive,</if>
+            <if test="issueNumber != null">Issue_number,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">#{id},</if>-->
+            <if test="type != null">#{type},</if>
+            <if test="todayNumber != null">#{todayNumber},</if>
+            <if test="deptqiId != null">#{deptqiId},</if>
+            <if test="level != null ">#{level},</if>
+            <if test="indexId != null ">#{indexId},</if>
+            <if test="classification != null">#{classification},</if>
+            <if test="sumProductive != null">#{sum_productive},</if>
+            <if test="issueNumber != null">#{issueNumber},</if>
+        </trim>
+    </insert>
+
+    <update id="updateDeptzhu" parameterType="Deptzhu">
+        update cy_deptzhu
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="todayNumber != null">today_number = #{todayNumber},</if>
+            <if test="deptqiId != null">deptqi_id = #{deptqiId},</if>
+            <if test="level != null "> level = #{level},</if>
+            <if test="indexId != null ">  index_id = #{indexId},</if>
+            <if test="classification != null">classification = #{classification},</if>
+            <if test="sumProductive != null">sum_productive = #{sumProductive},</if>
+            <if test="issueNumber != null">Issue_number = #{issueNumber},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeptzhuById" parameterType="Integer">
+        delete from cy_deptzhu where id = #{id}
+    </delete>
+
+    <delete id="deleteDeptzhuByIds" parameterType="String">
+        delete from cy_deptzhu where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

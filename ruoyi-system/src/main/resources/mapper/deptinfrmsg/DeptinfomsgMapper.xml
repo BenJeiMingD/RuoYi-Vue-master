@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DeptinfomsgMapper">
+    
+    <resultMap type="Deptinfomsg" id="DeptinfomsgResult">
+        <result property="id"    column="id"    />
+        <result property="size"    column="size"    />
+        <result property="todayNumber"    column="today_number"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptzhuId"    column="deptzhu_id"    />
+        <result property="symbol"    column="symbol"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="duration"    column="duration"    />
+        <result property="yearCode"    column="year_code"    />
+        <result property="issueNumber"    column="Issue_number"    />
+        <result property="type"    column="type"    />
+        <result property="sumNumber"    column="sum_number"    />
+        <result property="deptqiId"    column="deptqi_id"    />
+    </resultMap>
+
+    <sql id="selectDeptinfomsgVo">
+        select id, size, today_number, remark, deptzhu_id, symbol, start_time, end_time, duration, year_code, Issue_number, type, sum_number, deptqi_id from Cy_deptinfomsg
+    </sql>
+
+    <select id="selectDeptinfomsgList" parameterType="Deptinfomsg" resultMap="DeptinfomsgResult">
+        <include refid="selectDeptinfomsgVo"/>
+        <where>  
+            <if test="size != null "> and size = #{size}</if>
+            <if test="todayNumber != null "> and today_number = #{todayNumber}</if>
+            <if test="deptzhuId != null "> and deptzhu_id = #{deptzhuId}</if>
+            <if test="symbol != null  and symbol != ''"> and symbol = #{symbol}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="duration != null "> and duration = #{duration}</if>
+            <if test="yearCode != null "> and year_code = #{yearCode}</if>
+            <if test="issueNumber != null "> and Issue_number = #{issueNumber}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="sumNumber != null "> and sum_number = #{sumNumber}</if>
+            <if test="deptqiId != null "> and deptqi_id = #{deptqiId}</if>
+        </where>
+    </select>
+    
+    <select id="selectDeptinfomsgById" parameterType="Long" resultMap="DeptinfomsgResult">
+        <include refid="selectDeptinfomsgVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDeptinfomsg" parameterType="Deptinfomsg" useGeneratedKeys="true" keyProperty="id">
+        insert into Cy_deptinfomsg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="size != null">size,</if>
+            <if test="todayNumber != null">today_number,</if>
+            <if test="remark != null">remark,</if>
+            <if test="deptzhuId != null">deptzhu_id,</if>
+            <if test="symbol != null">symbol,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="duration != null">duration,</if>
+            <if test="yearCode != null">year_code,</if>
+            <if test="issueNumber != null">Issue_number,</if>
+            <if test="type != null">type,</if>
+            <if test="sumNumber != null">sum_number,</if>
+            <if test="deptqiId != null">deptqi_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="size != null">#{size},</if>
+            <if test="todayNumber != null">#{todayNumber},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="deptzhuId != null">#{deptzhuId},</if>
+            <if test="symbol != null">#{symbol},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="duration != null">#{duration},</if>
+            <if test="yearCode != null">#{yearCode},</if>
+            <if test="issueNumber != null">#{issueNumber},</if>
+            <if test="type != null">#{type},</if>
+            <if test="sumNumber != null">#{sumNumber},</if>
+            <if test="deptqiId != null">#{deptqiId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeptinfomsg" parameterType="Deptinfomsg">
+        update Cy_deptinfomsg
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="size != null">size = #{size},</if>
+            <if test="todayNumber != null">today_number = #{todayNumber},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="deptzhuId != null">deptzhu_id = #{deptzhuId},</if>
+            <if test="symbol != null">symbol = #{symbol},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="yearCode != null">year_code = #{yearCode},</if>
+            <if test="issueNumber != null">Issue_number = #{issueNumber},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="sumNumber != null">sum_number = #{sumNumber},</if>
+            <if test="deptqiId != null">deptqi_id = #{deptqiId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeptinfomsgById" parameterType="Long">
+        delete from Cy_deptinfomsg where id = #{id}
+    </delete>
+
+    <delete id="deleteDeptinfomsgByIds" parameterType="String">
+        delete from Cy_deptinfomsg where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

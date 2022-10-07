@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DeptqiMapper">
+
+    <resultMap type="Deptqi" id="CyDeptqiResult">
+        <result property="id"    column="id"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="duration"    column="duration"    />
+        <result property="yearCode"    column="year_code"    />
+        <result property="issueNumber"    column="Issue_number"    />
+        <result property="deptOrder"    column="dept_order"    />
+    </resultMap>
+
+    <sql id="selectDeptqiVo">
+        select id, start_time, end_time, duration, year_code, Issue_number, dept_order from cy_deptqi
+    </sql>
+
+    <select id="selectDeptqiList" parameterType="Deptqi" resultMap="CyDeptqiResult">
+        <include refid="selectDeptqiVo"/>
+        <where>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="duration != null "> and duration = #{duration}</if>
+            <if test="yearCode != null "> and year_code = #{yearCode}</if>
+            <if test="issueNumber != null "> and Issue_number = #{issueNumber}</if>
+            <if test="deptOrder != null  and deptOrder != ''"> and dept_order = #{deptOrder}</if>
+        </where>
+    </select>
+
+    <select id="selectDeptqiById" parameterType="Integer" resultMap="CyDeptqiResult">
+        <include refid="selectDeptqiVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDeptqi" parameterType="Deptqi" useGeneratedKeys = "true" keyProperty = "id">
+        insert into cy_deptqi
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">id,</if>-->
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="duration != null">duration,</if>
+            <if test="yearCode != null">year_code,</if>
+            <if test="issueNumber != null">Issue_number,</if>
+            <if test="deptOrder != null">dept_order,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">#{id},</if>-->
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="duration != null">#{duration},</if>
+            <if test="yearCode != null">#{yearCode},</if>
+            <if test="issueNumber != null">#{issueNumber},</if>
+            <if test="deptOrder != null">#{deptOrder},</if>
+        </trim>
+    </insert>
+
+    <update id="updateDeptqi" parameterType="Deptqi">
+        update cy_deptqi
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="yearCode != null">year_code = #{yearCode},</if>
+            <if test="issueNumber != null">Issue_number = #{issueNumber},</if>
+            <if test="deptOrder != null">dept_order = #{deptOrder},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeptqiById" parameterType="Integer">
+        delete from cy_deptqi where id = #{id}
+    </delete>
+
+    <delete id="deleteDeptqiByIds" parameterType="String">
+        delete from cy_deptqi where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
