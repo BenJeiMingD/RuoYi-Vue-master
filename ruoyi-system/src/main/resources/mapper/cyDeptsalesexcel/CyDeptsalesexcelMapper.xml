@@ -77,10 +77,10 @@
         where id = #{id}
     </select>
 
-    <insert id="insertCyDeptsalesexcel" parameterType="CyDeptsalesexcel">
+    <insert id="insertCyDeptsalesexcel" parameterType="CyDeptsalesexcel" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
         insert into cy_deptsalesexcel
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">id,</if>
+            <!--<if test="id != null">id,</if>-->
             <if test="modifiedon != null">ModifiedOn,</if>
             <if test="demandname != null">DemandName,</if>
             <if test="code != null">Code,</if>
@@ -110,7 +110,7 @@
             <if test="issueNumber != null">Issue_number,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">#{id},</if>
+            <!--<if test="id != null">#{id},</if>-->
             <if test="modifiedon != null">#{modifiedon},</if>
             <if test="demandname != null">#{demandname},</if>
             <if test="code != null">#{code},</if>
