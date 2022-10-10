@@ -17,10 +17,11 @@
         <result property="level"    column="level"    />
         <result property="indexId"    column="index_id"    />
         <result property="symbol"    column="symbol"    />
+        <result property="primaryRowId"    column="primaryRowId"    />
     </resultMap>
 
     <sql id="selectDeptziVo">
-        select dept_id, size, today_number, sum_number, start_time, type, remark, deptqi_id, deptzhu_id, classification,symbol,level,index_id from Cy_deptzi
+        select dept_id, size, today_number, sum_number, start_time, type, remark, deptqi_id, deptzhu_id, classification,symbol,level,index_id,primaryRowId from Cy_deptzi
     </sql>
 
     <select id="selectDeptziList" parameterType="Deptzi" resultMap="DeptziResult">
@@ -37,6 +38,7 @@
             <if test="level != null "> and level = #{level}</if>
             <if test="indexId != null "> and index_id = #{indexId}</if>
             <if test="symbol != null  and symbol != ''"> and symbol = #{symbol}</if>
+            <if test="primaryRowId != null "> and primaryRowId = #{primaryRowId}</if>
         </where>
     </select>
 
@@ -67,6 +69,7 @@
             <if test="level != null "> level,</if>
             <if test="indexId != null "> index_id,</if>
             <if test="symbol != null">symbol,</if>
+            <if test="primaryRowId != null">primaryRowId,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <!--<if test="deptId != null">#{dept_id},</if>-->
@@ -82,6 +85,7 @@
             <if test="level != null ">#{level},</if>
             <if test="indexId != null ">#{indexId},</if>
             <if test="symbol != null">#{symbol},</if>
+            <if test="primaryRowId != null">#{primaryRowId},</if>
         </trim>
     </insert>
 
@@ -100,6 +104,7 @@
             <if test="level != null "> level = #{level},</if>
             <if test="indexId != null "> index_id = #{indexId},</if>
             <if test="symbol != null">symbol = #{symbol},</if>
+            <if test="primaryRowId != null">primaryRowId = #{primaryRowId},</if>
         </trim>
         where dept_id = #{deptId}
     </update>

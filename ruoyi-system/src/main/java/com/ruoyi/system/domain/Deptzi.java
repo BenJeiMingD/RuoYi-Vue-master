@@ -30,6 +30,10 @@ public class Deptzi extends BaseEntity
     @Excel(name = "等级")
     private Integer level;
 
+    /** 等级 */
+    @Excel(name = "子所属组索引")
+    private Integer primaryRowId;
+
     /** 索引 */
     @Excel(name = "索引")
     private Integer indexId;
@@ -76,6 +80,14 @@ public class Deptzi extends BaseEntity
     /** 包装类型 */
     @Excel(name = "包装类型")
     private String classification;
+
+    public Integer getPrimaryRowId() {
+        return primaryRowId;
+    }
+
+    public void setPrimaryRowId(Integer primaryRowId) {
+        this.primaryRowId = primaryRowId;
+    }
 
     public Integer[] getDeptzis() {
         return deptzis;
@@ -229,6 +241,7 @@ public class Deptzi extends BaseEntity
                 "deptId=" + deptId +
                 ", deptzis=" + Arrays.toString(deptzis) +
                 ", level=" + level +
+                ", primaryRowId=" + primaryRowId +
                 ", indexId=" + indexId +
                 ", children=" + children +
                 ", size=" + size +

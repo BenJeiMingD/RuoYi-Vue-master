@@ -35,7 +35,7 @@ public class DeptformServiceImpl implements IDeptformService
     (填报派单)
      */
     @Override
-    public Deptform selectDeptformById(Long id)
+    public Deptform selectDeptformById(Integer id)
     {
         return deptformMapper.selectDeptformById(id);
     }
@@ -102,7 +102,7 @@ public class DeptformServiceImpl implements IDeptformService
      * @return 结果
      */
     @Override
-    public int deleteDeptformByIds(Long[] ids)
+    public int deleteDeptformByIds(Integer[] ids)
     {
         return deptformMapper.deleteDeptformByIds(ids);
     }
@@ -118,7 +118,7 @@ public class DeptformServiceImpl implements IDeptformService
      * @return 结果
      */
     @Override
-    public int deleteDeptformById(Long id)
+    public int deleteDeptformById(Integer id)
     {
         return deptformMapper.deleteDeptformById(id);
     }

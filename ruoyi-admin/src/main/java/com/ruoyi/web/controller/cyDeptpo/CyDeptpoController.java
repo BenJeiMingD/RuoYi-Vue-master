@@ -140,7 +140,7 @@ public class CyDeptpoController extends BaseController
     }
 
     /**
-     * 新增产能调整
+     * 新增产能调整 --确认生成接口
      */
     /*@PreAuthorize("@ss.hasPermi('system:deptpo:add')")
     @Log(title = "产能调整", businessType = BusinessType.INSERT)*/
@@ -157,6 +157,11 @@ public class CyDeptpoController extends BaseController
         BigDecimal duration = null;
         List<Deptzi> deptzis = deptziService.selectDeptziList(deptzi);
 
+        //点击确认生成，将期表是否生成产能表的状态置为 1；标记成有效
+        Deptqi deptQi = new Deptqi();
+        deptQi.setId(deptqiId);
+        deptQi.setDeptOrder('1');
+        deptqiService.updateDeptqi(deptQi);
         //对远程表进行查询将结果更新到本地表---（帆软-万达）
         List<SheetOption> list = new ArrayList<>();
         CyDeptwanda cyDeptwanda = new CyDeptwanda();
@@ -239,8 +244,8 @@ public class CyDeptpoController extends BaseController
                         }
                         duration = deptqi.getDuration();//插入天数
                         Integer issueNumber = deptqi.getIssueNumber();//插入期号
-                        BigDecimal sumProductive = duration.multiply(deptzhu.getTodayNumber());
-                        BigDecimal sumtodayNumber = duration.multiply(todayNumber);
+                        BigDecimal sumProductive = duration.multiply(deptzhu.getTodayNumber());//本期最大产能
+                        BigDecimal sumtodayNumber = duration.multiply(todayNumber);//各子产能子表的最大期产能
                         cyDeptpo.setDeptqiId(deptqiId);
                         cyDeptpo.setDuration(duration);
                         cyDeptpo.setIssueNumber(issueNumber);

@@ -163,7 +163,7 @@ import java.util.List;
           if (row != rows) {
             rows = 0;
           }
-          Deptform deptform = new Deptform();
+          /*Deptform deptform = new Deptform();
           deptform.setDeptqiId(deptqiId);
           deptform.setStartTime(deptqi.getStartTime());
           deptform.setEndTime(deptqi.getEndTime());
@@ -171,7 +171,7 @@ import java.util.List;
           deptform.setConfirmedBy(userName);
           deptform.setCreateBy(userName);
           deptform.setIssueNumber(IssueNumber);
-          rows = deptformService.insertDeptform(deptform);//将数据更新到派单填报表
+          rows = deptformService.insertDeptform(deptform);//将数据更新到派单填报表*/
           Deptsum deptsum = new Deptsum();
           deptsum.setStartTime(deptqi.getStartTime());
           deptsum.setEndTime(deptqi.getEndTime());
@@ -242,8 +242,6 @@ import java.util.List;
               break;
             }
           }
-
-
           return toAjax(rows,deptqiId,issueNumber);
         }
       }
@@ -271,7 +269,7 @@ import java.util.List;
         if (row != rows) {
           rows = 0;
         }
-        Deptform deptform = new Deptform();
+        /*Deptform deptform = new Deptform();
         deptform.setDeptqiId(deptqiId);
         deptform.setStartTime(deptqi.getStartTime());
         deptform.setEndTime(deptqi.getEndTime());
@@ -279,7 +277,7 @@ import java.util.List;
         deptform.setConfirmedBy(userName);
         deptform.setCreateBy(userName);
         deptform.setIssueNumber(Number);
-        rows = deptformService.insertDeptform(deptform);//将数据更新到派单填报表
+        rows = deptformService.insertDeptform(deptform);//将数据更新到派单填报表*/
         Deptsum deptsum = new Deptsum();
         deptsum.setStartTime(deptqi.getStartTime());
         deptsum.setEndTime(deptqi.getEndTime());
@@ -400,14 +398,23 @@ import java.util.List;
    */
   @DeleteMapping("/capacity/templatedelete/delete/{id}")
   public AjaxResult remove(@PathVariable Integer id) {
-    CyDeptpo cyDeptpo = new CyDeptpo();
-    cyDeptpo.setDeptqiId(id);
-    List<CyDeptpo> cyDeptpos = deptpoService.selectCyDeptpoList(cyDeptpo);//0
-    //如果为0则说明不存在
-    if (cyDeptpos.size()==0){
-        return toAjax(deptqiService.deleteDeptqiById(id));
+
+    Deptform deptform = new Deptform();
+    deptform.setDeptqiId(id);
+    List<Deptform> deptforms = deptformService.selectDeptformList(deptform);
+    if (deptforms.size()!=0){//说明不可以删除
+      return AjaxResult.error("操作失败",500);
     }
-    return AjaxResult.error("操作失败",500);
+    else {
+      CyDeptpo cyDeptpo = new CyDeptpo();
+      cyDeptpo.setDeptqiId(id);
+      List<CyDeptpo> cyDeptpos = deptpoService.selectCyDeptpoList(cyDeptpo);
+      for (int i = 0; i < cyDeptpos.size(); i++) {
+        deptpoService.deleteCyDeptpoByDeptpoId(cyDeptpos.get(i).getDeptpoId());
+      }
+      return toAjax(deptqiService.deleteDeptqiById(id));
+    }
+
   }
 
   /**

@@ -28,6 +28,14 @@ public interface CyDeptsalesexcelMapper
     public List<CyDeptsalesexcel> selectCyDeptsalesexcelList(CyDeptsalesexcel cyDeptsalesexcel);
 
     /**
+     * 查询填报派单列表
+     *
+     * @param cyDeptsalesexcel 填报派单
+     * @return 返回需求不为0的数据
+     */
+    public List<CyDeptsalesexcel> selectCyDeptSummaryList(CyDeptsalesexcel cyDeptsalesexcel);
+
+    /**
      * 新增填报派单
      * 
      * @param cyDeptsalesexcel 填报派单

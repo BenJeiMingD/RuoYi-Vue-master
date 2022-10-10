@@ -124,7 +124,7 @@ public class CyDeptsalesexcel extends BaseEntity
 
     /** 本期最大组产能 */
     @Excel(name = "本期最大组产能")
-    private Integer sumZhu;
+    private BigDecimal sumZhu;
 
     /** 个人需求 */
     @Excel(name = "个人需求")
@@ -373,11 +373,11 @@ public class CyDeptsalesexcel extends BaseEntity
         return personalNeeds;
     }
 
-    public Integer getSumZhu() {
+    public BigDecimal getSumZhu() {
         return sumZhu;
     }
 
-    public void setSumZhu(Integer sumZhu) {
+    public void setSumZhu(BigDecimal sumZhu) {
         this.sumZhu = sumZhu;
     }
 

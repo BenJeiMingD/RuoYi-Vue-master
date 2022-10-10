@@ -41,7 +41,7 @@
         </where>
     </select>
 
-    <select id="selectDeptformById" parameterType="Long" resultMap="DeptformResult">
+    <select id="selectDeptformById" parameterType="Integer" resultMap="DeptformResult">
         <include refid="selectDeptformVo"/>
         where id = #{id}
     </select>
@@ -97,7 +97,7 @@
         where id = #{id}
     </update>
 
-    <delete id="deleteDeptformById" parameterType="Long">
+    <delete id="deleteDeptformById" parameterType="Integer">
         delete from cy_deptform where id = #{id}
     </delete>
 

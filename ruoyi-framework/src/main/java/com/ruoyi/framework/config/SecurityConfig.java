@@ -113,14 +113,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 // 测试产能模板放行
                 .antMatchers("/capacity/**").anonymous()
                 // 测试systems类模板放行
-                .antMatchers("/systems/**","/system/deptform/**","/system/deptwanda/**","/capacity/templatedelete/select","/deptpo/insert","/deptwanda/adds","/deptpo/list","/deptwanda/list","/deptpo/ids","/system/deptsum","/system/deptsalesexcel/list","/system/deptsalesexcel/NameAndIsser","/salesexcel/adds","/salesexcel/delete").anonymous()
+                .antMatchers("/systems/**","/system/deptform/**","/system/deptwanda/**","/capacity/templatedelete/select","/deptpo/insert","/deptwanda/adds","/deptpo/list","/deptwanda/list","/deptpo/ids","/system/deptsum","/system/deptsalesexcel/list","/system/deptsalesexcel/NameAndIsser","/salesexcel/adds","/salesexcel/delete","/system/deptform/listAdd","/system/deptform/listUpdate").anonymous()
                 // 静态资源，可匿名访问
                 .antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/profile/**").permitAll()
                 .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/*/api-docs", "/druid/**").permitAll()
                 // 测试产能模板放行
                 .antMatchers("/capacity/**").permitAll()
                 // 测试systems类模板放行
-                .antMatchers("/systems/**","/system/deptform/**","/system/deptwanda/**","/capacity/templatedelete/select","/deptpo/insert","/deptwanda/adds","/deptpo/list","/deptwanda/list","/deptpo/ids","/system/deptsum","/system/deptsalesexcel/list","/system/deptsalesexcel/NameAndIsser","/salesexcel/adds","/salesexcel/delete").permitAll()
+                .antMatchers("/systems/**","/system/deptform/**","/system/deptwanda/**","/capacity/templatedelete/select","/deptpo/insert","/deptwanda/adds","/deptpo/list","/deptwanda/list","/deptpo/ids","/system/deptsum","/system/deptsalesexcel/list","/system/deptsalesexcel/NameAndIsser","/salesexcel/adds","/salesexcel/delete","/system/deptform/listAdd","/system/deptform/listUpdate").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
                 .and()

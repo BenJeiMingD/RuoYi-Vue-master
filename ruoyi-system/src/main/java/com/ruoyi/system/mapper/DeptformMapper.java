@@ -25,7 +25,7 @@ public interface DeptformMapper
     (派单确认)
     (填报派单)
      */
-    public Deptform selectDeptformById(Long id);
+    public Deptform selectDeptformById(Integer id);
 
     /**
      * 查询填报派单
@@ -75,7 +75,7 @@ public interface DeptformMapper
     (填报派单)主键
      * @return 结果
      */
-    public int deleteDeptformById(Long id);
+    public int deleteDeptformById(Integer id);
 
     /**
      * 批量删除填报派单
@@ -85,5 +85,5 @@ public interface DeptformMapper
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteDeptformByIds(Long[] ids);
+    public int deleteDeptformByIds(Integer[] ids);
 }

@@ -72,6 +72,39 @@
         </where>
     </select>
 
+    <select id="selectCyDeptSummaryList" parameterType="CyDeptsalesexcel" resultMap="CyDeptsalesexcelResult">
+        <include refid="selectCyDeptsalesexcelVo"/>
+        <where>
+            <if test="modifiedon != null "> and ModifiedOn = #{modifiedon}</if>
+            <if test="demandname != null  and demandname != ''"> and DemandName like concat('%', #{demandname}, '%')</if>
+            <if test="code != null  and code != ''"> and Code = #{code}</if>
+            <if test="name != null  and name != ''"> and Name like concat('%', #{name}, '%')</if>
+            <if test="plmname2 != null  and plmname2 != ''"> and PLMName2 = #{plmname2}</if>
+            <if test="seibancode != null  and seibancode != ''"> and SeibanCode = #{seibancode}</if>
+            <if test="plmname5 != null  and plmname5 != ''"> and PLMName5 = #{plmname5}</if>
+            <if test="plmname3 != null  and plmname3 != ''"> and PLMName3 = #{plmname3}</if>
+            <if test="descflexfieldPubdescseg32 != null  and descflexfieldPubdescseg32 != ''"> and DescFlexField_PubDescSeg32 = #{descflexfieldPubdescseg32}</if>
+            <if test="shuliang != null "> and shuliang = #{shuliang}</if>
+            <if test="ljpc != null "> and ljpc = #{ljpc}</if>
+            <if test="t3 != null  and t3 != ''"> and T3 = #{t3}</if>
+            <if test="xq != null and xq != '0"> and xq = #{xq}</if>
+            <if test="mark != null  and mark != ''"> and mark = #{mark}</if>
+            <if test="descflexfieldPrivatedescseg7 != null  and descflexfieldPrivatedescseg7 != ''"> and DescFlexField_PrivateDescSeg7 = #{descflexfieldPrivatedescseg7}</if>
+            <if test="descflexfieldPrivatedescseg9 != null  and descflexfieldPrivatedescseg9 != ''"> and DescFlexField_PrivateDescSeg9 = #{descflexfieldPrivatedescseg9}</if>
+            <if test="descflexfieldPrivatedescseg11 != null  and descflexfieldPrivatedescseg11 != ''"> and DescFlexField_PrivateDescSeg11 = #{descflexfieldPrivatedescseg11}</if>
+            <if test="deptformId != null "> and deptform_id = #{deptformId}</if>
+            <if test="deptsumziId != null  and deptsumziId != ''"> and deptsumzi_id = #{deptsumziId}</if>
+            <if test="deptsumId != null "> and deptsum_id = #{deptsumId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="saleslineId != null  and saleslineId != ''"> and salesLine_id = #{saleslineId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="todayNumber != null "> and today_number = #{todayNumber}</if>
+            <if test="personalNeeds != null "> and personal_needs = #{personalNeeds}</if>
+            <if test="sumZhu != null "> and sum_zhu = #{sumZhu}</if>
+            <if test="issueNumber != null "> and Issue_number = #{issueNumber}</if>
+        </where>
+    </select>
+
     <select id="selectCyDeptsalesexcelById" parameterType="Integer" resultMap="CyDeptsalesexcelResult">
         <include refid="selectCyDeptsalesexcelVo"/>
         where id = #{id}

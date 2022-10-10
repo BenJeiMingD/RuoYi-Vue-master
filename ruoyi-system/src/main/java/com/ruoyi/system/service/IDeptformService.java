@@ -25,7 +25,7 @@ public interface IDeptformService
     (派单确认)
     (填报派单)
      */
-    public Deptform selectDeptformById(Long id);
+    public Deptform selectDeptformById(Integer id);
 
     /**
      * 查询填报派单
@@ -75,7 +75,7 @@ public interface IDeptformService
     (填报派单)主键集合
      * @return 结果
      */
-    public int deleteDeptformByIds(Long[] ids);
+    public int deleteDeptformByIds(Integer[] ids);
 
     /**
      * 删除填报派单
@@ -87,5 +87,5 @@ public interface IDeptformService
     (填报派单)主键
      * @return 结果
      */
-    public int deleteDeptformById(Long id);
+    public int deleteDeptformById(Integer id);
 }

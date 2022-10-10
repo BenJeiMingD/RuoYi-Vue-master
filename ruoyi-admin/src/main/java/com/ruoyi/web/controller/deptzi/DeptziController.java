@@ -102,7 +102,6 @@ public class DeptziController extends BaseController
     }
 */
     /**
-
      - 新增产能模板数据详细信息子接口
      */
     /*@PreAuthorize("@ss.hasPermi('capacity:template')")
@@ -110,6 +109,7 @@ public class DeptziController extends BaseController
     @RequestMapping("/capacity/templateInfo")
     public AjaxResult template(@RequestBody String string)
     {
+        System.out.println("string = " + string);
         JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
         String data = jsonObject.getString("rowData");
         JSONObject jsonResult = JSON.parseObject(data);
@@ -138,16 +138,10 @@ public class DeptziController extends BaseController
             byId= deptzhuService.deleteDeptzhuById(deptzhuId);
         }
         if (deptzi.getDeptzis().length!=0){
-
             byId= deptziService.deleteDeptziByIds(deptzi.getDeptzis());
-
         }
         return toAjax(byId);
     }
-    /*@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Integer[] ids)
-    {
-        return toAjax(deptziService.deleteDeptziByIds(ids));
-    }*/
+
 }
 
