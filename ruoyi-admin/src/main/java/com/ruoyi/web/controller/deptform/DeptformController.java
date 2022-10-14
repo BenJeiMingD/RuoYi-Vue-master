@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.deptform;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
@@ -76,13 +77,7 @@ public class DeptformController extends BaseController
     public Object listAdd(@RequestBody String string)
     {
         System.out.println("deptform = " + string);
-        /**
-         * JSONObject data = JSON.parseObject(string).getJSONObject("data");
-         *         System.out.println("newData = " + data);
-         *         String rowData = data.getString("rowData");
-         *         System.out.println("rowData = " + rowData);
-         *         Deptzhu deptzhu = JSON.toJavaObject(rowData, Deptzhu.class);
-         */
+
         JSONObject data = JSON.parseObject(string).getJSONObject("data");
         Deptform deptform = JSON.toJavaObject(data, Deptform.class);
         List<Deptqi> deptqis = deptqiService.selectDeptqiList(new Deptqi());
@@ -90,16 +85,25 @@ public class DeptformController extends BaseController
         char deptOrder = deptqis.get(deptqis.size() - 1).getDeptOrder();
         deptform.setDeptqiId(id);
         List<Deptform> deptforms = deptformService.selectDeptformList(deptform);
-        if (deptOrder!='1'){//说明重复添加
+        if (deptOrder!='1'){//说明重复添加--没有生成
             return 0;
         }else {
             deptform.setDeptqiId(id);
             deptform.setStartTime(deptqis.get(deptqis.size()-1).getStartTime());
             deptform.setEndTime(deptqis.get(deptqis.size()-1).getEndTime());
-            deptform.setIssueNumber(deptqis.get(deptqis.size()-1).getIssueNumber());
-            deptformService.insertDeptform(deptform);//将数据更新到派单填报表
-            List<Deptform> list = deptformService.selectDeptformList(deptform);
-            return getDataTable(list);
+            Integer issueNumber = deptqis.get(deptqis.size() - 1).getIssueNumber();
+            deptform.setIssueNumber(issueNumber);
+            List<Deptform> listFirst = deptformService.selectDeptformList(deptform);
+            if (listFirst.size()==0){
+                deptformService.insertDeptform(deptform);//将数据更新到派单填报表
+                List<Deptform> list = deptformService.selectDeptformList(deptform);
+                return getDataTable(list);
+            }if(listFirst!=null){
+                if (issueNumber==listFirst.get(listFirst.size()-1).getIssueNumber()){
+                    return null;
+                }
+            }
+            return null;
         }
     }
     /**
@@ -173,10 +177,19 @@ public class DeptformController extends BaseController
         CyDeptsalesexcel cyDeptsalesexcel = new CyDeptsalesexcel();
         cyDeptsalesexcel.setIssueNumber(issueNumber);
         cyDeptsalesexcel.setUserName(userName);
+        //批量删除
+        Integer[] array2=null;
+        ArrayList<Integer> objects = new ArrayList<>();
         List<CyDeptsalesexcel> cyDeptsalesexcels = cyDeptsalesexcelService.selectCyDeptsalesexcelList(cyDeptsalesexcel);
+        if (cyDeptsalesexcels.size()!=0){
         for (int i = 0; i < cyDeptsalesexcels.size(); i++) {
-            cyDeptsalesexcelService.deleteCyDeptsalesexcelById(cyDeptsalesexcels.get(i).getId());
+            Integer id1 = cyDeptsalesexcels.get(i).getId();
+            objects.add(id1);
         }
-        return toAjax(deptformService.deleteDeptformById(id));
+        array2 = objects.toArray(new Integer[objects.size()]);//将arrays转成list
+        cyDeptsalesexcelService.deleteCyDeptsalesexcelByIds(array2);
+        }
+        int row1 = deptformService.deleteDeptformById(id);
+        return toAjax(row1);
     }
 }

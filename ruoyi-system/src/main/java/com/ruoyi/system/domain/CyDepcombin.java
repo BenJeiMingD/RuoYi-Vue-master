@@ -8,17 +8,26 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 部门汇总对象 cy_deptsum
+ * 合并汇总对象 cy_depcombin
  *
  * @author ruoyi
- * @date 2022-10-12
+ * @date 2022-10-13
  */
-public class Deptsum extends BaseEntity
+public class CyDepcombin extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 部门id */
     private Integer id;
+
+    /** 汇总时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "汇总时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date summaryTime;
+
+    /** 汇总人 */
+    @Excel(name = "汇总人")
+    private String summaryBy;
 
     /** 是否汇总 */
     @Excel(name = "是否汇总")
@@ -32,10 +41,6 @@ public class Deptsum extends BaseEntity
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "确认日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date confirmedTime;
-
-    /** 期数 */
-    @Excel(name = "期数")
-    private Integer issueNumber;
 
     /** 开始时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -51,6 +56,10 @@ public class Deptsum extends BaseEntity
     @Excel(name = "状态")
     private Integer state;
 
+    /** 期号 */
+    @Excel(name = "期号")
+    private Integer issueNumber;
+
     public void setId(Integer id)
     {
         this.id = id;
@@ -59,6 +68,24 @@ public class Deptsum extends BaseEntity
     public Integer getId()
     {
         return id;
+    }
+    public void setSummaryTime(Date summaryTime)
+    {
+        this.summaryTime = summaryTime;
+    }
+
+    public Date getSummaryTime()
+    {
+        return summaryTime;
+    }
+    public void setSummaryBy(String summaryBy)
+    {
+        this.summaryBy = summaryBy;
+    }
+
+    public String getSummaryBy()
+    {
+        return summaryBy;
     }
     public void setMerger(Integer merger)
     {
@@ -87,15 +114,6 @@ public class Deptsum extends BaseEntity
     {
         return confirmedTime;
     }
-    public void setIssueNumber(Integer issueNumber)
-    {
-        this.issueNumber = issueNumber;
-    }
-
-    public Integer getIssueNumber()
-    {
-        return issueNumber;
-    }
     public void setStartTime(Date startTime)
     {
         this.startTime = startTime;
@@ -123,18 +141,29 @@ public class Deptsum extends BaseEntity
     {
         return state;
     }
+    public void setIssueNumber(Integer issueNumber)
+    {
+        this.issueNumber = issueNumber;
+    }
+
+    public Integer getIssueNumber()
+    {
+        return issueNumber;
+    }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
                 .append("id", getId())
+                .append("summaryTime", getSummaryTime())
+                .append("summaryBy", getSummaryBy())
                 .append("merger", getMerger())
                 .append("confirmedBy", getConfirmedBy())
                 .append("confirmedTime", getConfirmedTime())
-                .append("issueNumber", getIssueNumber())
                 .append("startTime", getStartTime())
                 .append("endTime", getEndTime())
                 .append("state", getState())
+                .append("issueNumber", getIssueNumber())
                 .toString();
     }
 }

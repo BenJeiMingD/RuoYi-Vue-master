@@ -17,16 +17,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 /**
-
-- 期数Controller
--
-- @author ruoyi
-
-- @date 2022-08-17
-  */
+ - 期数Controller
+ -
+ - @author ruoyi
+ - @date 2022-08-17
+ */
 @RestController
 @DataSource(value = DataSourceType.SLAVE)
-  public class DeptqiController extends BaseController {
+public class DeptqiController extends BaseController {
   @Autowired
   private IDeptqiService deptqiService;
   @Autowired
@@ -48,7 +46,6 @@ import java.util.List;
 
 
   /**
-
    - 查询期数列表
    *//*
     @PreAuthorize("@ss.hasPermi('deptqi:deptqi:list')")
@@ -60,7 +57,6 @@ import java.util.List;
     return getDataTable(list);
     }
   *//**
-
    - 导出期数列表
    *//*
     @PreAuthorize("@ss.hasPermi('deptqi:deptqi:export')")
@@ -72,9 +68,7 @@ import java.util.List;
     ExcelUtil<Deptqi> util = new ExcelUtil<Deptqi>(Deptqi.class);
     util.exportExcel(response, list, "期数数据");
     }
-
   *//**
-
    - 获取期数详细信息
    *//*
     @PreAuthorize("@ss.hasPermi('deptqi:deptqi:query')")
@@ -83,9 +77,7 @@ import java.util.List;
     {
     return AjaxResult.success(deptqiService.selectDeptqiById(id));
     }
-
   *//**
-
    - 新增期数
    *//*
     @PreAuthorize("@ss.hasPermi('deptqi:deptqi:add')")
@@ -95,9 +87,7 @@ import java.util.List;
     {
     return toAjax(deptqiService.insertDeptqi(deptqi));
     }
-
   *//**
-
    - 修改期数
    *//*
     @PreAuthorize("@ss.hasPermi('deptqi:deptqi:edit')")
@@ -107,9 +97,7 @@ import java.util.List;
     {
     return toAjax(deptqiService.updateDeptqi(deptqi));
     }
-
   *//**
-
    - 删除期数
    *//*
     @PreAuthorize("@ss.hasPermi('deptqi:deptqi:remove')")
@@ -125,8 +113,8 @@ import java.util.List;
    */
     /*@PreAuthorize("@ss.hasPermi('capacity:template')")
     @Log(title = "产能模板数据详细信息子接口", businessType = BusinessType.INSERT)*/
-    @RequestMapping("/capacity/templatedate")
-    public AjaxResult template(@RequestBody String string) {
+  @RequestMapping("/capacity/templatedate")
+  public AjaxResult template(@RequestBody String string) {
     System.out.println("string = " + string);
     JSONObject jsonObject = JSON.parseObject(string).getJSONObject("Data");
     Deptqi deptqi = JSON.toJavaObject(jsonObject, Deptqi.class);
@@ -135,210 +123,48 @@ import java.util.List;
     Integer deptqiId = deptqi.getId();//期数表的id--自动生成
     Date startTime = deptqi.getStartTime();
     String userName = deptqi.getUsername();
-      //填入日期的时间,年份
+    //填入日期的时间,年份
     int year = startTime.getYear() + 1900;
     //这里是返回期表id--将主键id传给期表（需要一年开始以1期开始）
     Calendar instance = Calendar.getInstance();//获取系统当前年份
     System.out.println("instance = " + instance.get(Calendar.YEAR));//2022
 
-      /**
-       * 1,当服务重启后，防止期号不连续
-       * 2当服务重启后，防止期号不连续
-       * 2,当输入年号和本年不符合；
-       * 3,当重启后初始化年号；
-       *
-       */
+    /**
+     * 1,当服务重启后，防止期号不连续
+     * 2当服务重启后，防止期号不连续
+     * 2,当输入年号和本年不符合；
+     * 3,当重启后初始化年号；
+     *
+     */
 
-      //默认初始值1
-
-
-      List<Deptqi> deptqis = deptqiService.selectDeptqiList(deptqi);
-      if (deptqis.get(deptqis.size()-1).getIssueNumber()==null){
-        deptqi.setYearCode(year);
-        if (deptqiService.selectDeptqiList(deptqi).size()==0){
-          ++IssueNumber;
-          deptqi.setYearCode(year);
-          deptqi.setIssueNumber(IssueNumber);
-          int row = deptqiService.updateDeptqi(deptqi);//当前的指定下的id数据进行更新---期号
-          if (row != rows) {
-            rows = 0;
-          }
-          /*Deptform deptform = new Deptform();
-          deptform.setDeptqiId(deptqiId);
-          deptform.setStartTime(deptqi.getStartTime());
-          deptform.setEndTime(deptqi.getEndTime());
-          deptform.setUserName(userName);
-          deptform.setConfirmedBy(userName);
-          deptform.setCreateBy(userName);
-          deptform.setIssueNumber(IssueNumber);
-          rows = deptformService.insertDeptform(deptform);//将数据更新到派单填报表*/
-          Deptsum deptsum = new Deptsum();
-          deptsum.setStartTime(deptqi.getStartTime());
-          deptsum.setEndTime(deptqi.getEndTime());
-          deptsum.setIssueNumber(IssueNumber);
-          deptsum.setMergeBy(userName);
-          deptsum.setSummaryBy(userName);
-          rows = deptsumService.insertDeptsum(deptsum);
-          return toAjax(rows, deptqiId, IssueNumber);//当数据库无信息时
-        }
-        if (deptqis.get(deptqis.size()-1).getIssueNumber()!=null){
-          Deptform deptform = new Deptform();
-          deptform.setDeptqiId(deptqiId);
-          deptform.setStartTime(deptqi.getStartTime());
-          deptform.setEndTime(deptqi.getEndTime());
-          deptform.setUserName(userName);
-          deptform.setConfirmedBy(userName);
-          deptform.setCreateBy(userName);
-          deptform.setIssueNumber(IssueNumber);
-          rows = deptformService.insertDeptform(deptform);//将数据更新到派单填报表
-          Deptsum deptsum = new Deptsum();
-          deptsum.setStartTime(deptqi.getStartTime());
-          deptsum.setEndTime(deptqi.getEndTime());
-          deptsum.setIssueNumber(IssueNumber);
-          deptsum.setMergeBy(userName);
-          deptsum.setSummaryBy(userName);
-          rows = deptsumService.insertDeptsum(deptsum);
-          Integer issueNumber = deptqis.get(deptqis.size() - 1).getIssueNumber();
-
-          //对远程表进行查询将结果更新到本地表---（帆软-万达）
-          List<SheetOption> list = new ArrayList<>();
-          CyDeptwanda cyDeptwanda = new CyDeptwanda();
-          List<CyDeptwanda> listw = cyDeptwandaService.selectCyDeptwandaList(cyDeptwanda);
-          for (int i = 0; i < listw.size(); i++) {//获取他的行数id--i--r
-            Date modifiedon = listw.get(i).getModifiedon();
-            String demandname = listw.get(i).getDemandname();
-            String code = listw.get(i).getCode();
-            String name = listw.get(i).getName();
-            String plmname2 = listw.get(i).getPlmname2();
-            String seibancode = listw.get(i).getSeibancode();
-            String descflexfieldPubdescseg32 = listw.get(i).getDescflexfieldPubdescseg32();
-            Integer shuliang = listw.get(i).getShuliang();
-            Integer ljpc = listw.get(i).getLjpc();
-            String t3 = listw.get(i).getT3();
-            String descflexfieldPrivatedescseg7 = listw.get(i).getDescflexfieldPrivatedescseg7();
-            String descflexfieldPrivatedescseg9 = listw.get(i).getDescflexfieldPrivatedescseg9();
-            String saleslineId = listw.get(i).getSaleslineId();
-            //将从虚表中查询出来==插入到实表
-            CyDeptwanda deptwanda1 = new CyDeptwanda();
-            deptwanda1.setSaleslineId(saleslineId);//saleslineId通过这个判断当前缓存表中是否有重复
-            if (cyDeptwandaService.selectBySaleslineIdList(deptwanda1).size() == 0) {
-              cyDeptwanda.setModifiedon(modifiedon);
-              cyDeptwanda.setDemandname(demandname);
-              cyDeptwanda.setCode(code);
-              cyDeptwanda.setName(name);
-              cyDeptwanda.setPlmname2(plmname2);
-              cyDeptwanda.setSeibancode(seibancode);
-              cyDeptwanda.setDescflexfieldPubdescseg32(descflexfieldPubdescseg32);
-              cyDeptwanda.setShuliang(shuliang);
-              cyDeptwanda.setLjpc(ljpc);
-              cyDeptwanda.setT3(t3);
-              cyDeptwanda.setDescflexfieldPrivatedescseg7(descflexfieldPrivatedescseg7);
-              cyDeptwanda.setDescflexfieldPrivatedescseg9(descflexfieldPrivatedescseg9);
-              cyDeptwanda.setSaleslineId(saleslineId);
-              cyDeptwandaService.insertCyDeptwanda(cyDeptwanda);
-            }
-            if (list.size()==0){
-              rows=1;
-              break;
-            }
-          }
-          return toAjax(rows,deptqiId,issueNumber);
-        }
-      }
-    /*if (Number_of_rounds==IssueNumber||Number==Number_of_rounds) {*/
-      //第一次启动发送 Number = 0
-      if (Number == 0) {
-        sysYear= instance.get(Calendar.YEAR);//获取一次系统当前年 2022
-      }
-      //之后的话就用不赋值用一开始的年号，永远不动
-      //判断第一次系统时间和最新系统时间是否一致
-      Integer issueNumber =0;
-      if (sysYear == instance.get(Calendar.YEAR) && sysYear == year) {//防止因为重启出现期数不连续
-
-        Deptqi byId = deptqiService.selectDeptqiById(deptqiId - 1);
-        if ((byId.getStartTime().getYear()+ 1900) ==sysYear&&Number==0){//Number=0说明重启了
-          issueNumber = byId.getIssueNumber();
-          Number=++issueNumber;
-          System.out.println(" = " + Number);
-        }else {//没有重启
-          Number++;
-        }
-        deptqi.setYearCode(year);
-        deptqi.setIssueNumber(Number);
-        int row = deptqiService.updateDeptqi(deptqi);//当前的指定下的id数据进行更新---期号
-        if (row != rows) {
-          rows = 0;
-        }
-        /*Deptform deptform = new Deptform();
-        deptform.setDeptqiId(deptqiId);
-        deptform.setStartTime(deptqi.getStartTime());
-        deptform.setEndTime(deptqi.getEndTime());
-        deptform.setUserName(userName);
-        deptform.setConfirmedBy(userName);
-        deptform.setCreateBy(userName);
-        deptform.setIssueNumber(Number);
-        rows = deptformService.insertDeptform(deptform);//将数据更新到派单填报表*/
-        Deptsum deptsum = new Deptsum();
-        deptsum.setStartTime(deptqi.getStartTime());
-        deptsum.setEndTime(deptqi.getEndTime());
-        deptsum.setIssueNumber(Number);
-        deptsum.setMergeBy(userName);
-        deptsum.setSummaryBy(userName);
-        rows = deptsumService.insertDeptsum(deptsum);
-
-        //对远程表进行查询将结果更新到本地表---（帆软-万达）
-        List<SheetOption> list = new ArrayList<>();
-        CyDeptwanda cyDeptwanda = new CyDeptwanda();
-        List<CyDeptwanda> listw = cyDeptwandaService.selectCyDeptwandaList(cyDeptwanda);
-        for (int i = 0; i < listw.size(); i++) {//获取他的行数id--i--r
-          Date modifiedon = listw.get(i).getModifiedon();
-          String demandname = listw.get(i).getDemandname();
-          String code = listw.get(i).getCode();
-          String name = listw.get(i).getName();
-          String plmname2 = listw.get(i).getPlmname2();
-          String seibancode = listw.get(i).getSeibancode();
-          String descflexfieldPubdescseg32 = listw.get(i).getDescflexfieldPubdescseg32();
-          Integer shuliang = listw.get(i).getShuliang();
-          Integer ljpc = listw.get(i).getLjpc();
-          String t3 = listw.get(i).getT3();
-          String descflexfieldPrivatedescseg7 = listw.get(i).getDescflexfieldPrivatedescseg7();
-          String descflexfieldPrivatedescseg9 = listw.get(i).getDescflexfieldPrivatedescseg9();
-          String saleslineId = listw.get(i).getSaleslineId();
-          //将从虚表中查询出来==插入到实表
-          CyDeptwanda deptwanda1 = new CyDeptwanda();
-          deptwanda1.setSaleslineId(saleslineId);//saleslineId通过这个判断当前缓存表中是否有重复
-          if (cyDeptwandaService.selectBySaleslineIdList(deptwanda1).size() == 0) {
-            cyDeptwanda.setModifiedon(modifiedon);
-            cyDeptwanda.setDemandname(demandname);
-            cyDeptwanda.setCode(code);
-            cyDeptwanda.setName(name);
-            cyDeptwanda.setPlmname2(plmname2);
-            cyDeptwanda.setSeibancode(seibancode);
-            cyDeptwanda.setDescflexfieldPubdescseg32(descflexfieldPubdescseg32);
-            cyDeptwanda.setShuliang(shuliang);
-            cyDeptwanda.setLjpc(ljpc);
-            cyDeptwanda.setT3(t3);
-            cyDeptwanda.setDescflexfieldPrivatedescseg7(descflexfieldPrivatedescseg7);
-            cyDeptwanda.setDescflexfieldPrivatedescseg9(descflexfieldPrivatedescseg9);
-            cyDeptwanda.setSaleslineId(saleslineId);
-            cyDeptwandaService.insertCyDeptwanda(cyDeptwanda);
-          }
-          if (list.size()==0){
-            rows=1;
-            break;
-          }
-        }
+    //默认初始值1
 
 
-        return toAjax(rows, deptqiId, Number);
-      } else {
-        IssueNumber++;
+    List<Deptqi> deptqis = deptqiService.selectDeptqiList(deptqi);
+    if (deptqis.get(deptqis.size()-1).getIssueNumber()==null){
+      deptqi.setYearCode(year);
+      if (deptqiService.selectDeptqiList(deptqi).size()==0){
+        ++IssueNumber;
         deptqi.setYearCode(year);
         deptqi.setIssueNumber(IssueNumber);
         int row = deptqiService.updateDeptqi(deptqi);//当前的指定下的id数据进行更新---期号
         if (row != rows) {
           rows = 0;
         }
+        return toAjax(rows, deptqiId, IssueNumber);//当数据库无信息时
+      }
+      if (deptqis.get(deptqis.size()-1).getIssueNumber()!=null){
+        Deptform deptform = new Deptform();
+        deptform.setDeptqiId(deptqiId);
+        deptform.setStartTime(deptqi.getStartTime());
+        deptform.setEndTime(deptqi.getEndTime());
+        deptform.setUserName(userName);
+        deptform.setConfirmedBy(userName);
+        deptform.setCreateBy(userName);
+        deptform.setIssueNumber(IssueNumber);
+        rows = deptformService.insertDeptform(deptform);//将数据更新到派单填报表
+
+        Integer issueNumber = deptqis.get(deptqis.size() - 1).getIssueNumber();
 
         //对远程表进行查询将结果更新到本地表---（帆软-万达）
         List<SheetOption> list = new ArrayList<>();
@@ -382,12 +208,133 @@ import java.util.List;
             break;
           }
         }
-
-        return toAjax(rows, deptqiId, IssueNumber);
+        return toAjax(rows,deptqiId,issueNumber);
       }
-      //说明当前服务重启
-
     }
+    /*if (Number_of_rounds==IssueNumber||Number==Number_of_rounds) {*/
+    //第一次启动发送 Number = 0
+    if (Number == 0) {
+      sysYear= instance.get(Calendar.YEAR);//获取一次系统当前年 2022
+    }
+    //之后的话就用不赋值用一开始的年号，永远不动
+    //判断第一次系统时间和最新系统时间是否一致
+    Integer issueNumber =0;
+    if (sysYear == instance.get(Calendar.YEAR) && sysYear == year) {//防止因为重启出现期数不连续
+
+      Deptqi byId = deptqiService.selectDeptqiById(deptqiId - 1);
+      if ((byId.getStartTime().getYear()+ 1900) ==sysYear&&Number==0){//Number=0说明重启了
+        issueNumber = byId.getIssueNumber();
+        Number=++issueNumber;
+        System.out.println(" = " + Number);
+      }else {//没有重启
+        Number++;
+      }
+      deptqi.setYearCode(year);
+      deptqi.setIssueNumber(Number);
+      int row = deptqiService.updateDeptqi(deptqi);//当前的指定下的id数据进行更新---期号
+      if (row != rows) {
+        rows = 0;
+      }
+      //对远程表进行查询将结果更新到本地表---（帆软-万达）
+      List<SheetOption> list = new ArrayList<>();
+      CyDeptwanda cyDeptwanda = new CyDeptwanda();
+      List<CyDeptwanda> listw = cyDeptwandaService.selectCyDeptwandaList(cyDeptwanda);
+      for (int i = 0; i < listw.size(); i++) {//获取他的行数id--i--r
+        Date modifiedon = listw.get(i).getModifiedon();
+        String demandname = listw.get(i).getDemandname();
+        String code = listw.get(i).getCode();
+        String name = listw.get(i).getName();
+        String plmname2 = listw.get(i).getPlmname2();
+        String seibancode = listw.get(i).getSeibancode();
+        String descflexfieldPubdescseg32 = listw.get(i).getDescflexfieldPubdescseg32();
+        Integer shuliang = listw.get(i).getShuliang();
+        Integer ljpc = listw.get(i).getLjpc();
+        String t3 = listw.get(i).getT3();
+        String descflexfieldPrivatedescseg7 = listw.get(i).getDescflexfieldPrivatedescseg7();
+        String descflexfieldPrivatedescseg9 = listw.get(i).getDescflexfieldPrivatedescseg9();
+        String saleslineId = listw.get(i).getSaleslineId();
+        //将从虚表中查询出来==插入到实表
+        CyDeptwanda deptwanda1 = new CyDeptwanda();
+        deptwanda1.setSaleslineId(saleslineId);//saleslineId通过这个判断当前缓存表中是否有重复
+        if (cyDeptwandaService.selectBySaleslineIdList(deptwanda1).size() == 0) {
+          cyDeptwanda.setModifiedon(modifiedon);
+          cyDeptwanda.setDemandname(demandname);
+          cyDeptwanda.setCode(code);
+          cyDeptwanda.setName(name);
+          cyDeptwanda.setPlmname2(plmname2);
+          cyDeptwanda.setSeibancode(seibancode);
+          cyDeptwanda.setDescflexfieldPubdescseg32(descflexfieldPubdescseg32);
+          cyDeptwanda.setShuliang(shuliang);
+          cyDeptwanda.setLjpc(ljpc);
+          cyDeptwanda.setT3(t3);
+          cyDeptwanda.setDescflexfieldPrivatedescseg7(descflexfieldPrivatedescseg7);
+          cyDeptwanda.setDescflexfieldPrivatedescseg9(descflexfieldPrivatedescseg9);
+          cyDeptwanda.setSaleslineId(saleslineId);
+          cyDeptwandaService.insertCyDeptwanda(cyDeptwanda);
+        }
+        if (list.size()==0){
+          rows=1;
+          break;
+        }
+      }
+
+
+      return toAjax(rows, deptqiId, Number);
+    } else {
+      IssueNumber++;
+      deptqi.setYearCode(year);
+      deptqi.setIssueNumber(IssueNumber);
+      int row = deptqiService.updateDeptqi(deptqi);//当前的指定下的id数据进行更新---期号
+      if (row != rows) {
+        rows = 0;
+      }
+
+      //对远程表进行查询将结果更新到本地表---（帆软-万达）
+      List<SheetOption> list = new ArrayList<>();
+      CyDeptwanda cyDeptwanda = new CyDeptwanda();
+      List<CyDeptwanda> listw = cyDeptwandaService.selectCyDeptwandaList(cyDeptwanda);
+      for (int i = 0; i < listw.size(); i++) {//获取他的行数id--i--r
+        Date modifiedon = listw.get(i).getModifiedon();
+        String demandname = listw.get(i).getDemandname();
+        String code = listw.get(i).getCode();
+        String name = listw.get(i).getName();
+        String plmname2 = listw.get(i).getPlmname2();
+        String seibancode = listw.get(i).getSeibancode();
+        String descflexfieldPubdescseg32 = listw.get(i).getDescflexfieldPubdescseg32();
+        Integer shuliang = listw.get(i).getShuliang();
+        Integer ljpc = listw.get(i).getLjpc();
+        String t3 = listw.get(i).getT3();
+        String descflexfieldPrivatedescseg7 = listw.get(i).getDescflexfieldPrivatedescseg7();
+        String descflexfieldPrivatedescseg9 = listw.get(i).getDescflexfieldPrivatedescseg9();
+        String saleslineId = listw.get(i).getSaleslineId();
+        //将从虚表中查询出来==插入到实表
+        CyDeptwanda deptwanda1 = new CyDeptwanda();
+        deptwanda1.setSaleslineId(saleslineId);//saleslineId通过这个判断当前缓存表中是否有重复
+        if (cyDeptwandaService.selectBySaleslineIdList(deptwanda1).size() == 0) {
+          cyDeptwanda.setModifiedon(modifiedon);
+          cyDeptwanda.setDemandname(demandname);
+          cyDeptwanda.setCode(code);
+          cyDeptwanda.setName(name);
+          cyDeptwanda.setPlmname2(plmname2);
+          cyDeptwanda.setSeibancode(seibancode);
+          cyDeptwanda.setDescflexfieldPubdescseg32(descflexfieldPubdescseg32);
+          cyDeptwanda.setShuliang(shuliang);
+          cyDeptwanda.setLjpc(ljpc);
+          cyDeptwanda.setT3(t3);
+          cyDeptwanda.setDescflexfieldPrivatedescseg7(descflexfieldPrivatedescseg7);
+          cyDeptwanda.setDescflexfieldPrivatedescseg9(descflexfieldPrivatedescseg9);
+          cyDeptwanda.setSaleslineId(saleslineId);
+          cyDeptwandaService.insertCyDeptwanda(cyDeptwanda);
+        }
+        if (list.size()==0){
+          rows=1;
+          break;
+        }
+      }
+      return toAjax(rows, deptqiId, IssueNumber);
+    }
+    //说明当前服务重启
+  }
 
   /**
    * - 删除期数
@@ -398,7 +345,6 @@ import java.util.List;
    */
   @DeleteMapping("/capacity/templatedelete/delete/{id}")
   public AjaxResult remove(@PathVariable Integer id) {
-
     Deptform deptform = new Deptform();
     deptform.setDeptqiId(id);
     List<Deptform> deptforms = deptformService.selectDeptformList(deptform);
@@ -408,9 +354,16 @@ import java.util.List;
     else {
       CyDeptpo cyDeptpo = new CyDeptpo();
       cyDeptpo.setDeptqiId(id);
+      Integer[] array2=null;
+      ArrayList<Integer> arrayList = new ArrayList<>();
       List<CyDeptpo> cyDeptpos = deptpoService.selectCyDeptpoList(cyDeptpo);
+      if (cyDeptpos.size()!=0){
       for (int i = 0; i < cyDeptpos.size(); i++) {
-        deptpoService.deleteCyDeptpoByDeptpoId(cyDeptpos.get(i).getDeptpoId());
+        Integer deptpoId = cyDeptpos.get(i).getDeptpoId();
+        arrayList.add(deptpoId);
+      }
+      array2 = arrayList.toArray(new Integer[arrayList.size()]);//将arrays转成list
+      int ids = deptpoService.deleteCyDeptpoByDeptpoIds(array2);
       }
       return toAjax(deptqiService.deleteDeptqiById(id));
     }
@@ -450,6 +403,3 @@ import java.util.List;
   }
 
 }
-
-
-

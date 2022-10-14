@@ -122,6 +122,9 @@ public class CyDeptsalesexcel extends BaseEntity
     @Excel(name = "总产能")
     private BigDecimal todayNumber;
 
+    /** 页码数 */
+    private Integer Package = 60;
+
     /** 本期最大组产能 */
     @Excel(name = "本期最大组产能")
     private BigDecimal sumZhu;
@@ -222,6 +225,14 @@ public class CyDeptsalesexcel extends BaseEntity
     public void setDescflexfieldPubdescseg32(String descflexfieldPubdescseg32)
     {
         this.descflexfieldPubdescseg32 = descflexfieldPubdescseg32;
+    }
+
+    public Integer getPackage() {
+        return Package;
+    }
+
+    public void setPackage(Integer aPackage) {
+        Package = aPackage;
     }
 
     public String getDescflexfieldPubdescseg32()
@@ -411,5 +422,13 @@ public class CyDeptsalesexcel extends BaseEntity
                 .append("todayNumber", getTodayNumber())
                 .append("personalNeeds", getPersonalNeeds())
                 .toString();
+    }
+
+    public CyDeptsalesexcel() {
+    }
+
+    public CyDeptsalesexcel(Integer issueNumber, String userName) {
+        this.issueNumber = issueNumber;
+        this.userName = userName;
     }
 }

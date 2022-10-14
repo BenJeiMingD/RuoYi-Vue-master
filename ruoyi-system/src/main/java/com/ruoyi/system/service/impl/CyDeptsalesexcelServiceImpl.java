@@ -1,6 +1,9 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.github.pagehelper.PageHelper;
+import com.ruoyi.system.domain.Deptproduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CyDeptsalesexcelMapper;
@@ -34,13 +37,27 @@ public class CyDeptsalesexcelServiceImpl implements ICyDeptsalesexcelService
     /**
      * 查询填报派单列表
      * 
-     * @param cyDeptsalesexcel 填报派单
+     * @param cyDeptsalesexcel 填报派单 --查询的时候回传入用户名和期号
      * @return 填报派单
      */
     @Override
     public List<CyDeptsalesexcel> selectCyDeptsalesexcelList(CyDeptsalesexcel cyDeptsalesexcel)
     {
+//        List<CyDeptsalesexcel> cyDeptsalesexcels = cyDeptsalesexcelMapper.selectCyDeptsalesexcelList(cyDeptsalesexcel);//       Integer Package = cyDeptsalesexcels.size()+1;
+//        Integer pageNum=Package/cyDeptsalesexcels.size()+1;
+//        int pageSize = cyDeptsalesexcels.size()+1;
+//        PageHelper.startPage(pageNum, pageSize);
+        Integer issueNumber = cyDeptsalesexcel.getIssueNumber();
+        /*String userName = cyDeptsalesexcel.getUserName();
+        //SELECT sum (xq) as xq FROM [dbo].[Cy_deptsalesexcel] WHERE user_name = 'admin' and Issue_number = 1  -- 销售总需求
+        //查询出销售总需求
+        CyDeptsalesexcel salesXq = cyDeptsalesexcelMapper.selectsumXqList(userName, issueNumber);*/
         return cyDeptsalesexcelMapper.selectCyDeptsalesexcelList(cyDeptsalesexcel);
+    }
+
+    @Override
+    public List<CyDeptsalesexcel> selectCyDeptSummaryList(CyDeptsalesexcel cyDeptsalesexcel) {
+        return cyDeptsalesexcelMapper.selectCyDeptSummaryList(cyDeptsalesexcel);
     }
 
     /**
@@ -53,6 +70,11 @@ public class CyDeptsalesexcelServiceImpl implements ICyDeptsalesexcelService
     public int insertCyDeptsalesexcel(CyDeptsalesexcel cyDeptsalesexcel)
     {
         return cyDeptsalesexcelMapper.insertCyDeptsalesexcel(cyDeptsalesexcel);
+    }
+
+    @Override
+    public List<Integer> insertBatch(List<CyDeptsalesexcel> cyDeptsalesexcel) {
+        return cyDeptsalesexcelMapper.insertBatch(cyDeptsalesexcel);
     }
 
     /**
@@ -89,5 +111,11 @@ public class CyDeptsalesexcelServiceImpl implements ICyDeptsalesexcelService
     public int deleteCyDeptsalesexcelById(Integer id)
     {
         return cyDeptsalesexcelMapper.deleteCyDeptsalesexcelById(id);
+    }
+
+    @Override
+    public int deleteFrom() {
+
+        return cyDeptsalesexcelMapper.deleteFrom();
     }
 }

@@ -26,6 +26,13 @@ public interface ICyDeptsalesexcelService
      * @return 填报派单集合
      */
     public List<CyDeptsalesexcel> selectCyDeptsalesexcelList(CyDeptsalesexcel cyDeptsalesexcel);
+    /**
+     * 查询填报派单列表
+     *
+     * @param cyDeptsalesexcel 填报派单
+     * @return 填报派单集合
+     */
+    public List<CyDeptsalesexcel> selectCyDeptSummaryList(CyDeptsalesexcel cyDeptsalesexcel);
 
     /**
      * 新增填报派单
@@ -34,6 +41,14 @@ public interface ICyDeptsalesexcelService
      * @return 结果
      */
     public int insertCyDeptsalesexcel(CyDeptsalesexcel cyDeptsalesexcel);
+
+    /**
+     * 新增填报派单
+     *
+     * @param cyDeptsalesexcel 填报派单 --批量删除
+     * @return 结果
+     */
+    public List<Integer> insertBatch(List<CyDeptsalesexcel> cyDeptsalesexcel);
 
     /**
      * 修改填报派单
@@ -58,4 +73,11 @@ public interface ICyDeptsalesexcelService
      * @return 结果
      */
     public int deleteCyDeptsalesexcelById(Integer id);
+
+    /**
+     * 删除填报派单信息
+     *
+     * @return 整表删除结果
+     */
+    public int deleteFrom();
 }

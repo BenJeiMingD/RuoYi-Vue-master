@@ -36,7 +36,7 @@ module.exports = {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
         // target: `http://paichan.free.svipss.top/`,
-        target: `http://192.168.1.10:8080/`,
+        target: `http://paichan.free.svipss.top/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''

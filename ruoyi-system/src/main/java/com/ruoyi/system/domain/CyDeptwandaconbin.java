@@ -9,13 +9,12 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 填报派单对象 cy_deptsummary
+ * 万达json对象 cy_deptwandaconbin
  *
  * @author ruoyi
- * @date 2022-09-27
+ * @date 2022-10-13
  */
-
-public class CyDeptsummary extends BaseEntity
+public class CyDeptwandaconbin extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
@@ -63,12 +62,12 @@ public class CyDeptsummary extends BaseEntity
     @Excel(name = "订单数量")
     private Integer shuliang;
 
-    /** 累计排产量 */
-    @Excel(name = "累计排产量")
+    /** 累计排产量PlantOrg */
+    @Excel(name = "累计排产量PlantOrg")
     private Integer ljpc;
 
-    /** 可排产量 */
-    @Excel(name = "可排产量")
+    /** 可排产量xqfl */
+    @Excel(name = "可排产量xqfl")
     private String t3;
 
     /** 销售需求 */
@@ -91,37 +90,29 @@ public class CyDeptsummary extends BaseEntity
     @Excel(name = "模具号")
     private String descflexfieldPrivatedescseg11;
 
-    /** 填报派单编号 */
-    @Excel(name = "填报派单编号")
+    /** 填报派单编号（作废） */
+    @Excel(name = "填报派单编号", readConverterExp = "作=废")
     private Integer deptformId;
 
-    /** 部门汇总子表编号 */
-    @Excel(name = "部门汇总子表编号")
+    /** 部门汇总子表编号（作废） */
+    @Excel(name = "部门汇总子表编号", readConverterExp = "作=废")
     private String deptsumziId;
 
-    /** 合并汇总 */
-    @Excel(name = "合并汇总")
+    /** 合并汇总（作废） */
+    @Excel(name = "合并汇总", readConverterExp = "作=废")
     private Integer deptsumId;
-
-    /** 用户编号 */
-    @Excel(name = "用户编号")
-    private Integer userId;
 
     /** 销售行id */
     @Excel(name = "销售行id")
     private String saleslineId;
 
-    /** 用户名 */
-    @Excel(name = "用户名")
-    private String userName;
+    /** 期数id */
+    @Excel(name = "期数id")
+    private Integer deptqiId;
 
-    /** 总产能 */
-    @Excel(name = "总产能")
-    private BigDecimal todayNumber;
-
-    /** 个人需求 */
-    @Excel(name = "个人需求")
-    private Integer personalNeeds;
+    /** 组的本期最大产能 */
+    @Excel(name = "组的本期最大产能")
+    private BigDecimal sumZhu;
 
     public void setId(Integer id)
     {
@@ -312,15 +303,6 @@ public class CyDeptsummary extends BaseEntity
     {
         return deptsumId;
     }
-    public void setUserId(Integer userId)
-    {
-        this.userId = userId;
-    }
-
-    public Integer getUserId()
-    {
-        return userId;
-    }
     public void setSaleslineId(String saleslineId)
     {
         this.saleslineId = saleslineId;
@@ -330,32 +312,23 @@ public class CyDeptsummary extends BaseEntity
     {
         return saleslineId;
     }
-    public void setUserName(String userName)
+    public void setDeptqiId(Integer deptqiId)
     {
-        this.userName = userName;
+        this.deptqiId = deptqiId;
     }
 
-    public String getUserName()
+    public Integer getDeptqiId()
     {
-        return userName;
+        return deptqiId;
     }
-    public void setTodayNumber(BigDecimal todayNumber)
+    public void setSumZhu(BigDecimal sumZhu)
     {
-        this.todayNumber = todayNumber;
-    }
-
-    public BigDecimal getTodayNumber()
-    {
-        return todayNumber;
-    }
-    public void setPersonalNeeds(Integer personalNeeds)
-    {
-        this.personalNeeds = personalNeeds;
+        this.sumZhu = sumZhu;
     }
 
-    public Integer getPersonalNeeds()
+    public BigDecimal getSumZhu()
     {
-        return personalNeeds;
+        return sumZhu;
     }
 
     @Override
@@ -382,11 +355,9 @@ public class CyDeptsummary extends BaseEntity
                 .append("deptformId", getDeptformId())
                 .append("deptsumziId", getDeptsumziId())
                 .append("deptsumId", getDeptsumId())
-                .append("userId", getUserId())
                 .append("saleslineId", getSaleslineId())
-                .append("userName", getUserName())
-                .append("todayNumber", getTodayNumber())
-                .append("personalNeeds", getPersonalNeeds())
+                .append("deptqiId", getDeptqiId())
+                .append("sumZhu", getSumZhu())
                 .toString();
     }
 }

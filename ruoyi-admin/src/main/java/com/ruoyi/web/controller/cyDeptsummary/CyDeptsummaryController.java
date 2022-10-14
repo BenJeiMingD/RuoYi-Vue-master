@@ -5,8 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.system.domain.CyDeptsalesexcel;
 import com.ruoyi.system.domain.CyDeptwanda;
+import com.ruoyi.system.domain.Deptform;
 import com.ruoyi.system.service.ICyDeptsalesexcelService;
 import com.ruoyi.system.service.ICyDeptwandaService;
+import com.ruoyi.system.service.IDeptformService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,19 +42,18 @@ public class CyDeptsummaryController extends BaseController
     private ICyDeptsummaryService cyDeptsummaryService;
 
     @Autowired
-    private ICyDeptsalesexcelService cyDeptsalesexcelService;
+    private IDeptformService deptformService;
 
     /**
      * 查询填报派单列表
      */
-    @PreAuthorize("@ss.hasPermi('system:deptsummary:list')")
-    @GetMapping("/list")
+    /*@PreAuthorize("@ss.hasPermi('system:deptsummary:list')")*/
+    @GetMapping("cyDeptsummary/list")
     public TableDataInfo list(CyDeptsummary cyDeptsummary)
     {
-        CyDeptsalesexcel cyDeptsalesexcel = new CyDeptsalesexcel();
         List<CyDeptsummary> list = cyDeptsummaryService.selectCyDeptsummaryList(cyDeptsummary);
 
-        for (int i = 0; i < list.size(); i++) {
+        /*for (int i = 0; i < list.size(); i++) {
             cyDeptsummary.setModifiedon(cyDeptsalesexcel.getModifiedon());//16行基础数据
             cyDeptsummary.setDemandname(cyDeptsalesexcel.getDemandname());
             cyDeptsummary.setCode(cyDeptsalesexcel.getCode());
@@ -72,7 +73,7 @@ public class CyDeptsummaryController extends BaseController
             cyDeptsummary.setSaleslineId(cyDeptsalesexcel.getSaleslineId());
             cyDeptsummary.setName(cyDeptsalesexcel.getUserName());
             cyDeptsummary.setTodayNumber(cyDeptsalesexcel.getTodayNumber());//将主表的最大产能插入-----需要每改一次更新一次
-        }
+        }*/
         return getDataTable(list);
     }
 

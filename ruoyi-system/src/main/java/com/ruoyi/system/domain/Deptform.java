@@ -17,7 +17,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  */
 public class Deptform extends BaseEntity
 {
-    private static final long serialVersionUID = 1L;
+    /*private static final long serialVersionUID = 1L;*/
 
     /** 派单id */
     private Integer id;

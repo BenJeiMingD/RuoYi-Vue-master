@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.system.mapper.CyDeptsalesexcelMapper">
+<mapper namespace="com.ruoyi.system.mapper.CyDeptwandaconbinMapper">
 
-    <resultMap type="CyDeptsalesexcel" id="CyDeptsalesexcelResult">
+    <resultMap type="CyDeptwandaconbin" id="CyDeptwandaconbinResult">
         <result property="id"    column="id"    />
         <result property="modifiedon"    column="ModifiedOn"    />
         <result property="demandname"    column="DemandName"    />
@@ -26,21 +26,17 @@
         <result property="deptformId"    column="deptform_id"    />
         <result property="deptsumziId"    column="deptsumzi_id"    />
         <result property="deptsumId"    column="deptsum_id"    />
-        <result property="userId"    column="user_id"    />
         <result property="saleslineId"    column="salesLine_id"    />
-        <result property="userName"    column="user_name"    />
-        <result property="todayNumber"    column="today_number"    />
-        <result property="personalNeeds"    column="personal_needs"    />
+        <result property="deptqiId"    column="deptqi_id"    />
         <result property="sumZhu"    column="sum_zhu"    />
-        <result property="issueNumber"    column="Issue_number"    />
     </resultMap>
 
-    <sql id="selectCyDeptsalesexcelVo">
-        select id, ModifiedOn, DemandName, Code, Name, PLMName2, SeibanCode, PLMName5, PLMName3, DescFlexField_PubDescSeg32, shuliang, ljpc, T3, xq, mark, DescFlexField_PrivateDescSeg7, DescFlexField_PrivateDescSeg9, DescFlexField_PrivateDescSeg11, deptform_id, deptsumzi_id, deptsum_id, user_id, salesLine_id, user_name, today_number, personal_needs, sum_zhu, Issue_number from cy_deptsalesexcel
+    <sql id="selectCyDeptwandaconbinVo">
+        select id, ModifiedOn, DemandName, Code, Name, PLMName2, SeibanCode, PLMName5, PLMName3, DescFlexField_PubDescSeg32, shuliang, ljpc, T3, xq, mark, DescFlexField_PrivateDescSeg7, DescFlexField_PrivateDescSeg9, DescFlexField_PrivateDescSeg11, deptform_id, deptsumzi_id, deptsum_id, salesLine_id, deptqi_id, sum_zhu from cy_deptwandaconbin
     </sql>
 
-    <select id="selectCyDeptsalesexcelList" parameterType="CyDeptsalesexcel" resultMap="CyDeptsalesexcelResult">
-        <include refid="selectCyDeptsalesexcelVo"/>
+    <select id="selectCyDeptwandaconbinList" parameterType="CyDeptwandaconbin" resultMap="CyDeptwandaconbinResult">
+        <include refid="selectCyDeptwandaconbinVo"/>
         <where>
             <if test="modifiedon != null "> and ModifiedOn = #{modifiedon}</if>
             <if test="demandname != null  and demandname != ''"> and DemandName like concat('%', #{demandname}, '%')</if>
@@ -62,41 +58,21 @@
             <if test="deptformId != null "> and deptform_id = #{deptformId}</if>
             <if test="deptsumziId != null  and deptsumziId != ''"> and deptsumzi_id = #{deptsumziId}</if>
             <if test="deptsumId != null "> and deptsum_id = #{deptsumId}</if>
-            <if test="userId != null "> and user_id = #{userId}</if>
             <if test="saleslineId != null  and saleslineId != ''"> and salesLine_id = #{saleslineId}</if>
-            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
-            <if test="todayNumber != null "> and today_number = #{todayNumber}</if>
-            <if test="personalNeeds != null "> and personal_needs = #{personalNeeds}</if>
+            <if test="deptqiId != null "> and deptqi_id = #{deptqiId}</if>
             <if test="sumZhu != null "> and sum_zhu = #{sumZhu}</if>
-            <if test="issueNumber != null "> and Issue_number = #{issueNumber}</if>
         </where>
     </select>
 
-    <select id="selectsumZhuList" parameterType="CyDeptsalesexcel" resultMap="CyDeptsalesexcelResult">
-        select top (1) sum_zhu from cy_deptsalesexcel
-    </select>
-
-    <select id="selectsumXqList" parameterType="CyDeptsalesexcel" resultMap="CyDeptsalesexcelResult">
-        SELECT sum (xq) as xq FROM [dbo].[Cy_deptsalesexcel]
-        <where>
-            <if test="userName != null ">user_name = #{userName}</if>
-            <if test="issueNumber != null "> and Issue_number = #{issueNumber}</if>
-        </where>
-    </select>
-
-    <select id="selectCyDeptSummaryList" parameterType="CyDeptsalesexcel" resultMap="CyDeptsalesexcelResult">
-        select id, ModifiedOn, DemandName, Code, Name, PLMName2, SeibanCode, PLMName5, PLMName3, DescFlexField_PubDescSeg32, shuliang, ljpc, T3, xq, mark, DescFlexField_PrivateDescSeg7, DescFlexField_PrivateDescSeg9, DescFlexField_PrivateDescSeg11, deptform_id, deptsumzi_id, deptsum_id, user_id, salesLine_id, user_name, today_number, personal_needs, sum_zhu, Issue_number from cy_deptsalesexcel where Issue_number = #{issueNumber} and xq >0
-    </select>
-
-    <select id="selectCyDeptsalesexcelById" parameterType="Integer" resultMap="CyDeptsalesexcelResult">
-        <include refid="selectCyDeptsalesexcelVo"/>
+    <select id="selectCyDeptwandaconbinById" parameterType="Integer" resultMap="CyDeptwandaconbinResult">
+        <include refid="selectCyDeptwandaconbinVo"/>
         where id = #{id}
     </select>
 
-    <insert id="insertCyDeptsalesexcel" parameterType="CyDeptsalesexcel" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
-        insert into cy_deptsalesexcel
+    <insert id="insertCyDeptwandaconbin" parameterType="CyDeptwandaconbin">
+        insert into cy_deptwandaconbin
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <!--<if test="id != null">id,</if>-->
+            <if test="id != null">id,</if>
             <if test="modifiedon != null">ModifiedOn,</if>
             <if test="demandname != null">DemandName,</if>
             <if test="code != null">Code,</if>
@@ -117,16 +93,12 @@
             <if test="deptformId != null">deptform_id,</if>
             <if test="deptsumziId != null">deptsumzi_id,</if>
             <if test="deptsumId != null">deptsum_id,</if>
-            <if test="userId != null">user_id,</if>
             <if test="saleslineId != null">salesLine_id,</if>
-            <if test="userName != null">user_name,</if>
-            <if test="todayNumber != null">today_number,</if>
-            <if test="personalNeeds != null">personal_needs,</if>
+            <if test="deptqiId != null">deptqi_id,</if>
             <if test="sumZhu != null">sum_zhu,</if>
-            <if test="issueNumber != null">Issue_number,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <!--<if test="id != null">#{id},</if>-->
+            <if test="id != null">#{id},</if>
             <if test="modifiedon != null">#{modifiedon},</if>
             <if test="demandname != null">#{demandname},</if>
             <if test="code != null">#{code},</if>
@@ -147,60 +119,14 @@
             <if test="deptformId != null">#{deptformId},</if>
             <if test="deptsumziId != null">#{deptsumziId},</if>
             <if test="deptsumId != null">#{deptsumId},</if>
-            <if test="userId != null">#{userId},</if>
             <if test="saleslineId != null">#{saleslineId},</if>
-            <if test="userName != null">#{userName},</if>
-            <if test="todayNumber != null">#{todayNumber},</if>
-            <if test="personalNeeds != null">#{personalNeeds},</if>
+            <if test="deptqiId != null">#{deptqiId},</if>
             <if test="sumZhu != null">#{sumZhu},</if>
-            <if test="issueNumber != null">#{issueNumber},</if>
         </trim>
     </insert>
 
-    <insert id="insertBatch" parameterType="java.util.List">
-        insert into cy_deptsalesexcel
-            (modifiedon,demandname,code,name,plmname2,seibancode,plmname5,plmname3,shuliang, ljpc, T3, xq, mark,
-            DescFlexField_PrivateDescSeg7, DescFlexField_PrivateDescSeg9, DescFlexField_PrivateDescSeg11, deptform_id,user_id, salesLine_id,
-            user_name, today_number, personal_needs, sum_zhu, Issue_number)
-         values
-                <foreach collection ="list" item="userList" separator =",">
-                    (#{userList.modifiedon},#{userList.demandname},#{userList.code},#{userList.name},#{userList.plmname2},#{userList.seibancode},#{userList.plmname5},
-                     #{userList.plmname3},#{userList.shuliang},#{userList.ljpc},#{userList.t3},#{userList.xq},#{userList.mark},
-                     #{userList.descflexfieldPrivatedescseg7},#{userList.descflexfieldPrivatedescseg9},#{userList.descflexfieldPrivatedescseg11},
-                     #{userList.deptformId},#{userList.userId},#{userList.saleslineId},#{userList.userName},#{userList.todayNumber},#{userList.personalNeeds},#{userList.sumZhu},#{userList.issueNumber})
-        <!--                <if test="id != null">#{id},</if>-->
-<!--                <if test="modifiedon != null">#{userList.modifiedon},</if>-->
-<!--                <if test="demandname != null">#{userList.demandname},</if>-->
-<!--                <if test="code != null">#{userList.code},</if>-->
-<!--                <if test="name != null">#{userList.name},</if>-->
-<!--                <if test="plmname2 != null">#{userList.plmname2},</if>-->
-<!--                <if test="seibancode != null">#{userList.seibancode},</if>-->
-<!--                <if test="plmname5 != null">#{userList.plmname5},</if>-->
-<!--                <if test="plmname3 != null">#{userList.plmname3},</if>-->
-<!--                <if test="descflexfieldPubdescseg32 != null">#{userList.descflexfieldPubdescseg32},</if>-->
-<!--                <if test="shuliang != null">#{userList.shuliang},</if>-->
-<!--                <if test="ljpc != null">#{userList.ljpc},</if>-->
-<!--                <if test="t3 != null">#{userList.t3},</if>-->
-<!--                <if test="xq != null">#{userList.xq},</if>-->
-<!--                <if test="mark != null">#{userList.mark},</if>-->
-<!--                <if test="descflexfieldPrivatedescseg7 != null">#{userList.descflexfieldPrivatedescseg7},</if>-->
-<!--                <if test="descflexfieldPrivatedescseg9 != null">#{userList.descflexfieldPrivatedescseg9},</if>-->
-<!--                <if test="descflexfieldPrivatedescseg11 != null">#{userList.descflexfieldPrivatedescseg11},</if>-->
-<!--                <if test="deptformId != null">#{userList.deptformId},</if>-->
-<!--                <if test="deptsumziId != null">#{userList.deptsumziId},</if>-->
-<!--                <if test="deptsumId != null">#{userList.deptsumId},</if>-->
-<!--                <if test="userId != null">#{userList.userId},#{userList.saleslineId},#{userList.userName},#{userList.todayNumber},#{userList.personalNeeds},#{userList.sumZhu},#{userList.issueNumber}</if>-->
-<!--                <if test="saleslineId != null">#{userList.saleslineId},</if>-->
-<!--                <if test="userName != null">#{userList.userName},</if>-->
-<!--                <if test="todayNumber != null">#{userList.todayNumber},</if>-->
-<!--                <if test="personalNeeds != null">#{userList.personalNeeds},</if>-->
-<!--                <if test="sumZhu != null">#{userList.sumZhu},</if>-->
-<!--                <if test="issueNumber != null">#{userList.issueNumber}</if>-->
-        </foreach >
-    </insert>
-
-    <update id="updateCyDeptsalesexcel" parameterType="CyDeptsalesexcel">
-        update cy_deptsalesexcel
+    <update id="updateCyDeptwandaconbin" parameterType="CyDeptwandaconbin">
+        update cy_deptwandaconbin
         <trim prefix="SET" suffixOverrides=",">
             <if test="modifiedon != null">ModifiedOn = #{modifiedon},</if>
             <if test="demandname != null">DemandName = #{demandname},</if>
@@ -222,29 +148,21 @@
             <if test="deptformId != null">deptform_id = #{deptformId},</if>
             <if test="deptsumziId != null">deptsumzi_id = #{deptsumziId},</if>
             <if test="deptsumId != null">deptsum_id = #{deptsumId},</if>
-            <if test="userId != null">user_id = #{userId},</if>
             <if test="saleslineId != null">salesLine_id = #{saleslineId},</if>
-            <if test="userName != null">user_name = #{userName},</if>
-            <if test="todayNumber != null">today_number = #{todayNumber},</if>
-            <if test="personalNeeds != null">personal_needs = #{personalNeeds},</if>
+            <if test="deptqiId != null">deptqi_id = #{deptqiId},</if>
             <if test="sumZhu != null">sum_zhu = #{sumZhu},</if>
-            <if test="issueNumber != null">Issue_number = #{issueNumber},</if>
         </trim>
         where id = #{id}
     </update>
 
-    <delete id="deleteCyDeptsalesexcelById" parameterType="Integer">
-        delete from cy_deptsalesexcel where id = #{id}
+    <delete id="deleteCyDeptwandaconbinById" parameterType="Integer">
+        delete from cy_deptwandaconbin where id = #{id}
     </delete>
 
-    <delete id="deleteCyDeptsalesexcelByIds" parameterType="String">
-        delete from cy_deptsalesexcel where id in
+    <delete id="deleteCyDeptwandaconbinByIds" parameterType="String">
+        delete from cy_deptwandaconbin where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
-    </delete>
-
-    <delete id="deleteFrom" >
-        delete from cy_deptsalesexcel
     </delete>
 </mapper>
