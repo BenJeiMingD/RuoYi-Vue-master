@@ -7,6 +7,8 @@ import com.ruoyi.system.mapper.CyDeptwandaconbinMapper;
 import com.ruoyi.system.domain.CyDeptwandaconbin;
 import com.ruoyi.system.service.ICyDeptwandaconbinService;
 
+import javax.annotation.Resource;
+
 /**
  * 万达jsonService业务层处理
  *
@@ -16,7 +18,7 @@ import com.ruoyi.system.service.ICyDeptwandaconbinService;
 @Service
 public class CyDeptwandaconbinServiceImpl implements ICyDeptwandaconbinService
 {
-    @Autowired
+    @Resource
     private CyDeptwandaconbinMapper cyDeptwandaconbinMapper;
 
     /**

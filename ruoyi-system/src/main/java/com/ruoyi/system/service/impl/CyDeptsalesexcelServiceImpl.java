@@ -10,6 +10,8 @@ import com.ruoyi.system.mapper.CyDeptsalesexcelMapper;
 import com.ruoyi.system.domain.CyDeptsalesexcel;
 import com.ruoyi.system.service.ICyDeptsalesexcelService;
 
+import javax.annotation.Resource;
+
 /**
  * 填报派单Service业务层处理
  * 
@@ -19,7 +21,7 @@ import com.ruoyi.system.service.ICyDeptsalesexcelService;
 @Service
 public class CyDeptsalesexcelServiceImpl implements ICyDeptsalesexcelService 
 {
-    @Autowired
+    @Resource
     private CyDeptsalesexcelMapper cyDeptsalesexcelMapper;
 
     /**

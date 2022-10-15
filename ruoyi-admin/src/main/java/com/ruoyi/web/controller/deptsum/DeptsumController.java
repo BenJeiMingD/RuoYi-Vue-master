@@ -4,8 +4,11 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.annotation.DataSource;
 import com.ruoyi.common.enums.DataSourceType;
+import com.ruoyi.system.domain.CyDepcombin;
 import com.ruoyi.system.domain.Deptform;
 import com.ruoyi.system.service.IDeptformService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -162,12 +165,16 @@ public class DeptsumController extends BaseController
 */
     /**
      * 删除合并汇总
-     *//*
-    @PreAuthorize("@ss.hasPermi('system:depsum:remove')")
-    @Log(title = "合并汇总", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Integer[] ids)
+     */
+    /*@PreAuthorize("@ss.hasPermi('system:depsum:remove')")
+    @Log(title = "合并汇总", businessType = BusinessType.DELETE)*/
+    @PostMapping("/system/depsum/remove")
+    public AjaxResult remove(@RequestBody String string)
     {
-        return toAjax(deptsumService.deleteDeptsumByIds(ids));
-    }*/
+        System.out.println("id = " + string);
+        JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
+        Deptsum deptsum = JSON.toJavaObject(jsonObject, Deptsum.class);
+        Integer id = deptsum.getId();
+        return toAjax(deptsumService.deleteDeptsumById(id));
+    }
 }

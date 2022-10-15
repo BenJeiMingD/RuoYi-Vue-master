@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 产能调整Controller
- * 
+ *
  * @author ruoyi
  * @date 2022-09-08
  */
@@ -268,12 +268,25 @@ public class CyDeptpoController extends BaseController
     /**
      * 修改产能调整
      */
-    @PreAuthorize("@ss.hasPermi('system:deptpo:edit')")
-    @Log(title = "产能调整", businessType = BusinessType.UPDATE)
-    /*@PutMapping*/
-    public AjaxResult edit(@RequestBody CyDeptpo cyDeptpo)
+    /*@PreAuthorize("@ss.hasPermi('system:deptpo:edit')")
+    @Log(title = "产能调整", businessType = BusinessType.UPDATE)*/
+    @PostMapping("/system/deptpo/edit") //-- 这里会传入产能主表的id--对应产能主表的本期最大产能
+    public AjaxResult edit(@RequestBody String string)
     {
-        return toAjax(cyDeptpoService.updateCyDeptpo(cyDeptpo));
+        System.out.println("string = " + string);
+        JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
+        CyDeptpo cyDeptpo = JSON.toJavaObject(jsonObject, CyDeptpo.class);
+        CyDeptpo deptpo = new CyDeptpo();
+        deptpo.setDeptzhuId(cyDeptpo.getId());//转换
+        cyDeptpo.setDeptzhuId(cyDeptpo.getId());
+        int rows = 0;
+        List<CyDeptpo> cyDeptpos = cyDeptpoService.selectCyDeptpoList(deptpo);
+        for (int i = 0; i < cyDeptpos.size(); i++) {
+            Integer deptpoId = cyDeptpos.get(i).getDeptpoId();
+            cyDeptpo.setDeptziId(deptpoId);//--- 这里更新的内容有 : 产能调整表的id，主表id，最大的本组产能
+            rows = cyDeptpoService.updateCyDeptpo(cyDeptpo);
+        }
+        return toAjax(rows);
     }
     /**
      * 删除产能调整

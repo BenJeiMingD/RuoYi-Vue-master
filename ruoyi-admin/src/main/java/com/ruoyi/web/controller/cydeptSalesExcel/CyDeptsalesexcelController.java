@@ -307,9 +307,9 @@ public class CyDeptsalesexcelController extends BaseController {
                     }
                 }
                 if (j == 17) {
-                    if (lists.get(i-1).getTodayNumber() != null) {
-                        BigDecimal todayNumber = lists.get(i-1).getTodayNumber();
-                        v = todayNumber.toString();
+                    if (lists.get(i-1).getSumZhu() != null) {
+                        BigDecimal sumZhu = lists.get(i-1).getSumZhu();
+                        v = sumZhu.toString();
                     } else {
                         v = "0";
                     }
@@ -984,6 +984,14 @@ public class CyDeptsalesexcelController extends BaseController {
                 }
                 if (j == 19) {
                     if (lists.get(i).getPersonalNeeds() != null) {
+                        Integer issueNumber = lists.get(i).getIssueNumber();
+                        v = issueNumber.toString();
+                    } else {
+                        v = "0";
+                    }
+                }
+                if (j == 20) {
+                    if (lists.get(i).getPlmname3() != null) {
                         Integer issueNumber = lists.get(i).getIssueNumber();
                         v = issueNumber.toString();
                     } else {

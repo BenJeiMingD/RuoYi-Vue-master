@@ -58,17 +58,28 @@ public class DeptformController extends BaseController
     @RequestMapping("/system/deptform/list")
     public TableDataInfo list(Deptform deptform)
     {
-        /*Deptform deptform = new Deptform();
-        deptform.setDeptqiId(deptqiId);
-        deptform.setStartTime(deptqi.getStartTime());
-        deptform.setEndTime(deptqi.getEndTime());
-        deptform.setUserName(userName);
-        deptform.setConfirmedBy(userName);
-        deptform.setCreateBy(userName);
-        deptform.setIssueNumber(Number);
-        rows = deptformService.insertDeptform(deptform);//将数据更新到派单填报表*/
         List<Deptform> list = deptformService.selectDeptformList(deptform);
         return getDataTable(list);
+    }
+
+    /**
+     * 取消确认，更新状态为0
+     * @param
+     * @return
+     */
+    @RequestMapping("/system/deptform/ack") //传入期号
+    public AjaxResult listack(@RequestBody String string)
+    {
+        System.out.println("cyDeptpo = " + string);
+        JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
+        Deptform deptform = JSON.toJavaObject(jsonObject, Deptform.class);
+        List<Deptform> list = deptformService.selectDeptformList(deptform);
+        Integer id = list.get(0).getId();
+        deptform.setId(id);
+        deptform.setState(0);
+        deptformService.updateDeptform(deptform);
+        Deptform deptform1 = deptformService.selectDeptformById(id);
+        return AjaxResult.success(deptform1);
     }
     /**
      * 查询填报派单列表

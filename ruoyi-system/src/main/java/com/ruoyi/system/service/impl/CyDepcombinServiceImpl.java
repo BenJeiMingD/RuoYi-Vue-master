@@ -1,11 +1,12 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CyDepcombinMapper;
 import com.ruoyi.system.domain.CyDepcombin;
 import com.ruoyi.system.service.ICyDepcombinService;
+
+import javax.annotation.Resource;
 
 /**
  * 合并汇总Service业务层处理
@@ -16,7 +17,7 @@ import com.ruoyi.system.service.ICyDepcombinService;
 @Service
 public class CyDepcombinServiceImpl implements ICyDepcombinService
 {
-    @Autowired
+    @Resource
     private CyDepcombinMapper cyDepcombinMapper;
 
     /**

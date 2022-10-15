@@ -16,6 +16,11 @@ public class CyDeptpo extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
+
+    /** 期号 */
+    @Excel(name = "转换主id")
+    private Integer id;
+
     /** 期号 */
     @Excel(name = "期号")
     private Integer issueNumber;
@@ -198,6 +203,13 @@ public class CyDeptpo extends BaseEntity
         return sumZhu;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     @Override
     public String toString() {
