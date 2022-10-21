@@ -1,27 +1,22 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.DeptproductMapper;
 import com.ruoyi.system.domain.Deptproduct;
 import com.ruoyi.system.service.IDeptproductService;
 
-import javax.annotation.Resource;
-
 /**
  * 物料产能对照Service业务层处理
  *
  * @author ruoyi
- * @date 2022-08-23
+ * @date 2022-10-18
  */
 @Service
 public class DeptproductServiceImpl implements IDeptproductService
 {
-    @Resource
+    @Autowired
     private DeptproductMapper deptproductMapper;
 
     /**
@@ -45,14 +40,7 @@ public class DeptproductServiceImpl implements IDeptproductService
     @Override
     public List<Deptproduct> selectDeptproductList(Deptproduct deptproduct)
     {
-
-        // 每页展示的个数：pageSize
-        // 起始页数：pageNum
-        Integer pageNum=deptproduct.getPackage();
-        int pageSize = 30;
-        PageHelper.startPage(pageNum, pageSize);
-        List<Deptproduct> deptproducts = deptproductMapper.selectDeptproductList(deptproduct);
-        return deptproducts;
+        return deptproductMapper.selectDeptproductList(deptproduct);
     }
 
     /**
@@ -101,14 +89,5 @@ public class DeptproductServiceImpl implements IDeptproductService
     public int deleteDeptproductById(Integer id)
     {
         return deptproductMapper.deleteDeptproductById(id);
-    }
-
-    @Override
-    public  List<Deptproduct> LegalJudgment() {
-
-        //从数据库中获取集合size，id
-        List<Deptproduct> deptproducts = deptproductMapper.selectDeptproductSizeIdList();
-        System.out.println("deptproducts = " + deptproducts);
-        return null;
     }
 }

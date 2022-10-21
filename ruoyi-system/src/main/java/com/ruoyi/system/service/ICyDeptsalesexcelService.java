@@ -35,6 +35,22 @@ public interface ICyDeptsalesexcelService
     public List<CyDeptsalesexcel> selectCyDeptSummaryList(CyDeptsalesexcel cyDeptsalesexcel);
 
     /**
+     * 查询销售需求总的和
+     *
+     * @param  userName 用户名，issueNumber 期号
+     * @return 填报派单集合
+     */
+    public Integer selectsumXqList(String userName,Integer issueNumber);
+
+    /**
+     * 查询本组的当期最大产能
+     *
+     * @param
+     * @return 填报派单集合
+     */
+    public Integer selectsumZhuList();
+
+    /**
      * 新增填报派单
      * 
      * @param cyDeptsalesexcel 填报派单

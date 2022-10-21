@@ -73,7 +73,7 @@
     </select>
 
     <select id="selectsumZhuList" parameterType="CyDeptsalesexcel" resultMap="CyDeptsalesexcelResult">
-        select top (1) sum_zhu from cy_deptsalesexcel
+        select sum(sum_zhu) from cy_deptsalesexcel
     </select>
 
     <select id="selectsumXqList" parameterType="CyDeptsalesexcel" resultMap="CyDeptsalesexcelResult">

@@ -5,6 +5,7 @@ import java.util.List;
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.system.domain.Deptproduct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CyDeptsalesexcelMapper;
 import com.ruoyi.system.domain.CyDeptsalesexcel;
@@ -23,6 +24,8 @@ public class CyDeptsalesexcelServiceImpl implements ICyDeptsalesexcelService
 {
     @Resource
     private CyDeptsalesexcelMapper cyDeptsalesexcelMapper;
+
+
 
     /**
      * 查询填报派单
@@ -61,6 +64,17 @@ public class CyDeptsalesexcelServiceImpl implements ICyDeptsalesexcelService
     public List<CyDeptsalesexcel> selectCyDeptSummaryList(CyDeptsalesexcel cyDeptsalesexcel) {
         return cyDeptsalesexcelMapper.selectCyDeptSummaryList(cyDeptsalesexcel);
     }
+
+    @Override
+    public Integer selectsumXqList(String userName, Integer issueNumber) {
+        return cyDeptsalesexcelMapper.selectsumXqList(userName,issueNumber);
+    }
+
+    @Override
+    public Integer selectsumZhuList() {
+        return cyDeptsalesexcelMapper.selectsumZhuList();
+    }
+
 
     /**
      * 新增填报派单

@@ -7,7 +7,7 @@ import com.ruoyi.system.domain.Deptproduct;
  * 物料产能对照Mapper接口
  *
  * @author ruoyi
- * @date 2022-08-25
+ * @date 2022-10-18
  */
 public interface DeptproductMapper
 {
@@ -58,10 +58,4 @@ public interface DeptproductMapper
      * @return 结果
      */
     public int deleteDeptproductByIds(Integer[] ids);
-
-    /**
-     *  查询一组产能中的size，和所有产能子表id
-     *
-     */
-    public List<Deptproduct> selectDeptproductSizeIdList();
 }

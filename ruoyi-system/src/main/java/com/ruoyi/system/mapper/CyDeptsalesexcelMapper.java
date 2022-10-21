@@ -13,20 +13,20 @@ import io.lettuce.core.dynamic.annotation.Param;
 public interface CyDeptsalesexcelMapper 
 {
     /**
-     * 查询填报派单
+     * 查询总的销售需求
      * 
      * @param userName 填报派单用户名
      * @return 填报派单
      */
-    public CyDeptsalesexcel selectsumXqList(String userName,Integer issueNumber);
+    public Integer selectsumXqList(String userName,Integer issueNumber);
 
     /**
-     * 查询填报派单
+     * 查询总的本期产能
      *
      * @param
      * @return 填报派单
      */
-    public CyDeptsalesexcel selectsumZhuList();
+    public Integer selectsumZhuList();
 
     /**
      * 查询填报派单

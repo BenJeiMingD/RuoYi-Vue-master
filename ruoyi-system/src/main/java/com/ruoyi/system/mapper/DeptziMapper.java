@@ -4,6 +4,7 @@ import java.util.List;
 import com.ruoyi.system.domain.Deptzi;
 import org.apache.ibatis.annotations.Param;
 
+
 /**
  * 成型方式分组信息子Mapper接口
  *
@@ -66,7 +67,7 @@ public interface DeptziMapper
      * @param deptzhuId 主产能表返回id
      * @return
      */
-    public int deleteDeptziByIdst(@Param("deptId")Integer deptId,  @Param("deptzhuId") Integer deptzhuId);
+    public int deleteDeptziByIdst(@Param("deptId")Integer deptId, @Param("deptzhuId") Integer deptzhuId);
 
     List<Deptzi> selectDeptziListDeptid(@Param("deptzhuId") Integer deptzhuId);
 }

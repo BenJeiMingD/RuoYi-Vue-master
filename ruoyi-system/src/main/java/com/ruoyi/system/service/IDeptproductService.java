@@ -7,7 +7,7 @@ import com.ruoyi.system.domain.Deptproduct;
  * 物料产能对照Service接口
  *
  * @author ruoyi
- * @date 2022-08-25
+ * @date 2022-10-18
  */
 public interface IDeptproductService
 {
@@ -58,6 +58,4 @@ public interface IDeptproductService
      * @return 结果
      */
     public int deleteDeptproductById(Integer id);
-
-    public List<Deptproduct> LegalJudgment();
 }

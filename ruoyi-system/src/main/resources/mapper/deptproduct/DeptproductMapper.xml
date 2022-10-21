@@ -38,8 +38,8 @@
         <include refid="selectDeptproductVo"/>
         where id = #{id}
     </select>
-    <!--useGeneratedKeys = "true" keyProperty = "id"插入时返回他的id-->
-    <insert id="insertDeptproduct" parameterType="Deptproduct" useGeneratedKeys = "true" keyProperty = "id">
+
+    <insert id="insertDeptproduct" parameterType="Deptproduct">
         insert into cy_deptproduct
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>

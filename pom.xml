@@ -189,7 +189,7 @@
     </dependencyManagement>
 
     <modules>
-        <module>ruoyi-admin</module>
+        <module>ruoyiAdmin</module>
         <module>ruoyi-framework</module>
         <module>ruoyi-system</module>
         <module>ruoyi-generator</module>
