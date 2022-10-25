@@ -1,5 +1,6 @@
 package com.ruoyi.system.mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 import com.ruoyi.system.domain.CyDeptsalesexcel;
 import io.lettuce.core.dynamic.annotation.Param;
@@ -15,10 +16,19 @@ public interface CyDeptsalesexcelMapper
     /**
      * 查询总的销售需求
      * 
-     * @param userName 填报派单用户名
+     * @param cyDeptsalesexcel 填报派单用户名
+     * @return 填报派单
+     * public int deleteDeptziByIdst(@Param("deptId")Integer deptId, @Param("deptzhuId") Integer deptzhuId);
+     */
+    public CyDeptsalesexcel selectsumXqList(CyDeptsalesexcel cyDeptsalesexcel);
+
+    /**
+     * 查询总的本组最大产能类
+     *
+     * @param cyDeptsalesexcel 无处传入 返回主参能的累计类型
      * @return 填报派单
      */
-    public Integer selectsumXqList(String userName,Integer issueNumber);
+    public List<CyDeptsalesexcel> selectGroupsumList(CyDeptsalesexcel cyDeptsalesexcel);
 
     /**
      * 查询总的本期产能

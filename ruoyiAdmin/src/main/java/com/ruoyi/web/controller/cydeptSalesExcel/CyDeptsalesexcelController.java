@@ -57,15 +57,47 @@ public class CyDeptsalesexcelController extends BaseController {
     //汇总对数据进行筛选---根据期号筛选
     private static Integer Issue;
 
+    //对不同用户的 个人需求
+    private static String userNames;
+
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     /**
      * 查询填报派单列表 ---先存储到Redis中；当redis存储成功，返回成功值--开启另一个线程 --执行redis到sqlservice--填报派单点击查看的接口
      */
     /*@PreAuthorize("@ss.hasPermi('system:deptsalesexcel:list')")*/
-    @RequestMapping("/system/deptsalesexcel/list")//这里前端传入用户名,期数
+    @RequestMapping("/system/deptsalesexcel/list")//这里前端传入用户名,期数;第一次生成excel表
     public  String list(CyDeptsalesexcel cyDeptsalesexcel) {
-        Deptproduct deptproduct = new Deptproduct();
         cyDeptsalesexcel.setIssueNumber(IssueNumber);
+
+        //查询的时候要更新对应的 个人需求  --List<Integer> integers计算出一共多少组的总的本期产能类型
+        List<CyDeptsalesexcel> integers = cyDeptsalesexcelService.selectGroupsumList(new CyDeptsalesexcel());
+        for (int i = 0; i < integers.size(); i++) {
+            BigDecimal sumZhu = integers.get(i).getSumZhu();
+            System.out.println("sumZhu = " + sumZhu + ",user=" + userNames + ",iss=" + IssueNumber);
+            CyDeptsalesexcel deptsalesexcel1 = new CyDeptsalesexcel();
+            deptsalesexcel1.setIssueNumber(IssueNumber);
+            deptsalesexcel1.setUserName(userNames);
+            deptsalesexcel1.setSumZhu(sumZhu);
+            //获取他的本期产能，查询对应的产能数据--加入不同的规格的产能需求---,这里需要传入 用户名，期号，主产能；查询出非本人的需求和
+            CyDeptsalesexcel cyDeptsalesexcel1 = cyDeptsalesexcelService.selectsumXqList(deptsalesexcel1);
+            if (cyDeptsalesexcel1 != null){
+                Integer sumXq = cyDeptsalesexcel1.getXq();
+            System.out.println("sumXq = " + sumXq);
+            //汇总出指定组的本期数据
+            if (sumXq != null) {
+                CyDeptsalesexcel deptsalesexcel = new CyDeptsalesexcel();
+                deptsalesexcel.setSumZhu(sumZhu);
+                List<CyDeptsalesexcel> cyDeptsalesexcels = cyDeptsalesexcelService.selectCyDeptsalesexcelList(deptsalesexcel);
+                for (int j = 0; j < cyDeptsalesexcels.size(); j++) {
+                    deptsalesexcel.setPersonalNeeds(sumXq);//将 个人需求更具id 依次更新进去
+                    deptsalesexcel.setId(cyDeptsalesexcels.get(j).getId());
+                    cyDeptsalesexcelService.updateCyDeptsalesexcel(deptsalesexcel);
+                }
+            }
+        }
+        }
+        cyDeptsalesexcel.setIssueNumber(IssueNumber);
+        cyDeptsalesexcel.setUserName(userNames);
         List<CyDeptsalesexcel> lists = cyDeptsalesexcelService.selectCyDeptsalesexcelList(cyDeptsalesexcel);
         //将数据转成字段返回
         List<SheetOption> list = new ArrayList<>();
@@ -327,13 +359,14 @@ public class CyDeptsalesexcelController extends BaseController {
      * 查询汇总表的销售不为空的值
      */
     //接收期号写入 -静态变量
-    @PostMapping ("/system/deptSummary/Issue")//这里应该传入 期号和用户名 === 当汇总的时候
+    @PostMapping ("/system/deptSummary/Issue")//这里应该传入 期号和用户名 === 当汇总的时候；接收并且找寻数据，这里计算出对应的个人需求
     public Object list(@RequestBody String string)
     {
         System.out.println("string = " + string);
         JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
         CyDeptsalesexcel cyDeptsalesexcel = JSON.toJavaObject(jsonObject, CyDeptsalesexcel.class);
         Integer issueNumber = cyDeptsalesexcel.getIssueNumber();
+        String userName = cyDeptsalesexcel.getUserName();
         Issue = issueNumber;
         if (issueNumber!=null){
             return toAjax(1);
@@ -342,7 +375,6 @@ public class CyDeptsalesexcelController extends BaseController {
     }
     @PostMapping ("/system/deptSummary/list")//期数--这里可能需要名字
     public  String listSummary(CyDeptsalesexcel cyDeptsalesexcel) {
-
         System.out.println("cyDeptsalesexcel = " + cyDeptsalesexcel);
         cyDeptsalesexcel.setIssueNumber(Issue);
         List<CyDeptsalesexcel> lists = cyDeptsalesexcelService.selectCyDeptSummaryList(cyDeptsalesexcel);
@@ -358,7 +390,6 @@ public class CyDeptsalesexcelController extends BaseController {
         stop.setIndex("1");
         stop.setStatus(1);
         stop.setHide(0);
-        //for (int i = 0; i < lists.size(); i++) {//行
             for (int i = 0; i < lists.size()+1; i++) {//行
             String v = null;
             for (int j = 0; j < 20; j++) {//列
@@ -583,7 +614,6 @@ public class CyDeptsalesexcelController extends BaseController {
                 }
                 if (j == 18) {
                     if (lists.get(i-1).getPersonalNeeds() != null) {
-
                         Integer personalNeeds = lists.get(i-1).getPersonalNeeds();
                         v = personalNeeds.toString();
                     } else {
@@ -634,7 +664,7 @@ public class CyDeptsalesexcelController extends BaseController {
         Integer issueNumber = cyDeptsalesexcel.getIssueNumber();
         Issue = issueNumber;
         if (issueNumber!=null){
-            return toAjax(1);
+            return AjaxResult.success("传入的期数为null");
         }
         return null;
     }
@@ -1024,7 +1054,9 @@ public class CyDeptsalesexcelController extends BaseController {
 
         //查询的时候调插入接口--将整张表wanda插入到--sales
         Integer issueNumber = cyDeptsalesexcel.getIssueNumber();//通过期号查询主表id---再通过id从主表中查询出最大日产能
-
+        String Name = cyDeptsalesexcel.getUserName();
+        userNames = Name;
+        //在此处计算出个人需求--总需求-他人需求
         IssueNumber = issueNumber;
         CyDeptwanda cyDeptwanda = new CyDeptwanda();
         List<CyDeptwanda> cyDeptwandas = cyDeptwandaService.selectBySaleslineIdList(cyDeptwanda);//查询本地wanda表
@@ -1052,7 +1084,8 @@ public class CyDeptsalesexcelController extends BaseController {
                         size = deptproducts.get(j).getSize();
                         for (int k = 0; k < cyDeptpos.size(); k++) {
                             if (cyDeptpos.get(k).getType().equals(type)&&cyDeptpos.get(k).getSize()==size){
-                                cyDeptsalesexcel.setSumZhu(cyDeptpos.get(k).getSumProductive());
+                                sumProductive = cyDeptpos.get(k).getSumProductive();//先要判断是否超出对应的sumProductive,在不超出的情况下计算其余之和
+                                cyDeptsalesexcel.setSumZhu(sumProductive);
                             }
                         }
                     }
@@ -1077,7 +1110,9 @@ public class CyDeptsalesexcelController extends BaseController {
                 cyDeptsalesexcel.setIssueNumber(issueNumber);
                 //先将数据构建完毕，将数据存储到linklist里， 然后写个方法传 list参数进行批量新增，（批量insert需要查找jdbc有没有方法）
                 //获取个人需求：
-                cyDeptsalesexcelService.insertCyDeptsalesexcel(cyDeptsalesexcel);
+                cyDeptsalesexcelService.insertCyDeptsalesexcel(cyDeptsalesexcel);//按条插入
+                //这里插入，每次插入的时候进行一次更新
+
             }
         }
         return AjaxResult.success("数据存储成功",200);

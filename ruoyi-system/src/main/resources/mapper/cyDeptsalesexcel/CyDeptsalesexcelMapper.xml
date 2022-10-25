@@ -75,13 +75,15 @@
     <select id="selectsumZhuList" parameterType="CyDeptsalesexcel" resultMap="CyDeptsalesexcelResult">
         select sum(sum_zhu) from cy_deptsalesexcel
     </select>
-
+    <!--计算出 个人需求-->
     <select id="selectsumXqList" parameterType="CyDeptsalesexcel" resultMap="CyDeptsalesexcelResult">
-        SELECT sum (xq) as xq FROM [dbo].[Cy_deptsalesexcel]
-        <where>
-            <if test="userName != null ">user_name = #{userName}</if>
-            <if test="issueNumber != null "> and Issue_number = #{issueNumber}</if>
-        </where>
+        SELECT sum (xq) as xq FROM Cy_deptsalesexcel
+        where user_name != #{userName} and Issue_number = #{issueNumber} and sum_zhu = #{sumZhu}
+    </select>
+
+    <!--计算出 个人需求-->
+    <select id="selectGroupsumList" parameterType="CyDeptsalesexcel" resultMap="CyDeptsalesexcelResult">
+        SELECT sum_zhu from Cy_deptsalesexcel GROUP BY sum_zhu
     </select>
 
     <select id="selectCyDeptSummaryList" parameterType="CyDeptsalesexcel" resultMap="CyDeptsalesexcelResult">
@@ -96,7 +98,6 @@
     <insert id="insertCyDeptsalesexcel" parameterType="CyDeptsalesexcel" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
         insert into cy_deptsalesexcel
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <!--<if test="id != null">id,</if>-->
             <if test="modifiedon != null">ModifiedOn,</if>
             <if test="demandname != null">DemandName,</if>
             <if test="code != null">Code,</if>

@@ -61,8 +61,11 @@ public class DeptformController extends BaseController
      */
     /*@PreAuthorize("@ss.hasPermi('system:deptform:list')")*/
     @RequestMapping("/system/deptform/list")
-    public TableDataInfo list(Deptform deptform)
+    public TableDataInfo list(@RequestBody String string)
     {
+        System.out.println("string = " + string);
+        JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
+        Deptform deptform = JSON.toJavaObject(jsonObject, Deptform.class);
         List<Deptform> list = deptformService.selectDeptformList(deptform);
         return getDataTable(list);
     }
@@ -92,7 +95,7 @@ public class DeptformController extends BaseController
     @RequestMapping("/system/deptform/listAdd")
     public Object listAdd(@RequestBody String string)
     {
-
+        System.out.println("string = " + string);
         JSONObject data = JSON.parseObject(string).getJSONObject("data");
         Deptform deptform = JSON.toJavaObject(data, Deptform.class);
         List<Deptqi> deptqis = deptqiService.selectDeptqiList(new Deptqi());
@@ -129,6 +132,7 @@ public class DeptformController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, Deptform deptform)
     {
+
         List<Deptform> list = deptformService.selectDeptformList(deptform);
         ExcelUtil<Deptform> util = new ExcelUtil<Deptform>(Deptform.class);
         util.exportExcel(response, list, "填报派单数据");
@@ -144,24 +148,23 @@ public class DeptformController extends BaseController
     }
 */
     /**
-     * 新增填报派单
+     * 新增填报派单 --更新状态
      */
     /*@PreAuthorize("@ss.hasPermi('system:deptform:add')")
-    @Log(title = "填报派单", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody Deptform deptform)
+    @Log(title = "填报派单", businessType = BusinessType.INSERT)*/
+    @PostMapping("/system/deptform/updateState")
+    public AjaxResult updateState(@RequestBody String string)
     {
         //派单表和派单信息表
-        CyDeptwanda cyDeptwanda = new CyDeptwanda();
-        Integer id = deptform.getId();
-        cyDeptwanda.setDeptformId(id);
-        int insertCyDeptwanda = cyDeptwandaService.insertCyDeptwanda(cyDeptwanda);
-        int insertDeptform = deptformService.insertDeptform(deptform);
-        if (insertDeptform!=insertCyDeptwanda){
-            return toAjax(0);
+        System.out.println("string = " + string);
+        JSONObject data = JSON.parseObject(string).getJSONObject("data");
+        Deptform deptform = JSON.toJavaObject(data, Deptform.class);
+        int rows = deptformService.updateDeptform(deptform);
+        if (rows>0){
+            return AjaxResult.success("更新状态成功",200);
         }
-        return toAjax(insertDeptform);
-    }*/
+        return AjaxResult.error("状态更新失败",500);
+    }
 
     /**
      * 修改填报派单
@@ -182,26 +185,38 @@ public class DeptformController extends BaseController
      */
     /*@PreAuthorize("@ss.hasPermi('system:deptform:remove')")*/
     /*@Log(title = "填报派单", businessType = BusinessType.DELETE)*/
-	@DeleteMapping("/system/deptform/{id}")
-    public AjaxResult remove(@PathVariable Integer id)
+	@PostMapping("/system/deptform/id")
+    public AjaxResult remove(@RequestBody String string)
     {
+        System.out.println("deptform = " + string);
+        JSONObject data = JSON.parseObject(string).getJSONObject("data");
+        Deptform deptfor = JSON.toJavaObject(data, Deptform.class);
+        Integer id = deptfor.getId();
+        String userName = deptfor.getUserName();
         Deptform deptform = deptformService.selectDeptformById(id);
-        String userName = deptform.getUserName();
         Integer issueNumber = deptform.getIssueNumber();
         CyDeptsalesexcel cyDeptsalesexcel = new CyDeptsalesexcel();
         cyDeptsalesexcel.setIssueNumber(issueNumber);
         cyDeptsalesexcel.setUserName(userName);
         //批量删除
         Integer[] array2=null;
+
         ArrayList<Integer> objects = new ArrayList<>();
         List<CyDeptsalesexcel> cyDeptsalesexcels = cyDeptsalesexcelService.selectCyDeptsalesexcelList(cyDeptsalesexcel);
         if (cyDeptsalesexcels.size()!=0){
         for (int i = 0; i < cyDeptsalesexcels.size(); i++) {
             Integer id1 = cyDeptsalesexcels.get(i).getId();
             objects.add(id1);
+            if (cyDeptsalesexcels.size()>2000&&i>2000){
+                array2 = objects.toArray(new Integer[objects.size()]);//将arrays转成list
+                cyDeptsalesexcelService.deleteCyDeptsalesexcelByIds(array2);
+                objects.clear();
+            }
         }
-        array2 = objects.toArray(new Integer[objects.size()]);//将arrays转成list
-        cyDeptsalesexcelService.deleteCyDeptsalesexcelByIds(array2);
+        if (cyDeptsalesexcels.size()<=2000){
+            array2 = objects.toArray(new Integer[objects.size()]);//将arrays转成list
+            cyDeptsalesexcelService.deleteCyDeptsalesexcelByIds(array2);
+        }
         }
         int row1 = deptformService.deleteDeptformById(id);
         return toAjax(row1);

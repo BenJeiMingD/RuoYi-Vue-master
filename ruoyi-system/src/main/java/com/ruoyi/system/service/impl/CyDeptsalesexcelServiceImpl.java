@@ -1,5 +1,6 @@
 package com.ruoyi.system.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.github.pagehelper.PageHelper;
@@ -66,8 +67,13 @@ public class CyDeptsalesexcelServiceImpl implements ICyDeptsalesexcelService
     }
 
     @Override
-    public Integer selectsumXqList(String userName, Integer issueNumber) {
-        return cyDeptsalesexcelMapper.selectsumXqList(userName,issueNumber);
+    public CyDeptsalesexcel selectsumXqList(CyDeptsalesexcel cyDeptsalesexcel) {
+        return cyDeptsalesexcelMapper.selectsumXqList(cyDeptsalesexcel);
+    }
+
+    @Override
+    public List<CyDeptsalesexcel> selectGroupsumList(CyDeptsalesexcel cyDeptsalesexcel) {
+        return cyDeptsalesexcelMapper.selectGroupsumList(cyDeptsalesexcel);
     }
 
     @Override

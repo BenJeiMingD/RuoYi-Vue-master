@@ -1,5 +1,6 @@
 package com.ruoyi.system.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import com.ruoyi.system.domain.CyDeptsalesexcel;
 
@@ -35,12 +36,20 @@ public interface ICyDeptsalesexcelService
     public List<CyDeptsalesexcel> selectCyDeptSummaryList(CyDeptsalesexcel cyDeptsalesexcel);
 
     /**
-     * 查询销售需求总的和
+     * 查询 个人需求
      *
-     * @param  userName 用户名，issueNumber 期号
+     * @param  cyDeptsalesexcel 用户名，issueNumber 期号 --计算出除个人外的需求和
      * @return 填报派单集合
      */
-    public Integer selectsumXqList(String userName,Integer issueNumber);
+    public CyDeptsalesexcel selectsumXqList(CyDeptsalesexcel cyDeptsalesexcel);
+
+    /**
+     * 查询 个人需求
+     *
+     * @param  cyDeptsalesexcel 处传入 返回主参能的累计类型
+     * @return 填报派单集合
+     */
+    public List<CyDeptsalesexcel> selectGroupsumList(CyDeptsalesexcel cyDeptsalesexcel);
 
     /**
      * 查询本组的当期最大产能

@@ -12,7 +12,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 填报派单对象 cy_deptsalesexcel
  *
  * @author ruoyi
- * @date 2022-09-27
+ * @date 2022-10-24
  */
 public class CyDeptsalesexcel extends BaseEntity
 {
@@ -20,10 +20,6 @@ public class CyDeptsalesexcel extends BaseEntity
 
     /** 派单编号 */
     private Integer id;
-
-    /** 期号 */
-    @Excel(name = "期号")
-    private Integer issueNumber;
 
     /** 销售订单日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -74,8 +70,8 @@ public class CyDeptsalesexcel extends BaseEntity
     @Excel(name = "可排产量")
     private String t3;
 
-    /** 销售需求 */
-    @Excel(name = "销售需求")
+    /** 销售需求（本人需求） */
+    @Excel(name = "销售需求", readConverterExp = "本=人需求")
     private Integer xq;
 
     /** 备注 */
@@ -118,20 +114,21 @@ public class CyDeptsalesexcel extends BaseEntity
     @Excel(name = "用户名")
     private String userName;
 
-    /** 总产能 */
-    @Excel(name = "总产能")
+    /** 总产能（废弃） */
+    @Excel(name = "总产能", readConverterExp = "废=弃")
     private BigDecimal todayNumber;
 
-    /** 页码数 */
-    private Integer Package = 60;
+    /** 他人需求 */
+    @Excel(name = "他人需求")
+    private Integer personalNeeds;
 
     /** 本期最大组产能 */
     @Excel(name = "本期最大组产能")
     private BigDecimal sumZhu;
 
-    /** 个人需求 */
-    @Excel(name = "个人需求")
-    private Integer personalNeeds;
+    /** 期号 */
+    @Excel(name = "期号")
+    private Integer issueNumber;
 
     public void setId(Integer id)
     {
@@ -145,14 +142,6 @@ public class CyDeptsalesexcel extends BaseEntity
     public void setModifiedon(Date modifiedon)
     {
         this.modifiedon = modifiedon;
-    }
-
-    public Integer getIssueNumber() {
-        return issueNumber;
-    }
-
-    public void setIssueNumber(Integer issueNumber) {
-        this.issueNumber = issueNumber;
     }
 
     public Date getModifiedon()
@@ -225,14 +214,6 @@ public class CyDeptsalesexcel extends BaseEntity
     public void setDescflexfieldPubdescseg32(String descflexfieldPubdescseg32)
     {
         this.descflexfieldPubdescseg32 = descflexfieldPubdescseg32;
-    }
-
-    public Integer getPackage() {
-        return Package;
-    }
-
-    public void setPackage(Integer aPackage) {
-        Package = aPackage;
     }
 
     public String getDescflexfieldPubdescseg32()
@@ -383,13 +364,23 @@ public class CyDeptsalesexcel extends BaseEntity
     {
         return personalNeeds;
     }
-
-    public BigDecimal getSumZhu() {
-        return sumZhu;
+    public void setSumZhu(BigDecimal sumZhu)
+    {
+        this.sumZhu = sumZhu;
     }
 
-    public void setSumZhu(BigDecimal sumZhu) {
-        this.sumZhu = sumZhu;
+    public BigDecimal getSumZhu()
+    {
+        return sumZhu;
+    }
+    public void setIssueNumber(Integer issueNumber)
+    {
+        this.issueNumber = issueNumber;
+    }
+
+    public Integer getIssueNumber()
+    {
+        return issueNumber;
     }
 
     @Override
@@ -421,14 +412,8 @@ public class CyDeptsalesexcel extends BaseEntity
                 .append("userName", getUserName())
                 .append("todayNumber", getTodayNumber())
                 .append("personalNeeds", getPersonalNeeds())
+                .append("sumZhu", getSumZhu())
+                .append("issueNumber", getIssueNumber())
                 .toString();
-    }
-
-    public CyDeptsalesexcel() {
-    }
-
-    public CyDeptsalesexcel(Integer issueNumber, String userName) {
-        this.issueNumber = issueNumber;
-        this.userName = userName;
     }
 }
