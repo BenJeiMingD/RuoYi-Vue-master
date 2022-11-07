@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CyCompleterptrcvxMapper">
+    
+    <resultMap type="CyCompleterptrcvx" id="CyCompleterptrcvxResult">
+        <result property="rcvlotno"    column="RcvLotNo"    />
+        <result property="seiban"    column="Seiban"    />
+        <result property="seibancode"    column="SeibanCode"    />
+        <result property="code"    column="Code"    />
+        <result property="item"    column="item"    />
+        <result property="qty"    column="qty"    />
+        <result property="tddate"    column="tddate"    />
+        <result property="docstate"    column="DocState"    />
+    </resultMap>
+
+    <sql id="selectCyCompleterptrcvxVo">
+        select RcvLotNo, Seiban, SeibanCode, Code, item, qty, tddate, DocState from cy_completerptrcvx
+    </sql>
+
+    <select id="selectCyCompleterptrcvxList" parameterType="CyCompleterptrcvx" resultMap="CyCompleterptrcvxResult">
+        <include refid="selectCyCompleterptrcvxVo"/>
+        <where>  
+            <if test="rcvlotno != null  and rcvlotno != ''"> and RcvLotNo = #{rcvlotno}</if>
+            <if test="seiban != null "> and Seiban = #{seiban}</if>
+            <if test="seibancode != null  and seibancode != ''"> and SeibanCode = #{seibancode}</if>
+            <if test="code != null  and code != ''"> and Code = #{code}</if>
+            <if test="item != null "> and item = #{item}</if>
+            <if test="qty != null "> and qty = #{qty}</if>
+            <if test="tddate != null  and tddate != ''"> and tddate = #{tddate}</if>
+            <if test="docstate != null "> and DocState = #{docstate}</if>
+        </where>
+    </select>
+    
+    <select id="selectCyCompleterptrcvxByRcvlotno" parameterType="String" resultMap="CyCompleterptrcvxResult">
+        <include refid="selectCyCompleterptrcvxVo"/>
+        where RcvLotNo = #{rcvlotno}
+    </select>
+        
+    <insert id="insertCyCompleterptrcvx" parameterType="CyCompleterptrcvx">
+        insert into cy_completerptrcvx
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="rcvlotno != null">RcvLotNo,</if>
+            <if test="seiban != null">Seiban,</if>
+            <if test="seibancode != null">SeibanCode,</if>
+            <if test="code != null">Code,</if>
+            <if test="item != null">item,</if>
+            <if test="qty != null">qty,</if>
+            <if test="tddate != null">tddate,</if>
+            <if test="docstate != null">DocState,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="rcvlotno != null">#{rcvlotno},</if>
+            <if test="seiban != null">#{seiban},</if>
+            <if test="seibancode != null">#{seibancode},</if>
+            <if test="code != null">#{code},</if>
+            <if test="item != null">#{item},</if>
+            <if test="qty != null">#{qty},</if>
+            <if test="tddate != null">#{tddate},</if>
+            <if test="docstate != null">#{docstate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCyCompleterptrcvx" parameterType="CyCompleterptrcvx">
+        update cy_completerptrcvx
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="seiban != null">Seiban = #{seiban},</if>
+            <if test="seibancode != null">SeibanCode = #{seibancode},</if>
+            <if test="code != null">Code = #{code},</if>
+            <if test="item != null">item = #{item},</if>
+            <if test="qty != null">qty = #{qty},</if>
+            <if test="tddate != null">tddate = #{tddate},</if>
+            <if test="docstate != null">DocState = #{docstate},</if>
+        </trim>
+        where RcvLotNo = #{rcvlotno}
+    </update>
+
+    <delete id="deleteCyCompleterptrcvxByRcvlotno" parameterType="String">
+        delete from cy_completerptrcvx where RcvLotNo = #{rcvlotno}
+    </delete>
+
+    <delete id="deleteCyCompleterptrcvxByRcvlotnos" parameterType="String">
+        delete from cy_completerptrcvx where RcvLotNo in 
+        <foreach item="rcvlotno" collection="array" open="(" separator="," close=")">
+            #{rcvlotno}
+        </foreach>
+    </delete>
+</mapper>

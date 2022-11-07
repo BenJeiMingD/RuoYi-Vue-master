@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CySkewMapper">
+    
+    <resultMap type="CySkew" id="CySkewResult">
+        <result property="id"    column="id"    />
+        <result property="demandcode"    column="DemandCode"    />
+        <result property="itemCode"    column="item_code"    />
+        <result property="plmItemCode"    column="plm_item_code"    />
+        <result property="dayShift"    column="day_shift"    />
+        <result property="noonShift"    column="noon_shift"    />
+        <result property="nightShift"    column="night_shift"    />
+        <result property="fh"    column="fh"    />
+        <result property="importno"    column="importno"    />
+        <result property="itemtype"    column="itemtype"    />
+        <result property="importyear"    column="importyear"    />
+        <result property="salesLineId"    column="sales_line_id"    />
+    </resultMap>
+
+    <sql id="selectCySkewVo">
+        select id, DemandCode, item_code, plm_item_code, day_shift, noon_shift, night_shift, fh, importno, itemtype, importyear,sales_line_id from cy_skew
+    </sql>
+
+    <sql id="CySkewViewVo">
+        SELECT id,Demandid,DemandCode,order_ID,order_no,item_code,date_of_submission,plm_item_code,sales_line_id,production_org,productiondate,day_shift,noon_shift,night_shift,if_release,order_date,cyplanorder,ltkc,fh,item5,item6,item7,item8,item9,item10,so3,so4,so5,so6,isupd,importno,importyear,itemtype FROM CY_Skew_View
+    </sql>
+
+    <select id="selectCySkewList" parameterType="CySkew" resultMap="CySkewResult">
+        <include refid="selectCySkewVo"/>
+        <where>
+            <if test="demandcode != null  and demandcode != ''"> and DemandCode = #{demandcode}</if>
+            <if test="itemCode != null  and itemCode != ''"> and item_code = #{itemCode}</if>
+            <if test="plmItemCode != null  and plmItemCode != ''"> and plm_item_code = #{plmItemCode}</if>
+            <if test="dayShift != null "> and day_shift = #{dayShift}</if>
+            <if test="noonShift != null "> and noon_shift = #{noonShift}</if>
+            <if test="nightShift != null "> and night_shift = #{nightShift}</if>
+            <if test="fh != null  and fh != ''"> and fh = #{fh}</if>
+            <if test="importno != null "> and importno = #{importno}</if>
+            <if test="itemtype != null "> and itemtype = #{itemtype}</if>
+            <if test="importyear != null  and importyear != ''"> and importyear = #{importyear}</if>
+            <if test="salesLineId != null  and salesLineId != ''"> and sales_line_id = #{salesLineId}</if>
+        </where>
+    </select>
+
+    <!--Cy_Skew_View 半钢斜交视图表-->
+    <select id="CySkewView" parameterType = "CySkew" resultMap="CySkewResult">
+        SELECT sales_line_id,importyear,importno, day_shift,noon_shift,night_shift from CY_Skew_View
+        where sales_line_id != 'null' and importno = #{importno} and importyear = #{importyear}
+    </select>
+
+    <select id="selectCySkewById" parameterType="Long" resultMap="CySkewResult">
+        <include refid="selectCySkewVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectSkewYear" parameterType="cySkew" resultMap="CySkewResult">
+        SELECT sum (day_shift) as day_shift,(noon_shift) as noon_shift,(night_shift) as night_shift, sales_line_id,importyear,importno from CY_Skew
+        <!--where importyear = '2021' and importno = '28' and sales_line_id != 'null'-->
+        <where>
+            <if test="demandcode != null  and demandcode != ''"> and DemandCode = #{demandcode}</if>
+            <if test="itemCode != null  and itemCode != ''"> and item_code = #{itemCode}</if>
+            <if test="plmItemCode != null  and plmItemCode != ''"> and plm_item_code = #{plmItemCode}</if>
+            <if test="dayShift != null "> and day_shift = #{dayShift}</if>
+            <if test="noonShift != null "> and noon_shift = #{noonShift}</if>
+            <if test="nightShift != null "> and night_shift = #{nightShift}</if>
+            <if test="fh != null  and fh != ''"> and fh = #{fh}</if>
+            <if test="importno != null "> and importno = #{importno}</if>
+            <if test="itemtype != null "> and itemtype = #{itemtype}</if>
+            <if test="importyear != null  and importyear != ''"> and importyear = #{importyear}</if>
+            <if test="salesLineId != null  and salesLineId != ''"> and sales_line_id = #{salesLineId}</if>
+        </where>
+        GROUP BY sales_line_id,day_shift,noon_shift,night_shift,importyear,importno
+    </select>
+
+    <insert id="insertCySkew" parameterType="CySkew">
+        insert into cy_skew
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="demandcode != null">DemandCode,</if>
+            <if test="itemCode != null">item_code,</if>
+            <if test="plmItemCode != null">plm_item_code,</if>
+            <if test="dayShift != null">day_shift,</if>
+            <if test="noonShift != null">noon_shift,</if>
+            <if test="nightShift != null">night_shift,</if>
+            <if test="fh != null">fh,</if>
+            <if test="importno != null">importno,</if>
+            <if test="itemtype != null">itemtype,</if>
+            <if test="importyear != null">importyear,</if>
+            <if test="salesLineId != null">sales_line_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="demandcode != null">#{demandcode},</if>
+            <if test="itemCode != null">#{itemCode},</if>
+            <if test="plmItemCode != null">#{plmItemCode},</if>
+            <if test="dayShift != null">#{dayShift},</if>
+            <if test="noonShift != null">#{noonShift},</if>
+            <if test="nightShift != null">#{nightShift},</if>
+            <if test="fh != null">#{fh},</if>
+            <if test="importno != null">#{importno},</if>
+            <if test="itemtype != null">#{itemtype},</if>
+            <if test="importyear != null">#{importyear},</if>
+            <if test="salesLineId != null">sales_line_id,</if>
+         </trim>
+    </insert>
+
+    <update id="updateCySkew" parameterType="CySkew">
+        update cy_skew
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="demandcode != null">DemandCode = #{demandcode},</if>
+            <if test="itemCode != null">item_code = #{itemCode},</if>
+            <if test="plmItemCode != null">plm_item_code = #{plmItemCode},</if>
+            <if test="dayShift != null">day_shift = #{dayShift},</if>
+            <if test="noonShift != null">noon_shift = #{noonShift},</if>
+            <if test="nightShift != null">night_shift = #{nightShift},</if>
+            <if test="fh != null">fh = #{fh},</if>
+            <if test="importno != null">importno = #{importno},</if>
+            <if test="itemtype != null">itemtype = #{itemtype},</if>
+            <if test="importyear != null">importyear = #{importyear},</if>
+            <if test="salesLineId != null">sales_line_id = #{salesLineId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCySkewById" parameterType="Long">
+        delete from cy_skew where id = #{id}
+    </delete>
+
+    <delete id="deleteCySkewByIds" parameterType="String">
+        delete from cy_skew where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

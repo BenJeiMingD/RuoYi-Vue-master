@@ -27,6 +27,7 @@
         <result property="deptsumziId"    column="deptsumzi_id"    />
         <result property="deptsumId"    column="deptsum_id"    />
         <result property="saleslineId"    column="salesLine_id"    />
+        <result property="qty"    column="qty"    />
     </resultMap>
 
     <resultMap type="CyDeptwanda" id="CyDeptdeptExWan">
@@ -50,9 +51,21 @@
     </sql>
 
     <sql id="selectCydeptWanda"> -- cy_deptwanda
-    select id, ModifiedOn, DemandName, Code, Name, PLMName2, SeibanCode, PLMName5, PLMName3, DescFlexField_PubDescSeg32, shuliang, ljpc, T3, xq, mark, DescFlexField_PrivateDescSeg7, DescFlexField_PrivateDescSeg9, DescFlexField_PrivateDescSeg11, deptform_id, deptsumzi_id, deptsum_id, salesLine_id from cy_deptwanda
+    select id, ModifiedOn, DemandName, Code, Name, PLMName2, SeibanCode, PLMName5, PLMName3, DescFlexField_PubDescSeg32, shuliang, ljpc, T3, xq, mark, DescFlexField_PrivateDescSeg7, DescFlexField_PrivateDescSeg9, DescFlexField_PrivateDescSeg11, deptform_id, deptsumzi_id, deptsum_id, salesLine_id,qty from cy_deptwanda
     </sql>
-
+    <!--测试调用存储过程-->
+    <!--通过statementType="CALLABLE"指定存储过程调用-->
+    <!--parameterType输入类型 resultType输出类型-->
+    <select id="execuStoredprocedure" parameterType="java.util.Date"  statementType="CALLABLE" resultType="java.lang.String">
+        {call cy_create_CompleteRptRcvB(
+                #{startTime,mode=IN,jdbcType=DATE})}
+    </select>
+    <!--斜交的存储过程-->
+    <select id="execuStoredprocedureX" parameterType="java.util.Date"  statementType="CALLABLE" resultType="java.lang.String">
+        {call cy_create_CompleteRptRcvX(
+                #{startTime,mode=IN,jdbcType=DATE})}
+    </select>
+    <!--importyear 传入上一期开始时间，当开始时间为一年的第一期，则取上一年的最后一期-->
 
 <!--查询的远程库-->
     <select id="selectCyDeptwandaList" parameterType="CyDeptwanda" resultMap="CyDeptdeptExWan">
@@ -105,6 +118,7 @@
             <if test="deptsumziId != null "> and deptsumzi_id = #{deptsumziId}</if>
             <if test="deptsumId != null "> and deptsum_id = #{deptsumId}</if>
             <if test="saleslineId != null "> and salesLine_id = #{saleslineId}</if>
+            <if test="qty != null "> and qty = #{qty}</if>
         </where>
     </select>
 
@@ -112,7 +126,7 @@
     <insert id="insertCyDeptwanda" parameterType="CyDeptwanda">
         insert into cy_deptwanda
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">id,</if>
+            <!--<if test="id != null">id,</if>-->
             <if test="modifiedon != null">ModifiedOn,</if>
             <if test="demandname != null">DemandName,</if>
             <if test="code != null">Code,</if>
@@ -134,9 +148,10 @@
             <if test="deptsumziId != null">deptsumzi_id,</if>
             <if test="deptsumId != null">deptsum_id,</if>
             <if test="saleslineId != null">salesLine_id,</if>
+            <if test="qty != null">qty,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">#{id},</if>
+            <!--<if test="id != null">#{id},</if>-->
             <if test="modifiedon != null">#{modifiedon},</if>
             <if test="demandname != null">#{demandname},</if>
             <if test="code != null">#{code},</if>
@@ -158,6 +173,7 @@
             <if test="deptsumziId != null">#{deptsumziId},</if>
             <if test="deptsumId != null">#{deptsumId},</if>
             <if test="saleslineId != null">#{saleslineId},</if>
+            <if test="qty != null">#{qty},</if>
         </trim>
     </insert>
 
@@ -185,12 +201,17 @@
             <if test="deptsumziId != null">deptsumzi_id = #{deptsumziId},</if>
             <if test="deptsumId != null">deptsum_id = #{deptsumId},</if>
             <if test="saleslineId != null">salesLine_id = #{saleslineId},</if>
+            <if test="qty != null">qty = #{qty},</if>
         </trim>
         where id = #{id}
     </update>
 
     <delete id="deleteCyDeptwandaById" parameterType="Integer">
         delete from cy_deptwanda where id = #{id}
+    </delete>
+
+    <delete id="deleteCyDeptwanda" parameterType="Integer">
+        delete from cy_deptwanda
     </delete>
 
     <delete id="deleteCyDeptwandaByIds" parameterType="String">

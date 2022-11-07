@@ -1,6 +1,11 @@
 package com.ruoyi.web.controller.cydeptSalesExcel;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -8,12 +13,17 @@ import java.util.*;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.ruoyi.ExcelUtils;
+import com.ruoyi.LuckySheetExportUtil;
 import com.ruoyi.common.annotation.DataSource;
 import com.ruoyi.common.enums.DataSourceType;
 import com.ruoyi.system.domain.*;
 import com.ruoyi.system.service.*;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -21,6 +31,11 @@ import com.ruoyi.system.service.ICyDeptsalesexcelService;
 
 
 import com.ruoyi.system.service.ICyDeptwandaService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -68,11 +83,14 @@ public class CyDeptsalesexcelController extends BaseController {
     @RequestMapping("/system/deptsalesexcel/list")//这里前端传入用户名,期数;第一次生成excel表
     public  String list(CyDeptsalesexcel cyDeptsalesexcel) {
         cyDeptsalesexcel.setIssueNumber(IssueNumber);
-
+        BigDecimal sumZhu = null;
         //查询的时候要更新对应的 个人需求  --List<Integer> integers计算出一共多少组的总的本期产能类型
         List<CyDeptsalesexcel> integers = cyDeptsalesexcelService.selectGroupsumList(new CyDeptsalesexcel());
         for (int i = 0; i < integers.size(); i++) {
-            BigDecimal sumZhu = integers.get(i).getSumZhu();
+            CyDeptsalesexcel size = integers.get(i);
+            if (size!=null){
+                sumZhu = size.getSumZhu();
+            }
             System.out.println("sumZhu = " + sumZhu + ",user=" + userNames + ",iss=" + IssueNumber);
             CyDeptsalesexcel deptsalesexcel1 = new CyDeptsalesexcel();
             deptsalesexcel1.setIssueNumber(IssueNumber);
@@ -144,7 +162,7 @@ public class CyDeptsalesexcelController extends BaseController {
                         v = "订单数量";
                     }
                     if (j == 10) {
-                        v = "累计排产量";
+                        v = "上期排产量";
                     }
                     if (j == 11) {
                         v = "可排产量";
@@ -324,7 +342,7 @@ public class CyDeptsalesexcelController extends BaseController {
                 }
                 if (j == 17) {
                     if (lists.get(i-1).getSumZhu() != null) {
-                        BigDecimal sumZhu = lists.get(i-1).getSumZhu();
+                        sumZhu = lists.get(i-1).getSumZhu();
                         v = sumZhu.toString();
                     } else {
                         v = "0";
@@ -392,7 +410,7 @@ public class CyDeptsalesexcelController extends BaseController {
         stop.setHide(0);
             for (int i = 0; i < lists.size()+1; i++) {//行
             String v = null;
-            for (int j = 0; j < 20; j++) {//列
+            for (int j = 0; j < 21; j++) {//列
                 if (i == 0) {
                     if (j == 0) {
                         v = "销售订单日期";
@@ -425,7 +443,7 @@ public class CyDeptsalesexcelController extends BaseController {
                         v = "订单数量";
                     }
                     if (j == 10) {
-                        v = "累计排产量";
+                        v = "上期排产量";
                     }
                     if (j == 11) {
                         v = "可排产量";
@@ -453,6 +471,8 @@ public class CyDeptsalesexcelController extends BaseController {
                     }
                     if (j == 19){
                         v = "期数";
+                    }if (j == 20){
+                        v = "完工数量";
                     }
                     //随机生成点数据
                     Celldata celldata = new Celldata(i + "", j + "", i + j + "", v + "");
@@ -628,6 +648,14 @@ public class CyDeptsalesexcelController extends BaseController {
                         v = "0";
                     }
                 }
+                if (j == 20) {
+                    if (lists.get(i-1).getQty() != null) {
+                        BigDecimal qty = lists.get(i - 1).getQty();
+                        v = qty.toString();
+                    } else {
+                        v = "0";
+                    }
+                }
                 //随机生成点数据
                 Celldata celldata = new Celldata(i + "", j + "", i + j + "", v + "");
                 stop.getCelldata().add(celldata);
@@ -719,7 +747,7 @@ public class CyDeptsalesexcelController extends BaseController {
                         v = "订单数量";
                     }
                     if (j == 10) {
-                        v = "累计排产量";
+                        v = "上期排产量";
                     }
                     if (j == 11) {
                         v = "可排产量";
@@ -1085,7 +1113,8 @@ public class CyDeptsalesexcelController extends BaseController {
                         for (int k = 0; k < cyDeptpos.size(); k++) {
                             if (cyDeptpos.get(k).getType().equals(type)&&cyDeptpos.get(k).getSize()==size){
                                 sumProductive = cyDeptpos.get(k).getSumProductive();//先要判断是否超出对应的sumProductive,在不超出的情况下计算其余之和
-                                cyDeptsalesexcel.setSumZhu(sumProductive);
+                                if (sumProductive!=null){
+                                cyDeptsalesexcel.setSumZhu(sumProductive);}
                             }
                         }
                     }
@@ -1219,7 +1248,6 @@ public class CyDeptsalesexcelController extends BaseController {
         ArrayList<Object> ids = new ArrayList<>();
         ConfigMergeModel configMergeModels = null;
         ConfigMergeModel configMergeModels1 = null;
-        Integer id =null;
 
         ArrayList<CyDeptsalesexcel> list = new ArrayList<>();
         for (int j = 0; j < dataList.size(); j++) {//j，算出总计的单元格个数190--10行，19列
@@ -1426,4 +1454,47 @@ public class CyDeptsalesexcelController extends BaseController {
     }
         return toAjax(ajaxResult);
     }
+
+    /***
+     * 下载excel
+     * @param
+     * @return
+     */
+    @PostMapping("excel/downfile")
+    @ResponseBody
+    //http://localhost/excel/uploadData
+    public String downExcelFile(RedirectAttributes redirectAttributes, @RequestParam("exceldatas") String exceldata, @RequestParam(value = "id", defaultValue = "0") int id, @RequestParam(value = "title", defaultValue = "其他") String title) {
+        if (title.contains("."))
+            title = title.substring(0, title.indexOf("."));
+        String fileDir = "file";
+        String fileDirNew = "file" + "/" + title + "/";
+
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String fileNameNew = title + "_" + dateFormat.format(date) + ".xlsx";
+
+        //1-基于模板 导出生成文件
+        //ExcelUtils.exportLuckySheetXlsx(title, fileDirNew, fileNameNew, exceldata);
+
+        //2-基于POI 生成导出文件
+        ExcelUtils.exportLuckySheetXlsxByPOI(title, fileDirNew, fileNameNew, exceldata);
+
+        return "ok";
     }
+
+    //在线上传xlsx
+//   @LoginToken
+    @PostMapping("excel/uploadData")
+    @ResponseBody
+    //http://localhost/excel/uploadData
+    public String uploadExcelData(HttpServletRequest request, ModelMap modelMap, @RequestParam("exceldatas") String exceldata, @RequestParam("id") int id, @RequestParam("title") String title) {
+
+        return "exceldata";
+    }
+
+    @GetMapping("/")
+    public String index(){
+        return "index";
+    }
+
+}

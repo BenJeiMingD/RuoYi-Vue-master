@@ -1,7 +1,9 @@
 package com.ruoyi.system.service;
 
+import java.util.Date;
 import java.util.List;
 import com.ruoyi.system.domain.CyDeptwanda;
+import com.ruoyi.system.domain.Deptqi;
 
 /**
  * 插单Service接口
@@ -18,6 +20,22 @@ public interface ICyDeptwandaService
      * @return id
      */
     public List<CyDeptwanda> selectBySaleslineIdList(CyDeptwanda cyDeptwanda);
+
+    /**
+     * 执行存储过程
+     *
+     * @param
+     * @return 插单
+     */
+    public String execuStoredprocedure(Date startTime);
+
+    /**
+     * 执行存储过程
+     *
+     * @param
+     * @return 插单
+     */
+    public String execuStoredprocedureX(Date startTime);
 
     /**
      * 查询插单
@@ -66,4 +84,11 @@ public interface ICyDeptwandaService
      * @return 结果
      */
     public int deleteCyDeptwandaById(Integer id);
+    /**
+     * 删除插单信息
+     *
+     * @param
+     * @return 结果
+     */
+    public int deleteCyDeptwanda();
 }

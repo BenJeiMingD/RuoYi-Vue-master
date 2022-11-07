@@ -1,10 +1,11 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
+import com.ruoyi.common.annotation.DataSource;
+import com.ruoyi.common.enums.DataSourceType;
 import com.ruoyi.system.domain.ConfigMergeModel;
+import com.ruoyi.system.domain.Deptqi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CyDeptwandaMapper;
@@ -20,14 +21,26 @@ import javax.annotation.Resource;
  * @date 2022-08-29
  */
 @Service
-public class CyDeptwandaServiceImpl implements ICyDeptwandaService 
+public class CyDeptwandaServiceImpl implements ICyDeptwandaService
 {
     @Resource
     private CyDeptwandaMapper cyDeptwandaMapper;
 
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public List<CyDeptwanda> selectBySaleslineIdList(CyDeptwanda cyDeptwanda) {
         return cyDeptwandaMapper.selectBySaleslineIdList(cyDeptwanda);
+    }
+
+    @Override
+
+    public String execuStoredprocedure(Date startTime) {
+        return cyDeptwandaMapper.execuStoredprocedure(startTime);
+    }
+
+    @Override
+    public String execuStoredprocedureX(Date startTime) {
+        return cyDeptwandaMapper.execuStoredprocedureX(startTime);
     }
 
     /**
@@ -37,6 +50,7 @@ public class CyDeptwandaServiceImpl implements ICyDeptwandaService
      * @return 插单
      */
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public CyDeptwanda selectCyDeptwandaById(Integer id)
     {
         return cyDeptwandaMapper.selectCyDeptwandaById(id);
@@ -49,10 +63,9 @@ public class CyDeptwandaServiceImpl implements ICyDeptwandaService
      * @return 插单
      */
     @Override
-
+    @DataSource(value = DataSourceType.SLAVE)
     public List<CyDeptwanda> selectCyDeptwandaList(CyDeptwanda cyDeptwanda)
     {
-
         List<CyDeptwanda> list = cyDeptwandaMapper.selectCyDeptwandaList(cyDeptwanda);
         return list;
     }
@@ -64,6 +77,7 @@ public class CyDeptwandaServiceImpl implements ICyDeptwandaService
      * @return 结果
      */
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public int insertCyDeptwanda(CyDeptwanda cyDeptwanda)
     {
         return cyDeptwandaMapper.insertCyDeptwanda(cyDeptwanda);
@@ -103,5 +117,10 @@ public class CyDeptwandaServiceImpl implements ICyDeptwandaService
     public int deleteCyDeptwandaById(Integer id)
     {
         return cyDeptwandaMapper.deleteCyDeptwandaById(id);
+    }
+
+    @Override
+    public int deleteCyDeptwanda() {
+        return cyDeptwandaMapper.deleteCyDeptwanda();
     }
 }

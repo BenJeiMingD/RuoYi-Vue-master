@@ -130,6 +130,18 @@ public class CyDeptsalesexcel extends BaseEntity
     @Excel(name = "期号")
     private Integer issueNumber;
 
+    /** 完工数量 */
+    @Excel(name = "完工数量")
+    private BigDecimal qty;
+
+    public BigDecimal getQty() {
+        return qty;
+    }
+
+    public void setQty(BigDecimal qty) {
+        this.qty = qty;
+    }
+
     public void setId(Integer id)
     {
         this.id = id;

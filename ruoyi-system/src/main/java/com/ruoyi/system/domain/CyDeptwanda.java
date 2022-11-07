@@ -1,5 +1,6 @@
 package com.ruoyi.system.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -104,6 +105,18 @@ public class CyDeptwanda extends BaseEntity
     /** 销售行_id */
     @Excel(name = "销售行_id")
     private String saleslineId;
+
+    /** 完工数量 */
+    @Excel(name = "完工数量")
+    private BigDecimal qty;
+
+    public BigDecimal getQty() {
+        return qty;
+    }
+
+    public void setQty(BigDecimal qty) {
+        this.qty = qty;
+    }
 
     public void setId(Integer id)
     {

@@ -33,10 +33,11 @@
         <result property="personalNeeds"    column="personal_needs"    />
         <result property="sumZhu"    column="sum_zhu"    />
         <result property="issueNumber"    column="Issue_number"    />
+        <result property="qty"    column="qty"    />
     </resultMap>
 
     <sql id="selectCyDeptsalesexcelVo">
-        select id, ModifiedOn, DemandName, Code, Name, PLMName2, SeibanCode, PLMName5, PLMName3, DescFlexField_PubDescSeg32, shuliang, ljpc, T3, xq, mark, DescFlexField_PrivateDescSeg7, DescFlexField_PrivateDescSeg9, DescFlexField_PrivateDescSeg11, deptform_id, deptsumzi_id, deptsum_id, user_id, salesLine_id, user_name, today_number, personal_needs, sum_zhu, Issue_number from cy_deptsalesexcel
+        select id, ModifiedOn, DemandName, Code, Name, PLMName2, SeibanCode, PLMName5, PLMName3, DescFlexField_PubDescSeg32, shuliang, ljpc, T3, xq, mark, DescFlexField_PrivateDescSeg7, DescFlexField_PrivateDescSeg9, DescFlexField_PrivateDescSeg11, deptform_id, deptsumzi_id, deptsum_id, user_id, salesLine_id, user_name, today_number, personal_needs, sum_zhu, Issue_number,qty from cy_deptsalesexcel
     </sql>
 
     <select id="selectCyDeptsalesexcelList" parameterType="CyDeptsalesexcel" resultMap="CyDeptsalesexcelResult">
@@ -69,6 +70,7 @@
             <if test="personalNeeds != null "> and personal_needs = #{personalNeeds}</if>
             <if test="sumZhu != null "> and sum_zhu = #{sumZhu}</if>
             <if test="issueNumber != null "> and Issue_number = #{issueNumber}</if>
+            <if test="qty != null "> and qty = #{qty}</if>
         </where>
     </select>
 
@@ -125,6 +127,7 @@
             <if test="personalNeeds != null">personal_needs,</if>
             <if test="sumZhu != null">sum_zhu,</if>
             <if test="issueNumber != null">Issue_number,</if>
+            <if test="qty != null">qty,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <!--<if test="id != null">#{id},</if>-->
@@ -155,6 +158,7 @@
             <if test="personalNeeds != null">#{personalNeeds},</if>
             <if test="sumZhu != null">#{sumZhu},</if>
             <if test="issueNumber != null">#{issueNumber},</if>
+            <if test="qty != null">#{qty},</if>
         </trim>
     </insert>
 

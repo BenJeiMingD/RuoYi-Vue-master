@@ -9,7 +9,9 @@ import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.annotation.DataSource;
 import com.ruoyi.common.enums.DataSourceType;
 import com.ruoyi.system.domain.CyDeptpo;
+import com.ruoyi.system.domain.Deptform;
 import com.ruoyi.system.domain.Deptsum;
+import com.ruoyi.system.service.IDeptformService;
 import com.ruoyi.system.service.IDeptsumService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,9 @@ public class CyDepcombinController extends BaseController
     @Autowired
     private IDeptsumService deptsumService;
 
+    @Autowired
+    private IDeptformService deptformService;
+
     private static String SummaryBy;
 
     /**
@@ -56,6 +61,16 @@ public class CyDepcombinController extends BaseController
     public TableDataInfo list(CyDepcombin cyDepcombin)
     {
         List<CyDepcombin> list = cyDepcombinService.selectCyDepcombinList(cyDepcombin);
+        return getDataTable(list);
+    }
+    /*用户状态信息*/
+    @PostMapping("/system/depcombin/state")
+    public TableDataInfo state(@RequestBody String string)
+    {
+        JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
+        //JSON.toJavaObject 将 jsonObject对象转换成 自建对象 cyDepcombin，用来调用自己属性的get，set方法
+        Deptform deptform = JSON.toJavaObject(jsonObject, Deptform.class);
+        List<Deptform> list = deptformService.selectDeptformList(deptform);
         return getDataTable(list);
     }
 

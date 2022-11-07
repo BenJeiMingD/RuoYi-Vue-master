@@ -149,57 +149,15 @@ public class CyDeptpoController extends BaseController
         JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
         CyDeptpo cyDeptpo = JSON.toJavaObject(jsonObject, CyDeptpo.class);
         Integer deptqiId = cyDeptpo.getDeptqiId();
-        int rows = 0;
         Deptzi deptzi = new Deptzi();
         BigDecimal todayNumber=null;
         BigDecimal duration = null;
         List<Deptzi> deptzis = deptziService.selectDeptziList(deptzi);
-
         //点击确认生成，将期表是否生成产能表的状态置为 1；标记成有效
         Deptqi deptQi = new Deptqi();
         deptQi.setId(deptqiId);
         deptQi.setDeptOrder('1');
         deptqiService.updateDeptqi(deptQi);
-        //对远程表进行查询将结果更新到本地表---（帆软-万达）
-        List<SheetOption> list = new ArrayList<>();
-        CyDeptwanda cyDeptwanda = new CyDeptwanda();
-        List<CyDeptwanda> listw = cyDeptwandaService.selectCyDeptwandaList(cyDeptwanda);
-        for (int i = 0; i < listw.size(); i++) {//获取他的行数id--i--r
-            Date modifiedon = listw.get(i).getModifiedon();
-            String demandname = listw.get(i).getDemandname();
-            String code = listw.get(i).getCode();
-            String name = listw.get(i).getName();
-            String plmname2 = listw.get(i).getPlmname2();
-            String seibancode = listw.get(i).getSeibancode();
-            String descflexfieldPubdescseg32 = listw.get(i).getDescflexfieldPubdescseg32();
-            Integer shuliang = listw.get(i).getShuliang();
-            Integer ljpc = listw.get(i).getLjpc();
-            String t3 = listw.get(i).getT3();
-            String descflexfieldPrivatedescseg7 = listw.get(i).getDescflexfieldPrivatedescseg7();
-            String descflexfieldPrivatedescseg9 = listw.get(i).getDescflexfieldPrivatedescseg9();
-            String saleslineId = listw.get(i).getSaleslineId();
-            //将从虚表中查询出来==插入到实表
-            CyDeptwanda deptwanda1 = new CyDeptwanda();
-            deptwanda1.setSaleslineId(saleslineId);//saleslineId通过这个判断当前缓存表中是否有重复
-            if (cyDeptwandaService.selectBySaleslineIdList(deptwanda1).size() == 0) {
-                cyDeptwanda.setModifiedon(modifiedon);
-                cyDeptwanda.setDemandname(demandname);
-                cyDeptwanda.setCode(code);
-                cyDeptwanda.setName(name);
-                cyDeptwanda.setPlmname2(plmname2);
-                cyDeptwanda.setSeibancode(seibancode);
-                cyDeptwanda.setDescflexfieldPubdescseg32(descflexfieldPubdescseg32);
-                cyDeptwanda.setShuliang(shuliang);
-                cyDeptwanda.setLjpc(ljpc);
-                cyDeptwanda.setT3(t3);
-                cyDeptwanda.setDescflexfieldPrivatedescseg7(descflexfieldPrivatedescseg7);
-                cyDeptwanda.setDescflexfieldPrivatedescseg9(descflexfieldPrivatedescseg9);
-                cyDeptwanda.setSaleslineId(saleslineId);
-                cyDeptwandaService.insertCyDeptwanda(cyDeptwanda);
-            }
-            rows=1;
-        }
-        if (rows==1){
             //汇制产能调整po表，产能主表
             for (int i = 0; i < deptzis.size(); i++) {//把所有的子表数据存入cyDeptpo
                 CyDeptpo deptpo = new CyDeptpo();
@@ -222,16 +180,9 @@ public class CyDeptpoController extends BaseController
                 deptpo.setDeptziId(deptId);
                 deptpo.setLevel(level);
                 deptpo.setIndexId(indexId);
-            /*//在产能调整po表中将数据同步到对照表
-            deptproduct.setDeptzhuId(deptzhuId);
-            deptproduct.setDeptziId(deptId);
-            deptproduct.setSize(size);
-            deptproduct.setType(type);*/
                 int insertCyDeptpo = cyDeptpoService.insertCyDeptpo(deptpo);//依次把产能子表插入返回对应的id --完成
                 Integer integer = cyDeptpo.getDeptpoId();
                 System.out.println("integer = " + integer);
-            /*deptproduct.setDeptpoId(integer);
-            deptproductService.insertDeptproduct(deptproduct);//把对应的id插入到对照表中*/
                 List<CyDeptpo> cyDeptpos = cyDeptpoService.selectCyDeptpoList(deptpo);
                 for (int j = 0; j < cyDeptpos.size(); j++) {
                     if (cyDeptpos.get(j).getDeptqiId() == null) {//判断当前行的期id是否为null --最后填充期号
@@ -259,9 +210,7 @@ public class CyDeptpoController extends BaseController
                     }
                 }
             }
-            return toAjax(rows);
-        }
-        return null;
+            return AjaxResult.success("操作成功",200);
     }
     /**
      * 修改产能调整

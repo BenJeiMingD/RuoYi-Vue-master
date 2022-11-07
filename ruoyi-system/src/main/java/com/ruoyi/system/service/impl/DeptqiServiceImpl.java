@@ -1,6 +1,12 @@
 package com.ruoyi.system.service.impl;
 
+import java.util.Date;
 import java.util.List;
+
+import com.ruoyi.common.annotation.DataSource;
+import com.ruoyi.common.enums.DataSourceType;
+import com.ruoyi.system.mapper.CyDeptwandaMapper;
+import com.ruoyi.system.mapper.CyDeptwandaconbinMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.DeptqiMapper;
@@ -18,6 +24,8 @@ public class DeptqiServiceImpl implements IDeptqiService
 {
     @Autowired
     private DeptqiMapper deptqiMapper;
+    @Autowired
+    private CyDeptwandaMapper cyDeptwandaMapper;
 
     /**
      * 查询期数
@@ -31,6 +39,17 @@ public class DeptqiServiceImpl implements IDeptqiService
         return deptqiMapper.selectDeptqiById(id);
     }
 
+    @Override
+    public Deptqi MaxIssueNumber(Integer yearCode) {
+        return deptqiMapper.MaxIssueNumber(yearCode);
+    }
+    @Override
+    @DataSource(value = DataSourceType.SLAVE)
+    public void AsyncService (Date startTime){
+        String storedprocedure = cyDeptwandaMapper.execuStoredprocedure(startTime);
+        String storedprocedureX = cyDeptwandaMapper.execuStoredprocedureX(startTime);
+    }
+
     /**
      * 查询期数列表
      *
@@ -38,6 +57,7 @@ public class DeptqiServiceImpl implements IDeptqiService
      * @return 期数
      */
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public List<Deptqi> selectDeptqiList(Deptqi deptqi)
     {
         return deptqiMapper.selectDeptqiList(deptqi);

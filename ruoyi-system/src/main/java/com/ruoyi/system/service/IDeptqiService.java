@@ -1,7 +1,9 @@
 package com.ruoyi.system.service;
 
+import java.util.Date;
 import java.util.List;
 import com.ruoyi.system.domain.Deptqi;
+import org.springframework.scheduling.annotation.Async;
 
 /**
  * 期数Service接口
@@ -18,6 +20,23 @@ public interface IDeptqiService
      * @return 期数
      */
     public Deptqi selectDeptqiById(Integer id);
+
+    /**
+     * 执行存储过程
+     *
+     * @param startTime 提单日期
+     * @return 期数
+     */
+    @Async
+    public void AsyncService(Date startTime);
+
+    /**
+     * 查询当前年的最大期号
+     *
+     * @param yearCode 年号
+     * @return 期数
+     */
+    public Deptqi MaxIssueNumber(Integer yearCode);
 
     /**
      * 查询期数列表

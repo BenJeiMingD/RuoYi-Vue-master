@@ -1,7 +1,12 @@
 package com.ruoyi.system.mapper;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.system.domain.CyDeptwanda;
+import com.ruoyi.system.domain.Deptqi;
+import org.springframework.data.repository.query.Param;
 
 /**
  * 插单Mapper接口
@@ -19,6 +24,20 @@ public interface CyDeptwandaMapper
      */
     public CyDeptwanda selectCyDeptwandaById(Integer id);
 
+    /**
+     * 调用存储过程
+     * 传入时间
+     * @param
+     * @return 插单集合
+     */
+    public String execuStoredprocedure(@Param("startTime") Date startTime);
+    /**
+     * 调用存储过程
+     * 传入时间
+     * @param
+     * @return 插单集合
+     */
+    public String execuStoredprocedureX(@Param("startTime") Date startTime);
     /**
      * 查询插单列表
      * 
@@ -57,6 +76,13 @@ public interface CyDeptwandaMapper
      * @return 结果
      */
     public int deleteCyDeptwandaById(Integer id);
+    /**
+     * 删除万达表
+     *
+     * @param
+     * @return 结果
+     */
+    public int deleteCyDeptwanda();
 
     /**
      * 批量删除插单

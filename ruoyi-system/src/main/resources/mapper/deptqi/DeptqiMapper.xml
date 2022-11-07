@@ -29,6 +29,11 @@
             <if test="deptOrder != null  and deptOrder != ''"> and dept_order = #{deptOrder}</if>
         </where>
     </select>
+    <!--传入年号，查询出最大的期号-->
+    <select id="MaxIssueNumber" parameterType="Integer" resultMap="CyDeptqiResult">
+        SELECT  Issue_number from Cy_deptqi
+        WHERE Issue_number = (SELECT  max(Issue_number) from Cy_deptqi ) and year_code =#{yearCode}
+    </select>
 
     <select id="selectDeptqiById" parameterType="Integer" resultMap="CyDeptqiResult">
         <include refid="selectDeptqiVo"/>

@@ -20,6 +20,14 @@ public interface DeptqiMapper
     public Deptqi selectDeptqiById(Integer id);
 
     /**
+     * 查询本年的最大期数
+     *
+     * @param yearCode 年号
+     * @return 期数
+     */
+    public Deptqi MaxIssueNumber(Integer yearCode);
+
+    /**
      * 查询期数列表
      *
      * @param deptqi 期数
