@@ -2,6 +2,8 @@ package com.ruoyi.system.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.ruoyi.common.annotation.DataSource;
+import com.ruoyi.common.enums.DataSourceType;
 import com.ruoyi.system.domain.CyDeptpo;
 import com.ruoyi.system.domain.Deptqi;
 import com.ruoyi.system.domain.Deptzhu;
@@ -22,6 +24,7 @@ import javax.annotation.Resource;
  * @date 2022-08-19
  */
 @Service
+@DataSource(value = DataSourceType.SLAVE)
 public class DeptziServiceImpl implements IDeptziService
 {
     @Resource

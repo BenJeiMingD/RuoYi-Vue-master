@@ -1,6 +1,9 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.annotation.DataSource;
+import com.ruoyi.common.enums.DataSourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.DeptsumMapper;
@@ -14,6 +17,7 @@ import com.ruoyi.system.service.IDeptsumService;
  * @date 2022-09-26
  */
 @Service
+@DataSource(value = DataSourceType.SLAVE)
 public class DeptsumServiceImpl implements IDeptsumService
 {
     @Autowired

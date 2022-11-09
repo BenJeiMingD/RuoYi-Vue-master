@@ -3,7 +3,9 @@ package com.ruoyi.web.controller.cyDeptpo;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson2.JSON;
@@ -49,6 +51,10 @@ public class CyDeptpoController extends BaseController
     @Autowired
     private ICyDeptwandaService cyDeptwandaService;
 
+    @Autowired
+    private ICySkewService cySkewService;
+    @Autowired
+    private ICyCompleterptrcvxService completerptrcvxService;
 
     /**
      * 查询产能调整列表
@@ -210,6 +216,116 @@ public class CyDeptpoController extends BaseController
                     }
                 }
             }
+
+        System.out.println("cyDeptpo = " + string);
+        JSONObject jsonObjects = JSON.parseObject(string).getJSONObject("data");
+        Deptqi deptqi = JSON.toJavaObject(jsonObjects, Deptqi.class);
+        Date startTime = deptqi.getStartTime();
+        if (startTime != null) {//执行完存储过程
+            cyDeptwandaService.deleteCyDeptwanda();
+            deptqiService.AsyncService(startTime);
+            //查询出·cyCompleterptrcvxes表的所有数据，进行遍历比对
+            List<CyCompleterptrcvx> cyCompleterptrcvxes = completerptrcvxService.selectCyCompleterptrcvxList(new CyCompleterptrcvx());
+            Integer issueNumber = deptqi.getIssueNumber();//期号
+            Deptqi deptqi1 = new Deptqi();
+            deptqi1.setIssueNumber(issueNumber);
+            List<Deptqi> deptqis = deptqiService.selectDeptqiList(deptqi1);
+            Integer yearCode = deptqis.get(0).getYearCode();//年号
+            CySkew cySkew = new CySkew();
+            if (deptqis.size()==1){//说明只有一期
+                cySkew.setImportno(issueNumber.longValue());//期号
+                cySkew.setImportyear(yearCode.toString());//年号
+            }
+            if (issueNumber-1==0&&deptqis.size()>1){//说明有多期,是一年的一期，需要查询上一年的最后一期
+                yearCode = yearCode -1;
+                Deptqi deptQI = deptqiService.MaxIssueNumber(yearCode);//查询出上一年的最大一期
+                issueNumber = deptQI.getIssueNumber();
+                cySkew.setImportno(issueNumber.longValue());//期号
+                cySkew.setImportyear(yearCode.toString());//年号
+            }
+            List<CySkew> cySkews = cySkewService.CySkewView(cySkew);//这里传入期号和对应的年号 --这里使用的视图
+            String t3 = null;
+            BigDecimal qty = null;
+            Integer nightShift =null;
+            Integer dayShift = null;
+            Integer noonShift = null;
+            Integer sum = 0;
+            //对远程表进行查询将结果更新到本地表---（帆软-万达）
+            List<SheetOption> list = new ArrayList<>();
+            CyDeptwanda cyDeptwanda = new CyDeptwanda();
+            List<CyDeptwanda> listw = cyDeptwandaService.selectCyDeptwandaList(cyDeptwanda);
+            List<String> tempIdList = listw.stream().map(CyDeptwanda::getSaleslineId).collect(Collectors.toList());
+            List<CySkew> tempList = cySkews.stream().filter(item->tempIdList.contains(item.getSalesLineId())).collect(Collectors.toList());
+            HashMap<String, Integer> dayMap = new HashMap<>();
+            HashMap<String, Integer> nightMap = new HashMap<>();
+            HashMap<String, Integer> noonMap = new HashMap<>();
+            for (int j = 0; j < tempList.size(); j++) {//每次遍历销售行，对工时进行累加
+                if (!dayMap.containsKey(tempList.get(j).getSalesLineId())) {
+                    dayMap.put(tempList.get(j).getSalesLineId(), 0);
+                }
+                Integer dayCount = dayMap.get(tempList.get(j).getSalesLineId()) + (tempList.get(j).getDayShift() != null ? tempList.get(j).getDayShift() : 0);
+                dayMap.put(tempList.get(j).getSalesLineId(), dayCount);
+
+                if (!nightMap.containsKey(tempList.get(j).getSalesLineId())) {
+                    nightMap.put(tempList.get(j).getSalesLineId(), 0);
+                }
+                Integer nightCount = nightMap.get(tempList.get(j).getSalesLineId()) + (tempList.get(j).getNightShift() != null ? tempList.get(j).getNightShift() : 0);
+                nightMap.put(tempList.get(j).getSalesLineId(), nightCount);
+
+                if (!noonMap.containsKey(tempList.get(j).getSalesLineId())) {
+                    noonMap.put(tempList.get(j).getSalesLineId(), 0);
+                }
+                Integer noonCount = noonMap.get(tempList.get(j).getSalesLineId()) + (tempList.get(j).getNoonShift() != null ? tempList.get(j).getNoonShift() : 0);
+                noonMap.put(tempList.get(j).getSalesLineId(), noonCount);
+            }
+            for (int i = 0; i < listw.size(); i++) {//获取他的行数id--i--r
+                Date modifiedon = listw.get(i).getModifiedon();
+                String demandname = listw.get(i).getDemandname();//需求分类
+                String code = listw.get(i).getCode();//料号
+                String name = listw.get(i).getName();
+                String plmname2 = listw.get(i).getPlmname2();
+                String seibancode = listw.get(i).getSeibancode();//番号
+                String descflexfieldPubdescseg32 = listw.get(i).getDescflexfieldPubdescseg32();
+                Integer shuliang = listw.get(i).getShuliang();
+                String descflexfieldPrivatedescseg7 = listw.get(i).getDescflexfieldPrivatedescseg7();
+                String descflexfieldPrivatedescseg9 = listw.get(i).getDescflexfieldPrivatedescseg9();
+                String saleslineId = listw.get(i).getSaleslineId();
+                t3 = listw.get(i).getT3();
+                Integer day = dayMap.get(saleslineId);
+                Integer night = nightMap.get(saleslineId);
+                Integer noon = noonMap.get(saleslineId);
+                if (day==null){day=0;}
+                if (night==null){night=0;}
+                if (noon==null){noon=0;}
+                sum = day+night+noon;//上期排产量
+                //*设置上期排产量，设置完工数量*//*
+                //完工数量 --获取code，demandname，seibancode -找到 唯一的完工数量 qty
+                for (int r = 0; r < cyCompleterptrcvxes.size(); r++) {
+                    if (code.equals(cyCompleterptrcvxes.get(r).getCode()) && demandname.equals(cyCompleterptrcvxes.get(r).getRcvlotno()) && seibancode.equals(cyCompleterptrcvxes.get(r).getSeibancode())) {
+                        qty = cyCompleterptrcvxes.get(r).getQty();}}
+                //将从虚表中查询出来==插入到实表
+                //执行到此处 sqpc和 t3 均已赋值完毕
+                Integer ljpc = sum ;
+                cyDeptwanda.setModifiedon(modifiedon);
+                cyDeptwanda.setDemandname(demandname);
+                cyDeptwanda.setCode(code);
+                cyDeptwanda.setName(name);
+                cyDeptwanda.setPlmname2(plmname2);
+                cyDeptwanda.setSeibancode(seibancode);
+                cyDeptwanda.setDescflexfieldPubdescseg32(descflexfieldPubdescseg32);
+                cyDeptwanda.setShuliang(shuliang);
+                cyDeptwanda.setLjpc(ljpc);//可排产量
+                cyDeptwanda.setT3(t3);//上期排产量
+                cyDeptwanda.setQty(qty);
+                cyDeptwanda.setDescflexfieldPrivatedescseg7(descflexfieldPrivatedescseg7);
+                cyDeptwanda.setDescflexfieldPrivatedescseg9(descflexfieldPrivatedescseg9);
+                cyDeptwanda.setSaleslineId(saleslineId);
+                CyDeptwanda deptwanda1 = new CyDeptwanda();
+                deptwanda1.setSaleslineId(saleslineId);//saleslineId通过这个判断当前缓存表中是否有重复
+                if (cyDeptwandaService.selectBySaleslineIdList(deptwanda1).size() == 0) {
+                    cyDeptwandaService.insertCyDeptwanda(cyDeptwanda);}//插入listw次
+            }
+        }
             return AjaxResult.success("操作成功",200);
     }
     /**

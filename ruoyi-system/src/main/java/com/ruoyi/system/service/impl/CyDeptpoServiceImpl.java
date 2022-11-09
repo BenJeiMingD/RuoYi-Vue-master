@@ -1,6 +1,9 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.annotation.DataSource;
+import com.ruoyi.common.enums.DataSourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CyDeptpoMapper;
@@ -14,6 +17,7 @@ import com.ruoyi.system.service.ICyDeptpoService;
  * @date 2022-09-19
  */
 @Service
+@DataSource(value = DataSourceType.SLAVE)
 public class CyDeptpoServiceImpl implements ICyDeptpoService
 {
     @Autowired
@@ -40,7 +44,6 @@ public class CyDeptpoServiceImpl implements ICyDeptpoService
     @Override
     public List<CyDeptpo> selectCyDeptpoList(CyDeptpo cyDeptpo)
     {
-
         return cyDeptpoMapper.selectCyDeptpoList(cyDeptpo);
     }
 

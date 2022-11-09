@@ -1,6 +1,9 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.annotation.DataSource;
+import com.ruoyi.common.enums.DataSourceType;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CyDepcombinMapper;
 import com.ruoyi.system.domain.CyDepcombin;
@@ -15,6 +18,7 @@ import javax.annotation.Resource;
  * @date 2022-10-12
  */
 @Service
+@DataSource(value = DataSourceType.SLAVE)
 public class CyDepcombinServiceImpl implements ICyDepcombinService
 {
     @Resource

@@ -20,6 +20,7 @@ import com.ruoyi.system.service.IDeptqiService;
  * @date 2022-08-19
  */
 @Service
+@DataSource(value = DataSourceType.SLAVE)
 public class DeptqiServiceImpl implements IDeptqiService
 {
     @Autowired

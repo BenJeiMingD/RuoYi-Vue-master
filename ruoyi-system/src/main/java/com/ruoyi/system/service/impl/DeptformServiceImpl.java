@@ -1,6 +1,9 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.annotation.DataSource;
+import com.ruoyi.common.enums.DataSourceType;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import com.ruoyi.system.service.IDeptformService;
  * @date 2022-09-22
  */
 @Service
+@DataSource(value = DataSourceType.SLAVE)
 public class DeptformServiceImpl implements IDeptformService
 {
     @Autowired

@@ -1,6 +1,9 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.annotation.DataSource;
+import com.ruoyi.common.enums.DataSourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CyDeptwandaconbinMapper;
@@ -16,6 +19,7 @@ import javax.annotation.Resource;
  * @date 2022-10-13
  */
 @Service
+@DataSource(value = DataSourceType.SLAVE)
 public class CyDeptwandaconbinServiceImpl implements ICyDeptwandaconbinService
 {
     @Resource

@@ -36,8 +36,6 @@ public class DeptqiController extends BaseController {
     @Autowired
     private IDeptqiService deptqiService;
     @Autowired
-    private IDeptsumService deptsumService;
-    @Autowired
     private IDeptzhuService deptzhuService;
     @Autowired
     private IDeptformService deptformService;
@@ -199,7 +197,9 @@ public class DeptqiController extends BaseController {
      * @Log(title = "期数", businessType = BusinessType.DELETE)
      * @DeleteMapping("/{ids}")
      */
+
     @PostMapping("/capacity/templatedelete/delete")
+
     public AjaxResult remove(@RequestBody String string) {
         System.out.println("cyDeptpo = " + string);
         JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
@@ -225,6 +225,7 @@ public class DeptqiController extends BaseController {
                 array2 = arrayList.toArray(new Integer[arrayList.size()]);//将arrays转成list
                 int ids = deptpoService.deleteCyDeptpoByDeptpoIds(array2);
             }
+
             cyDeptwandaService.deleteCyDeptwanda();
             return toAjax(deptqiService.deleteDeptqiById(id));
         }

@@ -19,7 +19,7 @@ spring:
                 # url: jdbc:sqlserver://192.168.20.19:1433;DatabaseName=WDZSK1
                 # username: sa
                 # password: Tjwanda2699
-                driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+                # driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
             # 初始连接数
             initialSize: 5
             # 最小连接池数量

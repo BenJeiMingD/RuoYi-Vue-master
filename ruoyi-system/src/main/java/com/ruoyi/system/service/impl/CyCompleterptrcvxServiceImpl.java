@@ -30,7 +30,6 @@ public class CyCompleterptrcvxServiceImpl implements ICyCompleterptrcvxService
      * @return 【请填写功能名称】
      */
     @Override
-    @DataSource(value = DataSourceType.SLAVE)
     public CyCompleterptrcvx selectCyCompleterptrcvxByRcvlotno(String rcvlotno)
     {
         return cyCompleterptrcvxMapper.selectCyCompleterptrcvxByRcvlotno(rcvlotno);

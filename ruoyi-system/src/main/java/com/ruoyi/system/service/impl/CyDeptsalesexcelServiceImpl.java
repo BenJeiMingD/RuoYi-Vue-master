@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.github.pagehelper.PageHelper;
+import com.ruoyi.common.annotation.DataSource;
+import com.ruoyi.common.enums.DataSourceType;
 import com.ruoyi.system.domain.Deptproduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,7 +23,8 @@ import javax.annotation.Resource;
  * @date 2022-09-22
  */
 @Service
-public class CyDeptsalesexcelServiceImpl implements ICyDeptsalesexcelService 
+@DataSource(value = DataSourceType.SLAVE)
+public class CyDeptsalesexcelServiceImpl implements ICyDeptsalesexcelService
 {
     @Resource
     private CyDeptsalesexcelMapper cyDeptsalesexcelMapper;
@@ -49,15 +52,7 @@ public class CyDeptsalesexcelServiceImpl implements ICyDeptsalesexcelService
     @Override
     public List<CyDeptsalesexcel> selectCyDeptsalesexcelList(CyDeptsalesexcel cyDeptsalesexcel)
     {
-//        List<CyDeptsalesexcel> cyDeptsalesexcels = cyDeptsalesexcelMapper.selectCyDeptsalesexcelList(cyDeptsalesexcel);//       Integer Package = cyDeptsalesexcels.size()+1;
-//        Integer pageNum=Package/cyDeptsalesexcels.size()+1;
-//        int pageSize = cyDeptsalesexcels.size()+1;
-//        PageHelper.startPage(pageNum, pageSize);
         Integer issueNumber = cyDeptsalesexcel.getIssueNumber();
-        /*String userName = cyDeptsalesexcel.getUserName();
-        //SELECT sum (xq) as xq FROM [dbo].[Cy_deptsalesexcel] WHERE user_name = 'admin' and Issue_number = 1  -- 销售总需求
-        //查询出销售总需求
-        CyDeptsalesexcel salesXq = cyDeptsalesexcelMapper.selectsumXqList(userName, issueNumber);*/
         return cyDeptsalesexcelMapper.selectCyDeptsalesexcelList(cyDeptsalesexcel);
     }
 

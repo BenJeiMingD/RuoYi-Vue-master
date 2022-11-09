@@ -673,9 +673,9 @@ public class CyDeptwandaController extends BaseController {
 
 
         List<CyDeptwanda> Deptwandalist = cyDeptwandaService.selectBySaleslineIdList(new CyDeptwanda());
-            for (int i = 0; i < Deptwandalist.size(); i++) {//行
+            for (int i = 0; i < Deptwandalist.size()+1; i++) {//行
                 String v=null;
-
+                String f = null;
                 for (int j = 0; j < 18; j++) {//列
                     if(i==0){
                         if (j==0){
@@ -732,8 +732,8 @@ public class CyDeptwandaController extends BaseController {
 
                     }*/
                         if (j==0){
-                            if (Deptwandalist.get(i).getModifiedon()!=null){
-                                Date modifiedon = Deptwandalist.get(i).getModifiedon();
+                            if (Deptwandalist.get(i-1).getModifiedon()!=null){
+                                Date modifiedon = Deptwandalist.get(i-1).getModifiedon();
                                 v=modifiedon.toString();
                             }else {
                                 v="0";
@@ -741,24 +741,24 @@ public class CyDeptwandaController extends BaseController {
 
                         }
                         if (j==1){
-                            if (Deptwandalist.get(i).getDemandname()!=null){
-                                String demandname = Deptwandalist.get(i).getDemandname();
+                            if (Deptwandalist.get(i-1).getDemandname()!=null){
+                                String demandname = Deptwandalist.get(i-1).getDemandname();
                                 v=demandname.toString();
                             }else {
                                 v="0";
                             }
                         }
                         if (j==2){
-                            if (Deptwandalist.get(i).getCode()!=null){
-                                String code = Deptwandalist.get(i).getCode();
+                            if (Deptwandalist.get(i-1).getCode()!=null){
+                                String code = Deptwandalist.get(i-1).getCode();
                                 v=code.toString();
                             }else {
                                 v="0";
                             }
                         }
                         if (j==3){
-                            if (Deptwandalist.get(i).getName()!=null){
-                                String name = Deptwandalist.get(i).getName();
+                            if (Deptwandalist.get(i-1).getName()!=null){
+                                String name = Deptwandalist.get(i-1).getName();
                                 v=name.toString();
                             }else {
                                 v="0";
@@ -766,8 +766,8 @@ public class CyDeptwandaController extends BaseController {
 
                         }
                         if (j==4){
-                            if (Deptwandalist.get(i).getPlmname2()!=null){
-                                String plmname2 = Deptwandalist.get(i).getPlmname2();
+                            if (Deptwandalist.get(i-1).getPlmname2()!=null){
+                                String plmname2 = Deptwandalist.get(i-1).getPlmname2();
                                 v=plmname2.toString();
                             }else {
                                 v="0";
@@ -775,16 +775,16 @@ public class CyDeptwandaController extends BaseController {
 
                         }
                         if (j==5){
-                            if (Deptwandalist.get(i).getSeibancode()!=null){
-                                String seibancode = Deptwandalist.get(i).getSeibancode();
+                            if (Deptwandalist.get(i-1).getSeibancode()!=null){
+                                String seibancode = Deptwandalist.get(i-1).getSeibancode();
                                 v=seibancode.toString();
                             }else {
                                 v="0";
                             }
                         }
                         if (j==6){
-                            if (Deptwandalist.get(i).getPlmname5()!=null){
-                                String plmname5 = Deptwandalist.get(i).getPlmname5();
+                            if (Deptwandalist.get(i-1).getPlmname5()!=null){
+                                String plmname5 = Deptwandalist.get(i-1).getPlmname5();
                                 v=plmname5.toString();
                             }else {
                                 v="0";
@@ -792,8 +792,8 @@ public class CyDeptwandaController extends BaseController {
 
                         }
                         if (j==7){
-                            if (Deptwandalist.get(i).getPlmname3()!=null){
-                                String plmname3 = Deptwandalist.get(i).getPlmname3();
+                            if (Deptwandalist.get(i-1).getPlmname3()!=null){
+                                String plmname3 = Deptwandalist.get(i-1).getPlmname3();
                                 v=plmname3.toString();
                             }else {
                                 v="0";
@@ -801,8 +801,8 @@ public class CyDeptwandaController extends BaseController {
 
                         }
                         if (j==8){
-                            if (Deptwandalist.get(i).getDescflexfieldPubdescseg32()!=null){
-                                String descflexfieldPubdescseg32 = Deptwandalist.get(i).getDescflexfieldPubdescseg32();
+                            if (Deptwandalist.get(i-1).getDescflexfieldPubdescseg32()!=null){
+                                String descflexfieldPubdescseg32 = Deptwandalist.get(i-1).getDescflexfieldPubdescseg32();
                                 v=descflexfieldPubdescseg32.toString();
                             }else {
                                 v="0";
@@ -810,18 +810,20 @@ public class CyDeptwandaController extends BaseController {
 
                         }
                         if (j==9){
-                            if (Deptwandalist.get(i).getShuliang()!=null){
-                                Integer shuliang = Deptwandalist.get(i).getShuliang();
+                            if (Deptwandalist.get(i-1).getShuliang()!=null){
+                                Integer shuliang = Deptwandalist.get(i-1).getShuliang();
                                 v=shuliang.toString();
+
                             }else {
                                 v="0";
                             }
 
                         }
                         if (j==10){
-                            if (Deptwandalist.get(i).getLjpc()!=null){
-                                Integer ljpc = Deptwandalist.get(i).getLjpc();
+                            if (Deptwandalist.get(i-1).getLjpc()!=null){
+                                Integer ljpc = Deptwandalist.get(i-1).getLjpc();
                                 v=ljpc.toString();
+                                f = "=if (J3-K3-R3<0,0,J3-K3-R3)";
                             }else {
                                 v="0";
 
@@ -829,8 +831,8 @@ public class CyDeptwandaController extends BaseController {
 
                         }
                         if (j==11){
-                            if (Deptwandalist.get(i).getT3()!=null){
-                                String t3 = Deptwandalist.get(i).getT3();
+                            if (Deptwandalist.get(i-1).getT3()!=null){
+                                String t3 = Deptwandalist.get(i-1).getT3();
                                 v=t3.toString();
                             }else {
                                 v="0";
@@ -838,54 +840,55 @@ public class CyDeptwandaController extends BaseController {
 
                         }
                         if (j==12){
-                            if (Deptwandalist.get(i).getXq()!=null){
-                                Integer xq = Deptwandalist.get(i).getXq();
+                            if (Deptwandalist.get(i-1).getXq()!=null){
+                                Integer xq = Deptwandalist.get(i-1).getXq();
                                 v=xq.toString();
                             }else {
                                 v="0";
                             }
                         }
                         if (j==13){
-                            if (Deptwandalist.get(i).getMark()!=null){
-                                String mark = Deptwandalist.get(i).getMark();
+                            if (Deptwandalist.get(i-1).getMark()!=null){
+                                String mark = Deptwandalist.get(i-1).getMark();
                                 v=mark.toString();
                             }else {
                                 v="0";
                             }
                         }
                         if (j==14){
-                            if (Deptwandalist.get(i).getDescflexfieldPrivatedescseg7()!=null){
-                                String descflexfieldPrivatedescseg7 = Deptwandalist.get(i).getDescflexfieldPrivatedescseg7();
+                            if (Deptwandalist.get(i-1).getDescflexfieldPrivatedescseg7()!=null){
+                                String descflexfieldPrivatedescseg7 = Deptwandalist.get(i-1).getDescflexfieldPrivatedescseg7();
                                 v=descflexfieldPrivatedescseg7.toString();
                             }else {
                                 v="0";
                             }
                         }
                         if (j==15){
-                            if (Deptwandalist.get(i).getDescflexfieldPrivatedescseg9()!=null){
-                                String descflexfieldPrivatedescseg9 = Deptwandalist.get(i).getDescflexfieldPrivatedescseg9();
+                            if (Deptwandalist.get(i-1).getDescflexfieldPrivatedescseg9()!=null){
+                                String descflexfieldPrivatedescseg9 = Deptwandalist.get(i-1).getDescflexfieldPrivatedescseg9();
                                 v=descflexfieldPrivatedescseg9.toString();
                             }else {
                                 v="0";
                             }
                         }
                         if (j==16){
-                            if (Deptwandalist.get(i).getSaleslineId()!=null){
-                                String saleslineId = Deptwandalist.get(i).getSaleslineId();
+                            if (Deptwandalist.get(i-1).getSaleslineId()!=null){
+                                String saleslineId = Deptwandalist.get(i-1).getSaleslineId();
                                 v=saleslineId.toString();
                             }else {
                                 v="0";
                             }
                         }
                         if (j==17){
-                            if (Deptwandalist.get(i).getQty()!=null){
-                                BigDecimal qty = Deptwandalist.get(i).getQty();
+                            if (Deptwandalist.get(i-1).getQty()!=null){
+                                BigDecimal qty = Deptwandalist.get(i-1).getQty();
                                 v=qty.toString();
                             }else {
                                 v="0";
                             }
                         }
                         //随机生成点数据
+
                         Celldata celldata = new Celldata(i + "", j + "", i + j + "", v + "");
                         stop.getCelldata().add(celldata);
                     }
