@@ -753,10 +753,10 @@ public class CyDeptsalesexcelController extends BaseController {
                         v = "可排产量";
                     }
                     if (j == 12) {
-                        v = "销售需求";
+                        v = "销售派单数";
                     }
                     if (j == 13) {
-                        v = "备注";
+                        v = "销售走货备注";
                     }
                     if (j == 14) {
                         v = "夏季硫化定额";
@@ -962,7 +962,6 @@ public class CyDeptsalesexcelController extends BaseController {
                     } else {
                         v = "0";
                     }
-
                 }
                 if (j == 11) {
                     if (lists.get(i-1).getT3() != null) {
@@ -971,7 +970,6 @@ public class CyDeptsalesexcelController extends BaseController {
                     } else {
                         v = "0";
                     }
-
                 }
                 if (j == 12) {
                     if (lists.get(i-1).getXq() != null) {
@@ -980,7 +978,6 @@ public class CyDeptsalesexcelController extends BaseController {
                     } else {
                         v = "0";
                     }
-
                 }
                 if (j == 13) {
                     if (lists.get(i-1).getMark() != null) {
