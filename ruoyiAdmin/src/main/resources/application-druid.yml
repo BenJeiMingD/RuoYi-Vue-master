@@ -12,14 +12,14 @@ spring:
                 # 从数据源开关/默认关闭
                 enabled: true
                 # url: jdbc:sqlserver://free.svipss.top:59153;DatabaseName=WDZSK1 WDPAICHAN
-                # url: jdbc:sqlserver://192.168.1.5:14333;DatabaseName=WDZSK1
-                # username: sa
-                # password: Cy123456
-                # 远程 20.19万达测试库
-                url: jdbc:sqlserver://192.168.20.19:1433;DatabaseName=WDZSK1
+                url: jdbc:sqlserver://192.168.1.5:14333;DatabaseName=WDZSK1
                 username: sa
-                password: Tjwanda2699
-                driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+                password: Cy123456
+                # 远程 20.19万达测试库
+                # url: jdbc:sqlserver://192.168.20.19:1433;DatabaseName=WDZSK1
+                # username: sa
+                # password: Tjwanda2699
+                # driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
             # 初始连接数
             initialSize: 5
             # 最小连接池数量

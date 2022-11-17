@@ -12,9 +12,23 @@ public class Celldata {
     public Celldata(String r, String c, String m,String v) {
         this.r = r;
         this.c = c;
-        this.v.setM(m);
         this.v.setV(v);
 
+    }
+
+    public Celldata(String r, String c,String f) {
+        this.r = r;
+        this.c = c;
+        this.v.setF(f);
+    }
+
+
+    public Celldata(String r, String c, String m,String v,String f) {
+        this.r = r;
+        this.c = c;
+        this.v.setM(m);
+        this.v.setV(v);
+        this.v.setF(f);
     }
 
     public String getR() {

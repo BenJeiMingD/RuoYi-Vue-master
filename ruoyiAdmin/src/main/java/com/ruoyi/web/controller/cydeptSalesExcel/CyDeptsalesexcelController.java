@@ -61,7 +61,13 @@ public class CyDeptsalesexcelController extends BaseController {
     private  IDeptzhuService deptzhuService;
 
     @Autowired
+    private  ICyDeptorderinsertService cyDeptorderinsertService;
+
+    @Autowired
     private IDeptproductService deptproductService;
+
+    @Autowired
+    private  IDeptformService deptformService;
 
     //查询redis缓存
     @Autowired
@@ -380,7 +386,6 @@ public class CyDeptsalesexcelController extends BaseController {
     @PostMapping ("/system/deptSummary/Issue")//这里应该传入 期号和用户名 === 当汇总的时候；接收并且找寻数据，这里计算出对应的个人需求
     public Object list(@RequestBody String string)
     {
-        System.out.println("string = " + string);
         JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
         CyDeptsalesexcel cyDeptsalesexcel = JSON.toJavaObject(jsonObject, CyDeptsalesexcel.class);
         Integer issueNumber = cyDeptsalesexcel.getIssueNumber();
@@ -393,7 +398,6 @@ public class CyDeptsalesexcelController extends BaseController {
     }
     @PostMapping ("/system/deptSummary/list")//期数--这里可能需要名字
     public  String listSummary(CyDeptsalesexcel cyDeptsalesexcel) {
-        System.out.println("cyDeptsalesexcel = " + cyDeptsalesexcel);
         cyDeptsalesexcel.setIssueNumber(Issue);
         List<CyDeptsalesexcel> lists = cyDeptsalesexcelService.selectCyDeptSummaryList(cyDeptsalesexcel);
         /*Integer integer = cyDeptsalesexcelService.selectsumXqList(Issue);//获取他总的销售需求*/
@@ -686,7 +690,6 @@ public class CyDeptsalesexcelController extends BaseController {
     @PostMapping ("/system/deptSummary/IssuePost")
     public Object listPost(@RequestBody String string)
     {
-        System.out.println("string = " + string);
         JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
         CyDeptsalesexcel cyDeptsalesexcel = JSON.toJavaObject(jsonObject, CyDeptsalesexcel.class);
         Integer issueNumber = cyDeptsalesexcel.getIssueNumber();
@@ -698,9 +701,38 @@ public class CyDeptsalesexcelController extends BaseController {
     }
     @PostMapping ("/system/deptSummary/listPost")//期数
     public  String listPost(CyDeptsalesexcel cyDeptsalesexcel) {
-
-        System.out.println("cyDeptsalesexcel = " + cyDeptsalesexcel);
+        CyDeptorderinsert cyDeptorderinsert = new CyDeptorderinsert();
+        cyDeptorderinsert.setIssueNumber(Issue);
+        cyDeptorderinsert.setUserName(userNames);
         cyDeptsalesexcel.setIssueNumber(Issue);
+        List<CyDeptorderinsert> cyDeptorderinserts = cyDeptorderinsertService.selectCyDeptorderinsertList(cyDeptorderinsert);
+        if (cyDeptorderinserts.size()!=0){
+            for (int i = 0; i < cyDeptorderinserts.size(); i++) {//循环取出插单表的数据
+                cyDeptsalesexcel.setModifiedon(cyDeptorderinserts.get(i).getModifiedon());
+                cyDeptsalesexcel.setDemandname(cyDeptorderinserts.get(i).getDemandname());
+                cyDeptsalesexcel.setCode(cyDeptorderinserts.get(i).getCode());
+                cyDeptsalesexcel.setName(cyDeptorderinserts.get(i).getName());
+                cyDeptsalesexcel.setPlmname2(cyDeptorderinserts.get(i).getPlmname2());
+                cyDeptsalesexcel.setSeibancode(cyDeptorderinserts.get(i).getSeibancode());
+                cyDeptsalesexcel.setPlmname5(cyDeptorderinserts.get(i).getPlmname5());
+                cyDeptsalesexcel.setPlmname3(cyDeptorderinserts.get(i).getPlmname3());
+                cyDeptsalesexcel.setDescflexfieldPubdescseg32(cyDeptorderinserts.get(i).getDescflexfieldPubdescseg32());
+                cyDeptsalesexcel.setShuliang(cyDeptorderinserts.get(i).getShuliang());
+                cyDeptsalesexcel.setLjpc(cyDeptorderinserts.get(i).getLjpc());
+                cyDeptsalesexcel.setT3(cyDeptorderinserts.get(i).getT3());
+                cyDeptsalesexcel.setXq(cyDeptorderinserts.get(i).getXq());
+                cyDeptsalesexcel.setMark(cyDeptorderinserts.get(i).getMark());
+                cyDeptsalesexcel.setDescflexfieldPrivatedescseg7(cyDeptorderinserts.get(i).getDescflexfieldPrivatedescseg7());
+                cyDeptsalesexcel.setDescflexfieldPrivatedescseg9(cyDeptorderinserts.get(i).getDescflexfieldPrivatedescseg9());
+                cyDeptsalesexcel.setSaleslineId(cyDeptorderinserts.get(i).getSaleslineId());
+                cyDeptsalesexcel.setUserName(cyDeptorderinserts.get(i).getUserName());
+                //这里通过读取每一条的code，找到对应的寸别和成型方式所对应的组--将最大产能填入
+                cyDeptsalesexcel.setIssueNumber(cyDeptorderinserts.get(i).getIssueNumber());
+                cyDeptsalesexcelService.insertCyDeptsalesexcel(cyDeptsalesexcel);//将插单表的字段添加到合并表中
+                /*//删除对应的插单表数据
+                cyDeptorderinsertService.deleteCyDeptorderinsertById(cyDeptorderinserts.get(i).getId());*/
+            }
+        }
         List<CyDeptsalesexcel> lists = cyDeptsalesexcelService.selectCyDeptSummaryList(cyDeptsalesexcel);
         //将数据转成字段返回
         List<SheetOption> list = new ArrayList<>();
@@ -863,7 +895,6 @@ public class CyDeptsalesexcelController extends BaseController {
                     if (j == 48){
                         v = "生成组织";
                     }
-
                     //随机生成点数据
                     Celldata celldata = new Celldata(i + "", j + "", i + j + "", v + "");
                     stop.getCelldata().add(celldata);
@@ -1073,10 +1104,8 @@ public class CyDeptsalesexcelController extends BaseController {
     @RequestMapping("/system/deptsalesexcel/NameAndIsser")//--进行表的制作----第一次查看的时候传入用户名和期号进行表的绘制
     public AjaxResult add(@RequestBody String string)//这里需要获取销售人员名字.期号
     {
-        System.out.println("strings = " + string);
         JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
         CyDeptsalesexcel cyDeptsalesexcel = JSON.toJavaObject(jsonObject, CyDeptsalesexcel.class);
-
         //查询的时候调插入接口--将整张表wanda插入到--sales
         Integer issueNumber = cyDeptsalesexcel.getIssueNumber();//通过期号查询主表id---再通过id从主表中查询出最大日产能
         String Name = cyDeptsalesexcel.getUserName();
@@ -1091,7 +1120,6 @@ public class CyDeptsalesexcelController extends BaseController {
         String type =null;
         String code = null;
         //从po表中查取最大的产能 sum；
-
         List<Deptproduct> deptproducts = deptproductService.selectDeptproductList(new Deptproduct());//查询一次之后遍历
         List<CyDeptpo> cyDeptpos = cyDeptpoService.selectCyDeptpoList(new CyDeptpo());
         //把wanda的数据添加到自建表中 salesexcel  --从产能调整表中查询最大产能----这里传入的期号和名字，判断当期号和名字已存在不执行
@@ -1152,88 +1180,6 @@ public class CyDeptsalesexcelController extends BaseController {
     @RequestMapping("/salesexcel/adds")
     public AjaxResult edit(@RequestBody(required=false) String string)
     {
-        /*//列数
-        int rownum=0;
-        JSONObject jsonObject = JSON.parseObject(string);
-        JSONArray dataList = jsonObject.getJSONObject("data").getJSONArray("dataList");//将json格式转换成数组
-        JSONObject json = JSON.parseObject(string).getJSONObject("data");
-        //一行
-        CyDeptsalesexcel cyDeptsalesexcel = JSON.toJavaObject(json, CyDeptsalesexcel.class);
-        String userName = cyDeptsalesexcel.getUserName();
-        int size = dataList.size();//获取一共有多少个字段
-
-        //装将excel转化为行的数据
-        List<CyDeptsalesexcel> list1 = new ArrayList<>();
-        List<CyDeptsalesexcel> list2 = new ArrayList<>();
-        //获取最后一个格的信息
-        String s2 = dataList.get(size).toString();
-        ConfigMergeModel configMergeModel_last = JSON.toJavaObject(s2, ConfigMergeModel.class);
-        //总列数
-        int i1 = configMergeModel_last.getC() + 1;
-        //总行数
-        int i2 = configMergeModel_last.getR() + 1;
-        //根据行数创建出行数个excel行
-        *//*List<CyDeptsalesexcel> extracted1 = extracted(list1, i2);*//*
-        ConfigMergeModel configMergeModels = null;
-        ArrayList<CyDeptsalesexcel> list = new ArrayList<>();
-        //获取json字段
-
-        for (int j = 0; j < dataList.size(); j++) {//j，算出总计的单元格个数190--10行，19列
-            String s = dataList.get(j).toString();
-            *//*SheetOption sheetOption = new SheetOption();
-            sheetOption = dataList.get(j).toString();*//*
-            configMergeModels = JSON.toJavaObject(s, ConfigMergeModel.class);
-            *//*SheetOption sheetOption = JSON.toJavaObject(s, SheetOption.class);
-            System.out.println("sheetOption = " + sheetOption);*//*
-            *//*cyDeptsalesexcel.get*//*
-            int r1 = configMergeModels.getR();//行数
-            if (r1==0){//说明是标题行直接跳过
-                continue;
-            }*/
-        /*System.out.println("string = " + string);*/
-        /*SheetOption sheetOption = JSON.toJavaObject(string, SheetOption.class);
-        System.out.println("configMergeModel = " + sheetOption);*/
-
-        /*//列数
-        int rownum=0;
-        JSONObject jsonObject = JSON.parseObject(string);
-        JSONArray dataList = jsonObject.getJSONObject("data").getJSONArray("dataList");//将json格式转换成数组
-        JSONObject json = JSON.parseObject(string).getJSONObject("data");
-        //一行
-        CyDeptsalesexcel cyDeptsalesexcel = JSON.toJavaObject(json, CyDeptsalesexcel.class);
-        String userName = cyDeptsalesexcel.getUserName();
-        int size = dataList.size();//获取一共有多少个字段
-        //装将excel转化为行的数据
-        List<CyDeptsalesexcel> list1 = new ArrayList<>();
-        List<CyDeptsalesexcel> list2 = new ArrayList<>();
-        //获取最后一个格的信息
-        String s2 = dataList.get(size).toString();
-        ConfigMergeModel configMergeModel_last = JSON.toJavaObject(s2, ConfigMergeModel.class);
-        //总列数
-        int i1 = configMergeModel_last.getC() + 1;
-        //总行数
-        int i2 = configMergeModel_last.getR() + 1;
-        //根据行数创建出行数个excel行
-        *//*List<CyDeptsalesexcel> extracted1 = extracted(list1, i2);*//*
-        ConfigMergeModel configMergeModels = null;
-        ArrayList<CyDeptsalesexcel> list = new ArrayList<>();
-        //获取json字段
-        for (int j = 0; j < dataList.size(); j++) {//j，算出总计的单元格个数190--10行，19列
-            String s = dataList.get(j).toString();
-            *//*SheetOption sheetOption = new SheetOption();
-            sheetOption = dataList.get(j).toString();*//*
-            configMergeModels = JSON.toJavaObject(s, ConfigMergeModel.class);
-            *//*SheetOption sheetOption = JSON.toJavaObject(s, SheetOption.class);
-            System.out.println("sheetOption = " + sheetOption);*//*
-     *//*cyDeptsalesexcel.get*//*
-            int r1 = configMergeModels.getR();//行数
-            if (r1==0){//说明是标题行直接跳过
-                continue;
-            }*/
-        /*System.out.println("string = " + string);*/
-        /*SheetOption sheetOption = JSON.toJavaObject(string, SheetOption.class);
-        System.out.println("configMergeModel = " + sheetOption);*/
-
         JSONObject jsonObject = JSON.parseObject(string);
         JSONArray dataList = jsonObject.getJSONObject("data").getJSONArray("dataList");//将json格式转换成数组
         JSONObject json = JSON.parseObject(string).getJSONObject("data");
@@ -1245,7 +1191,6 @@ public class CyDeptsalesexcelController extends BaseController {
         ArrayList<Object> ids = new ArrayList<>();
         ConfigMergeModel configMergeModels = null;
         ConfigMergeModel configMergeModels1 = null;
-
         ArrayList<CyDeptsalesexcel> list = new ArrayList<>();
         for (int j = 0; j < dataList.size(); j++) {//j，算出总计的单元格个数190--10行，19列
             String s = dataList.get(j).toString();
@@ -1426,7 +1371,6 @@ public class CyDeptsalesexcelController extends BaseController {
 	@PostMapping ("/salesexcel/delete")
     public Object remove(@RequestBody String string)
     {
-        System.out.println("string = " + string);
         JSONObject jsonObject = JSON.parseObject(string).getJSONObject("userInfo");
         Integer ajaxResult = null;
         CyDeptsalesexcel cyDeptsalesexcel = JSON.toJavaObject(jsonObject, CyDeptsalesexcel.class);

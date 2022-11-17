@@ -32,74 +32,6 @@ public class DeptziController extends BaseController
     @Autowired
     private IDeptzhuService deptzhuService;
 
-
-    /**
-     * 查询成型方式分组信息子列表
-     */
-    /*@PreAuthorize("@ss.hasPermi('deptzi:deptzi:list')")
-    @GetMapping("/list")
-    public TableDataInfo list(Deptzi deptzi)
-    {
-        startPage();
-        List<Deptzi> list = deptziService.selectDeptziList(deptzi);
-        return getDataTable(list);
-    }
-
-    *//**
-     * 导出成型方式分组信息子列表
-     *//*
-    @PreAuthorize("@ss.hasPermi('deptzi:deptzi:export')")
-    @Log(title = "成型方式分组信息子", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, Deptzi deptzi)
-    {
-        List<Deptzi> list = deptziService.selectDeptziList(deptzi);
-        ExcelUtil<Deptzi> util = new ExcelUtil<Deptzi>(Deptzi.class);
-        util.exportExcel(response, list, "成型方式分组信息子数据");
-    }
-
-    *//**
-     * 获取成型方式分组信息子详细信息
-     *//*
-    @PreAuthorize("@ss.hasPermi('deptzi:deptzi:query')")
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Integer id)
-    {
-        return AjaxResult.success(deptziService.selectDeptziById(id));
-    }
-
-    *//**
-     * 新增成型方式分组信息子
-     *//*
-    @PreAuthorize("@ss.hasPermi('deptzi:deptzi:add')")
-    @Log(title = "成型方式分组信息子", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody Deptzi deptzi)
-    {
-        return toAjax(deptziService.insertDeptzi(deptzi));
-    }
-    *//**
-     * 修改成型方式分组信息子
-     *//*
-    @PreAuthorize("@ss.hasPermi('deptzi:deptzi:edit')")
-    @Log(title = "成型方式分组信息子", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody Deptzi deptzi)
-    {
-        return toAjax(deptziService.updateDeptzi(deptzi));
-    }
-
-    *//**
-     * 删除成型方式分组信息子
-     *//*
-    @PreAuthorize("@ss.hasPermi('deptzi:deptzi:remove')")
-    @Log(title = "成型方式分组信息子", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Integer[] ids)
-    {
-        return toAjax(deptziService.deleteDeptziByIds(ids));
-    }
-*/
     /**
      - 新增产能模板数据详细信息子接口
      */
@@ -108,7 +40,6 @@ public class DeptziController extends BaseController
     @RequestMapping("/capacity/templateInfo")
     public AjaxResult template(@RequestBody String string)
     {
-        System.out.println("string = " + string);
         JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
         String data = jsonObject.getString("rowData");
         JSONObject jsonResult = JSON.parseObject(data);
@@ -127,7 +58,6 @@ public class DeptziController extends BaseController
     @PostMapping ("/capacity/templatedelete")
     public AjaxResult templates(@RequestBody String string)
     {
-        System.out.println("string = " + string);
         JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
         Deptzi deptzi = JSON.toJavaObject(jsonObject, Deptzi.class);
         System.out.println("deptzi = " + deptzi);

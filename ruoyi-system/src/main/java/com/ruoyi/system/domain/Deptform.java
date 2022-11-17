@@ -59,7 +59,7 @@ public class Deptform extends BaseEntity
 
     /** 是否插单 */
     @Excel(name = "是否插单")
-    private String insertOrder;
+    private Integer insertOrder;
 
     /** 用户名 */
     @Excel(name = "用户名")
@@ -141,12 +141,12 @@ public class Deptform extends BaseEntity
     {
         return confirmedTime;
     }
-    public void setInsertOrder(String insertOrder)
+    public void setInsertOrder(Integer insertOrder)
     {
         this.insertOrder = insertOrder;
     }
 
-    public String getInsertOrder()
+    public Integer getInsertOrder()
     {
         return insertOrder;
     }

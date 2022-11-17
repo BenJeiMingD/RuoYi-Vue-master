@@ -481,35 +481,25 @@ public class CyDeptwandaController extends BaseController {
     /*@Log(title = "插单", businessType = BusinessType.INSERT)*/
     @RequestMapping("/deptwanda/adds")
     public AjaxResult addDeptwanda(@RequestBody String string) {
-
-        System.out.println("row = " + string);
         //删除 万达原始数据 - 重新写入新数据 ：
         int row = cyDeptwandaService.deleteCyDeptwanda();
         if (row==0){
             return AjaxResult.error("操作失败",500);
         }
-
         JSONObject jsonObject = JSON.parseObject(string);
         JSONArray dataList = jsonObject.getJSONObject("data").getJSONArray("dataList");//将json格式转换成数组
         JSONObject json = JSON.parseObject(string).getJSONObject("data");
         CyDeptwanda cyDeptsalesexcel = JSON.toJavaObject(json, CyDeptwanda.class);
-        System.out.println("celldata = " + dataList);
         int size = dataList.size();//获取一共有多少个字段
         int r = 0;
         int rows = 0;
         ArrayList<Object> ids = new ArrayList<>();
         ConfigMergeModel configMergeModels = null;
         ConfigMergeModel configMergeModels1 = null;
-
         ArrayList<CyDeptsalesexcel> list = new ArrayList<>();
         for (int j = 0; j < dataList.size(); j++) {//j，算出总计的单元格个数190--10行，19列
             String s = dataList.get(j).toString();
-            /*SheetOption sheetOption = new SheetOption();
-            sheetOption = dataList.get(j).toString();*/
             configMergeModels = JSON.toJavaObject(s, ConfigMergeModel.class);
-            /*SheetOption sheetOption = JSON.toJavaObject(s, SheetOption.class);
-            System.out.println("sheetOption = " + sheetOption);*/
-            /*cyDeptsalesexcel.get*/
             int r1 = configMergeModels.getR();//行数
             if (r1==0){//说明是标题行直接跳过
                 continue;
@@ -522,115 +512,96 @@ public class CyDeptwandaController extends BaseController {
                     try {
                         date = new SimpleDateFormat("yyyy-MM-dd").parse(m);
                     } catch (ParseException e) {
-                        //LOGGER.error("时间转换错误, string = {}", s, e);
+
                     }
-                    System.out.println("date = " + date);
                     cyDeptsalesexcel.setModifiedon(date);//设置时间
-                    /*rows = cyDeptsalesexcelService.insertCyDeptsalesexcel(cyDeptsalesexcel);
-                    id = cyDeptsalesexcel.getId();*/
+
                 }
                 //已存入id，时间
                 if (configMergeModels.getC() == 1 && configMergeModels.getV().getM() != null) {
                     String v1 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setDemandname(v1);
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
+
                 }
                 if (configMergeModels.getC() == 2 && configMergeModels.getV().getM() != null) {
                     String v2 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setCode(v2);
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
+
                 }
                 if (configMergeModels.getC() == 3 && configMergeModels.getV().getM() != null) {
                     String v3 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setName(v3);
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
+
                 }
                 if (configMergeModels.getC() == 4 && configMergeModels.getV().getM() != null) {
                     String v4 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setPlmname2(v4);
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
+
                 }
                 if (configMergeModels.getC() == 5 && configMergeModels.getV().getM() != null) {
                     String v5 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setSeibancode(v5);
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
+
                 }
                 if (configMergeModels.getC() == 6 && configMergeModels.getV().getM() != null) {
                     String v6 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setPlmname5(v6);
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
+
                 }
                 if (configMergeModels.getC() == 7 && configMergeModels.getV().getM() != null) {
                     String v7 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setPlmname3(v7);
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
+
                 }
                 if (configMergeModels.getC() == 8 && configMergeModels.getV().getM() != null) {
                     String v8 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setDescflexfieldPubdescseg32(v8);
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
+
                 }
                 if (configMergeModels.getC() == 9 && configMergeModels.getV().getM() != null) {
                     String v9 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setShuliang(Integer.valueOf(v9));
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
+
                 }
                 if (configMergeModels.getC() == 10 && configMergeModels.getV().getM() != null) {
                     String v10 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setLjpc(Integer.valueOf(v10));
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
+
                 }
                 if (configMergeModels.getC() == 11 && configMergeModels.getV().getM() != null) {
                     String v11 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setT3(String.valueOf(v11));
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
+
                 }
                 if (configMergeModels.getC() == 12 && configMergeModels.getV().getM() != null) {
                     String v12 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setXq(Integer.valueOf(v12));
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
+
                 }
                 if (configMergeModels.getC() == 13 && configMergeModels.getV().getM() != null) {
                     String v13 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setMark(v13);
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
+
                 }
                 if (configMergeModels.getC() == 14 && configMergeModels.getV().getM() != null) {
                     String v14 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setDescflexfieldPrivatedescseg7(v14);
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
+
                 }
                 if (configMergeModels.getC() == 15 && configMergeModels.getV().getM() != null) {
                     String v15 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setDescflexfieldPrivatedescseg9(v15);
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
+
                 }
                 if (configMergeModels.getC() == 16 && configMergeModels.getV().getM() != null) {
                     String v15 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setSaleslineId(v15);
-                    /*cyDeptsalesexcel.setId(id);
-                    cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel);*/
                     rows = cyDeptwandaService.insertCyDeptwanda(cyDeptsalesexcel);
                 }
 
             }
         }
-        /*cyDeptsalesexcelService.insertBatch(list);*/
+
         if (rows==0){
             return AjaxResult.error("操作失败",500);
         }
@@ -670,12 +641,9 @@ public class CyDeptwandaController extends BaseController {
         stop.setStatus(1);
         stop.setHide(0);
         //把响应的数据添加到自建表中
-
-
         List<CyDeptwanda> Deptwandalist = cyDeptwandaService.selectBySaleslineIdList(new CyDeptwanda());
             for (int i = 0; i < Deptwandalist.size()+1; i++) {//行
                 String v=null;
-                String f = null;
                 for (int j = 0; j < 18; j++) {//列
                     if(i==0){
                         if (j==0){
@@ -721,16 +689,6 @@ public class CyDeptwandaController extends BaseController {
                         stop.getCelldata().add(celldata);
                         continue;
                     }
-                    //获取所有字段
-                    /*if (j==0){
-                        if (Deptwandalist.get(i).getId()!=null){
-                            Integer id = Deptwandalist.get(i).getId();
-                            v=id.toString();
-                        }else {
-                            v="0";
-                        }
-
-                    }*/
                         if (j==0){
                             if (Deptwandalist.get(i-1).getModifiedon()!=null){
                                 Date modifiedon = Deptwandalist.get(i-1).getModifiedon();
@@ -823,7 +781,6 @@ public class CyDeptwandaController extends BaseController {
                             if (Deptwandalist.get(i-1).getLjpc()!=null){
                                 Integer ljpc = Deptwandalist.get(i-1).getLjpc();
                                 v=ljpc.toString();
-                                f = "=if (J3-K3-R3<0,0,J3-K3-R3)";
                             }else {
                                 v="0";
 
@@ -834,8 +791,10 @@ public class CyDeptwandaController extends BaseController {
                             if (Deptwandalist.get(i-1).getT3()!=null){
                                 String t3 = Deptwandalist.get(i-1).getT3();
                                 v=t3.toString();
+
                             }else {
-                                v="0";
+                                v = "0";
+
                             }
 
                         }
@@ -887,8 +846,18 @@ public class CyDeptwandaController extends BaseController {
                                 v="0";
                             }
                         }
+                        if (j == 11){
+                            int line = i+1;
+                            //2用（j+1）表示---根据不同的行数进行
+                            /*//String f = "=if (J2-K2-R2<0,0,J2-K2-R2)";*/
+                            String t3 = "0";
+                            String f = "=if (J"+line+"-K"+line+"-R"+line+"<0,0,J"+line+"-K"+line+"-R"+line+")";
+                            String m = "500";
+                            //随机生成点数据
+                            Celldata celldata = new Celldata(i + "", j + "",m +"",v + "",f+"");
+                            stop.getCelldata().add(celldata);
+                        }
                         //随机生成点数据
-
                         Celldata celldata = new Celldata(i + "", j + "", i + j + "", v + "");
                         stop.getCelldata().add(celldata);
                     }

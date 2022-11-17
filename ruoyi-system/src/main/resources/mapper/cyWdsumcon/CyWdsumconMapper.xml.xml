@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CyWdsumconMapper">
+
+    <resultMap type="CyWdsumcon" id="CyWdsumconResult">
+        <result property="plancode"    column="PlanCode"    />
+        <result property="modifiedon"    column="ModifiedOn"    />
+        <result property="docno"    column="docno"    />
+        <result property="demandname"    column="DemandName"    />
+        <result property="code"    column="Code"    />
+        <result property="plmItemCode"    column="plm_item_code"    />
+        <result property="saleslineid"    column="salesLineId"    />
+        <result property="supplyorg"    column="SupplyOrg"    />
+        <result property="name"    column="Name"    />
+        <result property="plmname2"    column="PLMName2"    />
+        <result property="seibancode"    column="SeibanCode"    />
+        <result property="ckzzd"    column="ckzzd"    />
+        <result property="plmname5"    column="PLMName5"    />
+        <result property="plmname3"    column="PLMName3"    />
+        <result property="plmname4"    column="plmName4"    />
+        <result property="plmname6"    column="plmName6"    />
+        <result property="ctt"    column="ctt"    />
+        <result property="descflexfieldPubdescseg32"    column="DescFlexField_PubDescSeg32"    />
+        <result property="shuliang"    column="shuliang"    />
+        <result property="ljsf"    column="ljsf"    />
+        <result property="t3u3"    column="T3U3"    />
+        <result property="ljpc"    column="ljpc"    />
+        <result property="y3ap3av3"    column="Y3AP3AV3"    />
+        <result property="t3"    column="T3"    />
+        <result property="t3ab3"    column="T3AB3"    />
+        <result property="bzpc"    column="bzpc"    />
+        <result property="swan"    column="swan"    />
+        <result property="cxj"    column="cxj"    />
+        <result property="cdj"    column="cdj"    />
+        <result property="descflexfieldPrivatedescseg13"    column="DescFlexField_PrivateDescSeg13"    />
+        <result property="gydm"    column="gydm"    />
+        <result property="tc"    column="tc"    />
+        <result property="memo"    column="memo"    />
+        <result property="dd"    column="dd"    />
+        <result property="cmj"    column="cmj"    />
+        <result property="mj"    column="mj"    />
+        <result property="mjh"    column="mjh"    />
+        <result property="ltkc"    column="ltkc"    />
+        <result property="dayShift"    column="day_shift"    />
+        <result property="noonShift"    column="noon_shift"    />
+        <result property="suman3"    column="SUMAN3"    />
+        <result property="ap3y3"    column="AP3Y3"    />
+        <result property="qtys"    column="qtys"    />
+        <result property="u3"    column="U3"    />
+        <result property="ap3"    column="AP3"    />
+        <result property="t3w3"    column="T3W3"    />
+        <result property="lastWeek"    column="last_week"    />
+        <result property="filldata"    column="filldata"    />
+        <result property="zero"    column="zero"    />
+        <result property="iflen"    column="iflen"    />
+        <result property="custcode"    column="custCode"    />
+        <result property="custname"    column="custName"    />
+        <result property="error"    column="error"    />
+        <result property="gybz"    column="gybz"    />
+        <result property="gyyq"    column="gyyq"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectCyWdsumconVo">
+        select PlanCode, ModifiedOn, docno, DemandName, Code, plm_item_code, salesLineId, SupplyOrg, Name, PLMName2, SeibanCode, ckzzd, PLMName5, PLMName3, plmName4, plmName6, ctt, DescFlexField_PubDescSeg32, shuliang, ljsf, T3U3, ljpc, Y3AP3AV3, T3, T3AB3, bzpc, swan, cxj, cdj, DescFlexField_PrivateDescSeg13, gydm, tc, memo, dd, cmj, mj, mjh, ltkc, day_shift, noon_shift, SUMAN3, AP3Y3, qtys, U3, AP3, T3W3, last_week, filldata, zero, iflen, custCode, custName, error, gybz, gyyq, id from cy_wdsumcon
+    </sql>
+
+    <select id="selectCyWdsumconList" parameterType="CyWdsumcon" resultMap="CyWdsumconResult">
+        <include refid="selectCyWdsumconVo"/>
+        <where>
+            <if test="plancode != null  and plancode != ''"> and PlanCode = #{plancode}</if>
+            <if test="modifiedon != null "> and ModifiedOn = #{modifiedon}</if>
+            <if test="docno != null  and docno != ''"> and docno = #{docno}</if>
+            <if test="demandname != null  and demandname != ''"> and DemandName like concat('%', #{demandname}, '%')</if>
+            <if test="code != null  and code != ''"> and Code = #{code}</if>
+            <if test="plmItemCode != null  and plmItemCode != ''"> and plm_item_code = #{plmItemCode}</if>
+            <if test="saleslineid != null  and saleslineid != ''"> and salesLineId = #{saleslineid}</if>
+            <if test="supplyorg != null  and supplyorg != ''"> and SupplyOrg = #{supplyorg}</if>
+            <if test="name != null  and name != ''"> and Name like concat('%', #{name}, '%')</if>
+            <if test="plmname2 != null  and plmname2 != ''"> and PLMName2 = #{plmname2}</if>
+            <if test="seibancode != null  and seibancode != ''"> and SeibanCode = #{seibancode}</if>
+            <if test="ckzzd != null  and ckzzd != ''"> and ckzzd = #{ckzzd}</if>
+            <if test="plmname5 != null  and plmname5 != ''"> and PLMName5 = #{plmname5}</if>
+            <if test="plmname3 != null  and plmname3 != ''"> and PLMName3 = #{plmname3}</if>
+            <if test="plmname4 != null  and plmname4 != ''"> and plmName4 = #{plmname4}</if>
+            <if test="plmname6 != null  and plmname6 != ''"> and plmName6 = #{plmname6}</if>
+            <if test="ctt != null  and ctt != ''"> and ctt = #{ctt}</if>
+            <if test="descflexfieldPubdescseg32 != null  and descflexfieldPubdescseg32 != ''"> and DescFlexField_PubDescSeg32 = #{descflexfieldPubdescseg32}</if>
+            <if test="shuliang != null  and shuliang != ''"> and shuliang = #{shuliang}</if>
+            <if test="ljsf != null  and ljsf != ''"> and ljsf = #{ljsf}</if>
+            <if test="t3u3 != null  and t3u3 != ''"> and T3U3 = #{t3u3}</if>
+            <if test="ljpc != null  and ljpc != ''"> and ljpc = #{ljpc}</if>
+            <if test="y3ap3av3 != null  and y3ap3av3 != ''"> and Y3AP3AV3 = #{y3ap3av3}</if>
+            <if test="t3 != null  and t3 != ''"> and T3 = #{t3}</if>
+            <if test="t3ab3 != null  and t3ab3 != ''"> and T3AB3 = #{t3ab3}</if>
+            <if test="bzpc != null  and bzpc != ''"> and bzpc = #{bzpc}</if>
+            <if test="swan != null  and swan != ''"> and swan = #{swan}</if>
+            <if test="cxj != null  and cxj != ''"> and cxj = #{cxj}</if>
+            <if test="cdj != null  and cdj != ''"> and cdj = #{cdj}</if>
+            <if test="descflexfieldPrivatedescseg13 != null  and descflexfieldPrivatedescseg13 != ''"> and DescFlexField_PrivateDescSeg13 = #{descflexfieldPrivatedescseg13}</if>
+            <if test="gydm != null  and gydm != ''"> and gydm = #{gydm}</if>
+            <if test="tc != null  and tc != ''"> and tc = #{tc}</if>
+            <if test="memo != null  and memo != ''"> and memo = #{memo}</if>
+            <if test="dd != null  and dd != ''"> and dd = #{dd}</if>
+            <if test="cmj != null  and cmj != ''"> and cmj = #{cmj}</if>
+            <if test="mj != null  and mj != ''"> and mj = #{mj}</if>
+            <if test="mjh != null  and mjh != ''"> and mjh = #{mjh}</if>
+            <if test="ltkc != null  and ltkc != ''"> and ltkc = #{ltkc}</if>
+            <if test="dayShift != null  and dayShift != ''"> and day_shift = #{dayShift}</if>
+            <if test="noonShift != null  and noonShift != ''"> and noon_shift = #{noonShift}</if>
+            <if test="suman3 != null  and suman3 != ''"> and SUMAN3 = #{suman3}</if>
+            <if test="ap3y3 != null  and ap3y3 != ''"> and AP3Y3 = #{ap3y3}</if>
+            <if test="qtys != null  and qtys != ''"> and qtys = #{qtys}</if>
+            <if test="u3 != null  and u3 != ''"> and U3 = #{u3}</if>
+            <if test="ap3 != null  and ap3 != ''"> and AP3 = #{ap3}</if>
+            <if test="t3w3 != null  and t3w3 != ''"> and T3W3 = #{t3w3}</if>
+            <if test="lastWeek != null  and lastWeek != ''"> and last_week = #{lastWeek}</if>
+            <if test="filldata != null  and filldata != ''"> and filldata = #{filldata}</if>
+            <if test="zero != null  and zero != ''"> and zero = #{zero}</if>
+            <if test="iflen != null  and iflen != ''"> and iflen = #{iflen}</if>
+            <if test="custcode != null  and custcode != ''"> and custCode = #{custcode}</if>
+            <if test="custname != null  and custname != ''"> and custName like concat('%', #{custname}, '%')</if>
+            <if test="error != null  and error != ''"> and error = #{error}</if>
+            <if test="gybz != null  and gybz != ''"> and gybz = #{gybz}</if>
+            <if test="gyyq != null  and gyyq != ''"> and gyyq = #{gyyq}</if>
+        </where>
+    </select>
+
+    <select id="selectCyWdsumconById" parameterType="Long" resultMap="CyWdsumconResult">
+        <include refid="selectCyWdsumconVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCyWdsumcon" parameterType="CyWdsumcon" useGeneratedKeys="true" keyProperty="id">
+        insert into cy_wdsumcon
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="plancode != null">PlanCode,</if>
+            <if test="modifiedon != null">ModifiedOn,</if>
+            <if test="docno != null">docno,</if>
+            <if test="demandname != null">DemandName,</if>
+            <if test="code != null">Code,</if>
+            <if test="plmItemCode != null">plm_item_code,</if>
+            <if test="saleslineid != null">salesLineId,</if>
+            <if test="supplyorg != null">SupplyOrg,</if>
+            <if test="name != null">Name,</if>
+            <if test="plmname2 != null">PLMName2,</if>
+            <if test="seibancode != null">SeibanCode,</if>
+            <if test="ckzzd != null">ckzzd,</if>
+            <if test="plmname5 != null">PLMName5,</if>
+            <if test="plmname3 != null">PLMName3,</if>
+            <if test="plmname4 != null">plmName4,</if>
+            <if test="plmname6 != null">plmName6,</if>
+            <if test="ctt != null">ctt,</if>
+            <if test="descflexfieldPubdescseg32 != null">DescFlexField_PubDescSeg32,</if>
+            <if test="shuliang != null">shuliang,</if>
+            <if test="ljsf != null">ljsf,</if>
+            <if test="t3u3 != null">T3U3,</if>
+            <if test="ljpc != null">ljpc,</if>
+            <if test="y3ap3av3 != null">Y3AP3AV3,</if>
+            <if test="t3 != null">T3,</if>
+            <if test="t3ab3 != null">T3AB3,</if>
+            <if test="bzpc != null">bzpc,</if>
+            <if test="swan != null">swan,</if>
+            <if test="cxj != null">cxj,</if>
+            <if test="cdj != null">cdj,</if>
+            <if test="descflexfieldPrivatedescseg13 != null">DescFlexField_PrivateDescSeg13,</if>
+            <if test="gydm != null">gydm,</if>
+            <if test="tc != null">tc,</if>
+            <if test="memo != null">memo,</if>
+            <if test="dd != null">dd,</if>
+            <if test="cmj != null">cmj,</if>
+            <if test="mj != null">mj,</if>
+            <if test="mjh != null">mjh,</if>
+            <if test="ltkc != null">ltkc,</if>
+            <if test="dayShift != null">day_shift,</if>
+            <if test="noonShift != null">noon_shift,</if>
+            <if test="suman3 != null">SUMAN3,</if>
+            <if test="ap3y3 != null">AP3Y3,</if>
+            <if test="qtys != null">qtys,</if>
+            <if test="u3 != null">U3,</if>
+            <if test="ap3 != null">AP3,</if>
+            <if test="t3w3 != null">T3W3,</if>
+            <if test="lastWeek != null">last_week,</if>
+            <if test="filldata != null">filldata,</if>
+            <if test="zero != null">zero,</if>
+            <if test="iflen != null">iflen,</if>
+            <if test="custcode != null">custCode,</if>
+            <if test="custname != null">custName,</if>
+            <if test="error != null">error,</if>
+            <if test="gybz != null">gybz,</if>
+            <if test="gyyq != null">gyyq,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="plancode != null">#{plancode},</if>
+            <if test="modifiedon != null">#{modifiedon},</if>
+            <if test="docno != null">#{docno},</if>
+            <if test="demandname != null">#{demandname},</if>
+            <if test="code != null">#{code},</if>
+            <if test="plmItemCode != null">#{plmItemCode},</if>
+            <if test="saleslineid != null">#{saleslineid},</if>
+            <if test="supplyorg != null">#{supplyorg},</if>
+            <if test="name != null">#{name},</if>
+            <if test="plmname2 != null">#{plmname2},</if>
+            <if test="seibancode != null">#{seibancode},</if>
+            <if test="ckzzd != null">#{ckzzd},</if>
+            <if test="plmname5 != null">#{plmname5},</if>
+            <if test="plmname3 != null">#{plmname3},</if>
+            <if test="plmname4 != null">#{plmname4},</if>
+            <if test="plmname6 != null">#{plmname6},</if>
+            <if test="ctt != null">#{ctt},</if>
+            <if test="descflexfieldPubdescseg32 != null">#{descflexfieldPubdescseg32},</if>
+            <if test="shuliang != null">#{shuliang},</if>
+            <if test="ljsf != null">#{ljsf},</if>
+            <if test="t3u3 != null">#{t3u3},</if>
+            <if test="ljpc != null">#{ljpc},</if>
+            <if test="y3ap3av3 != null">#{y3ap3av3},</if>
+            <if test="t3 != null">#{t3},</if>
+            <if test="t3ab3 != null">#{t3ab3},</if>
+            <if test="bzpc != null">#{bzpc},</if>
+            <if test="swan != null">#{swan},</if>
+            <if test="cxj != null">#{cxj},</if>
+            <if test="cdj != null">#{cdj},</if>
+            <if test="descflexfieldPrivatedescseg13 != null">#{descflexfieldPrivatedescseg13},</if>
+            <if test="gydm != null">#{gydm},</if>
+            <if test="tc != null">#{tc},</if>
+            <if test="memo != null">#{memo},</if>
+            <if test="dd != null">#{dd},</if>
+            <if test="cmj != null">#{cmj},</if>
+            <if test="mj != null">#{mj},</if>
+            <if test="mjh != null">#{mjh},</if>
+            <if test="ltkc != null">#{ltkc},</if>
+            <if test="dayShift != null">#{dayShift},</if>
+            <if test="noonShift != null">#{noonShift},</if>
+            <if test="suman3 != null">#{suman3},</if>
+            <if test="ap3y3 != null">#{ap3y3},</if>
+            <if test="qtys != null">#{qtys},</if>
+            <if test="u3 != null">#{u3},</if>
+            <if test="ap3 != null">#{ap3},</if>
+            <if test="t3w3 != null">#{t3w3},</if>
+            <if test="lastWeek != null">#{lastWeek},</if>
+            <if test="filldata != null">#{filldata},</if>
+            <if test="zero != null">#{zero},</if>
+            <if test="iflen != null">#{iflen},</if>
+            <if test="custcode != null">#{custcode},</if>
+            <if test="custname != null">#{custname},</if>
+            <if test="error != null">#{error},</if>
+            <if test="gybz != null">#{gybz},</if>
+            <if test="gyyq != null">#{gyyq},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCyWdsumcon" parameterType="CyWdsumcon">
+        update cy_wdsumcon
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="plancode != null">PlanCode = #{plancode},</if>
+            <if test="modifiedon != null">ModifiedOn = #{modifiedon},</if>
+            <if test="docno != null">docno = #{docno},</if>
+            <if test="demandname != null">DemandName = #{demandname},</if>
+            <if test="code != null">Code = #{code},</if>
+            <if test="plmItemCode != null">plm_item_code = #{plmItemCode},</if>
+            <if test="saleslineid != null">salesLineId = #{saleslineid},</if>
+            <if test="supplyorg != null">SupplyOrg = #{supplyorg},</if>
+            <if test="name != null">Name = #{name},</if>
+            <if test="plmname2 != null">PLMName2 = #{plmname2},</if>
+            <if test="seibancode != null">SeibanCode = #{seibancode},</if>
+            <if test="ckzzd != null">ckzzd = #{ckzzd},</if>
+            <if test="plmname5 != null">PLMName5 = #{plmname5},</if>
+            <if test="plmname3 != null">PLMName3 = #{plmname3},</if>
+            <if test="plmname4 != null">plmName4 = #{plmname4},</if>
+            <if test="plmname6 != null">plmName6 = #{plmname6},</if>
+            <if test="ctt != null">ctt = #{ctt},</if>
+            <if test="descflexfieldPubdescseg32 != null">DescFlexField_PubDescSeg32 = #{descflexfieldPubdescseg32},</if>
+            <if test="shuliang != null">shuliang = #{shuliang},</if>
+            <if test="ljsf != null">ljsf = #{ljsf},</if>
+            <if test="t3u3 != null">T3U3 = #{t3u3},</if>
+            <if test="ljpc != null">ljpc = #{ljpc},</if>
+            <if test="y3ap3av3 != null">Y3AP3AV3 = #{y3ap3av3},</if>
+            <if test="t3 != null">T3 = #{t3},</if>
+            <if test="t3ab3 != null">T3AB3 = #{t3ab3},</if>
+            <if test="bzpc != null">bzpc = #{bzpc},</if>
+            <if test="swan != null">swan = #{swan},</if>
+            <if test="cxj != null">cxj = #{cxj},</if>
+            <if test="cdj != null">cdj = #{cdj},</if>
+            <if test="descflexfieldPrivatedescseg13 != null">DescFlexField_PrivateDescSeg13 = #{descflexfieldPrivatedescseg13},</if>
+            <if test="gydm != null">gydm = #{gydm},</if>
+            <if test="tc != null">tc = #{tc},</if>
+            <if test="memo != null">memo = #{memo},</if>
+            <if test="dd != null">dd = #{dd},</if>
+            <if test="cmj != null">cmj = #{cmj},</if>
+            <if test="mj != null">mj = #{mj},</if>
+            <if test="mjh != null">mjh = #{mjh},</if>
+            <if test="ltkc != null">ltkc = #{ltkc},</if>
+            <if test="dayShift != null">day_shift = #{dayShift},</if>
+            <if test="noonShift != null">noon_shift = #{noonShift},</if>
+            <if test="suman3 != null">SUMAN3 = #{suman3},</if>
+            <if test="ap3y3 != null">AP3Y3 = #{ap3y3},</if>
+            <if test="qtys != null">qtys = #{qtys},</if>
+            <if test="u3 != null">U3 = #{u3},</if>
+            <if test="ap3 != null">AP3 = #{ap3},</if>
+            <if test="t3w3 != null">T3W3 = #{t3w3},</if>
+            <if test="lastWeek != null">last_week = #{lastWeek},</if>
+            <if test="filldata != null">filldata = #{filldata},</if>
+            <if test="zero != null">zero = #{zero},</if>
+            <if test="iflen != null">iflen = #{iflen},</if>
+            <if test="custcode != null">custCode = #{custcode},</if>
+            <if test="custname != null">custName = #{custname},</if>
+            <if test="error != null">error = #{error},</if>
+            <if test="gybz != null">gybz = #{gybz},</if>
+            <if test="gyyq != null">gyyq = #{gyyq},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCyWdsumconById" parameterType="Long">
+        delete from cy_wdsumcon where id = #{id}
+    </delete>
+
+    <delete id="deleteCyWdsumconByIds" parameterType="String">
+        delete from cy_wdsumcon where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

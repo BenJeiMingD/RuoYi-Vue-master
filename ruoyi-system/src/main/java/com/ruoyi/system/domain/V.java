@@ -4,6 +4,7 @@ public class V {
 
     private String m;
     private String v;
+    private String f;
     private String fc;
     private String bg;
     private CT ct = new CT();
@@ -14,6 +15,14 @@ public class V {
 
     public void setM(String m) {
         this.m = m;
+    }
+
+    public String getF() {
+        return f;
+    }
+
+    public void setF(String f) {
+        this.f = f;
     }
 
     public String getV() {

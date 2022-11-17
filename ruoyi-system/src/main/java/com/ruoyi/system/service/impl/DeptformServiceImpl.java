@@ -57,6 +57,7 @@ public class DeptformServiceImpl implements IDeptformService
     (填报派单)
      */
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public List<Deptform> selectDeptformList(Deptform deptform)
     {
         return deptformMapper.selectDeptformList(deptform);
