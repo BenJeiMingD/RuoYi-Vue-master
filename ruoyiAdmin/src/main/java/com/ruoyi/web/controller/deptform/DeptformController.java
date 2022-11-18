@@ -58,7 +58,6 @@ public class DeptformController extends BaseController {
     /*@PreAuthorize("@ss.hasPermi('system:deptform:list')")*/
     @RequestMapping("/system/deptform/list")
     public TableDataInfo list(@RequestBody String string) {
-        System.out.println("string = " + string);
         JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
         Deptform deptform = JSON.toJavaObject(jsonObject, Deptform.class);
         List<Deptform> list = deptformService.selectDeptformList(deptform);
@@ -73,7 +72,6 @@ public class DeptformController extends BaseController {
      */
     @RequestMapping("/system/deptform/ack") //传入期号
     public AjaxResult listack(@RequestBody String string) {
-        System.out.println("string = " + string);
         JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
         Deptform deptform = JSON.toJavaObject(jsonObject, Deptform.class);
         List<Deptform> list = deptformService.selectDeptformList(deptform);
@@ -90,7 +88,6 @@ public class DeptformController extends BaseController {
      */
     @RequestMapping("/system/deptform/listAdd")
     public Object listAdd(@RequestBody String string) {
-        System.out.println("string = " + string);
         JSONObject data = JSON.parseObject(string).getJSONObject("data");
         Deptform deptform = JSON.toJavaObject(data, Deptform.class);
         List<Deptqi> deptqis = deptqiService.selectDeptqiList(new Deptqi());
@@ -128,7 +125,6 @@ public class DeptformController extends BaseController {
     @Log(title = "填报派单", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Deptform deptform) {
-
         List<Deptform> list = deptformService.selectDeptformList(deptform);
         ExcelUtil<Deptform> util = new ExcelUtil<Deptform>(Deptform.class);
         util.exportExcel(response, list, "填报派单数据");
@@ -152,7 +148,6 @@ public class DeptformController extends BaseController {
     @PostMapping("/system/deptform/updateState")
     public AjaxResult updateState(@RequestBody String string) {
         //派单表和派单信息表
-        System.out.println("string = " + string);
         JSONObject data = JSON.parseObject(string).getJSONObject("data");
         Deptform deptform = JSON.toJavaObject(data, Deptform.class);
         int rows = deptformService.updateDeptform(deptform);
@@ -169,7 +164,6 @@ public class DeptformController extends BaseController {
     /*@Log(title = "填报派单", businessType = BusinessType.UPDATE)*/
     @PutMapping("/system/deptform/listUpdate")
     public AjaxResult edit(@RequestBody String string) {
-        System.out.println("deptform = " + string);
         JSONObject data = JSON.parseObject(string).getJSONObject("data");
         Deptform deptform = JSON.toJavaObject(data, Deptform.class);
         return toAjax(deptformService.updateDeptform(deptform));
@@ -182,16 +176,28 @@ public class DeptformController extends BaseController {
     /*@Log(title = "填报派单", businessType = BusinessType.DELETE)*/
     @PostMapping("/system/deptform/id")
     public AjaxResult remove(@RequestBody String string) {
-        System.out.println("deptform = " + string);
         JSONObject data = JSON.parseObject(string).getJSONObject("data");
         Deptform deptfor = JSON.toJavaObject(data, Deptform.class);
-        Integer id = deptfor.getId();
+        Integer id = deptfor.getId();//填报派单的id --通过id查询插单表的 番号 ，料号 ，需求分类 ==>进行删除
         String userName = deptfor.getUserName();
         Deptform deptform = deptformService.selectDeptformById(id);
         Integer issueNumber = deptform.getIssueNumber();
         CyDeptsalesexcel cyDeptsalesexcel = new CyDeptsalesexcel();
         cyDeptsalesexcel.setIssueNumber(issueNumber);
         cyDeptsalesexcel.setUserName(userName);
+
+        CyDeptorderinsert cyDeptorderinsert = new CyDeptorderinsert();
+        CyDeptsalesexcel cyDeptsalesexcel1 = new CyDeptsalesexcel();//销售单
+        cyDeptorderinsert.setCyFromId(id);
+        List<CyDeptorderinsert> cyDeptorderinserts = cyDeptorderinsertService.selectCyDeptorderinsertList(cyDeptorderinsert);
+        cyDeptsalesexcel1.setDemandname(cyDeptorderinserts.get(0).getDemandname());//需求分类
+        cyDeptsalesexcel1.setIssueNumber(issueNumber);//期号
+        cyDeptsalesexcel1.setUserName(userName);//用户名
+        cyDeptsalesexcel1.setSeibancode(cyDeptorderinserts.get(0).getSeibancode());//番号
+        cyDeptsalesexcel1.setCode(cyDeptorderinserts.get(0).getCode());//料号
+        List<CyDeptsalesexcel> cyDeptsalesexcels1 = cyDeptsalesexcelService.selectCyDeptsalesexcelList(cyDeptsalesexcel1);//通过条件查询对应的一条数据
+        Integer id2 = cyDeptsalesexcels1.get(0).getId();
+        cyDeptsalesexcelService.deleteCyDeptsalesexcelById(id2);//删除对应的插单表
         //批量删除
         Integer[] array2 = null;
         ArrayList<Integer> objects = new ArrayList<>();
