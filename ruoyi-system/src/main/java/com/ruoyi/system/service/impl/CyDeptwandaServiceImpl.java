@@ -5,6 +5,7 @@ import java.util.*;
 import com.ruoyi.common.annotation.DataSource;
 import com.ruoyi.common.enums.DataSourceType;
 import com.ruoyi.system.domain.ConfigMergeModel;
+import com.ruoyi.system.domain.CyWdsumcon;
 import com.ruoyi.system.domain.Deptqi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,14 @@ public class CyDeptwandaServiceImpl implements ICyDeptwandaService
     public List<CyDeptwanda> selectCyDeptwandaList(CyDeptwanda cyDeptwanda)
     {
         List<CyDeptwanda> list = cyDeptwandaMapper.selectCyDeptwandaList(cyDeptwanda);
+        return list;
+    }
+
+    @Override
+    @DataSource(value = DataSourceType.SLAVE)
+    public List<CyWdsumcon> selectCyDeptExWanCoBin(CyWdsumcon cyWdsumcon)
+    {
+        List<CyWdsumcon> list = cyDeptwandaMapper.selectCyDeptExWanCoBin(cyWdsumcon);
         return list;
     }
 

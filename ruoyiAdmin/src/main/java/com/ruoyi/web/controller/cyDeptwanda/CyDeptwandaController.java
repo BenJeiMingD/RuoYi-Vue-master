@@ -533,16 +533,19 @@ public class CyDeptwandaController extends BaseController {
                     cyDeptsalesexcel.setName(v3);
 
                 }
+                //Plmname2
                 if (configMergeModels.getC() == 4 && configMergeModels.getV().getM() != null) {
-                    String v4 = configMergeModels.getV().getM();
-                    cyDeptsalesexcel.setPlmname2(v4);
+                    String v2 = configMergeModels.getV().getM();
+                    cyDeptsalesexcel.setPlmname2(v2);
 
                 }
+                //Plmname5
                 if (configMergeModels.getC() == 5 && configMergeModels.getV().getM() != null) {
                     String v5 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setSeibancode(v5);
 
                 }
+                //Plmname3
                 if (configMergeModels.getC() == 6 && configMergeModels.getV().getM() != null) {
                     String v6 = configMergeModels.getV().getM();
                     cyDeptsalesexcel.setPlmname5(v6);
@@ -811,7 +814,7 @@ public class CyDeptwandaController extends BaseController {
                                 String mark = Deptwandalist.get(i-1).getMark();
                                 v=mark.toString();
                             }else {
-                                v="0";
+                                v="";
                             }
                         }
                         if (j==14){

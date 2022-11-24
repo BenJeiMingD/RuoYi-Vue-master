@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BaseOrganizationTrlMapper">
+
+    <resultMap type="BaseOrganizationTrl" id="BaseOrganizationTrlResult">
+        <result property="id"    column="ID"    />
+        <result property="sysmlflag"    column="SysMLFlag"    />
+        <result property="name"    column="Name"    />
+        <result property="description"    column="Description"    />
+        <result property="descflexfieldCombinename"    column="DescFlexField_CombineName"    />
+    </resultMap>
+
+    <sql id="selectBaseOrganizationTrlVo">
+        select ID, SysMLFlag, Name, Description, DescFlexField_CombineName from base_organization_trl
+    </sql>
+
+    <select id="selectBaseOrganizationTrlList" parameterType="BaseOrganizationTrl" resultMap="BaseOrganizationTrlResult">
+        <include refid="selectBaseOrganizationTrlVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and Name like concat('%', #{name}, '%')</if>
+            <if test="description != null  and description != ''"> and Description = #{description}</if>
+            <if test="descflexfieldCombinename != null  and descflexfieldCombinename != ''"> and DescFlexField_CombineName like concat('%', #{descflexfieldCombinename}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectBaseOrganizationTrlById" parameterType="Long" resultMap="BaseOrganizationTrlResult">
+        <include refid="selectBaseOrganizationTrlVo"/>
+        where ID = #{id}
+    </select>
+
+    <insert id="insertBaseOrganizationTrl" parameterType="BaseOrganizationTrl">
+        insert into base_organization_trl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">ID,</if>
+            <if test="sysmlflag != null">SysMLFlag,</if>
+            <if test="name != null">Name,</if>
+            <if test="description != null">Description,</if>
+            <if test="descflexfieldCombinename != null">DescFlexField_CombineName,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="sysmlflag != null">#{sysmlflag},</if>
+            <if test="name != null">#{name},</if>
+            <if test="description != null">#{description},</if>
+            <if test="descflexfieldCombinename != null">#{descflexfieldCombinename},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBaseOrganizationTrl" parameterType="BaseOrganizationTrl">
+        update base_organization_trl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sysmlflag != null">SysMLFlag = #{sysmlflag},</if>
+            <if test="name != null">Name = #{name},</if>
+            <if test="description != null">Description = #{description},</if>
+            <if test="descflexfieldCombinename != null">DescFlexField_CombineName = #{descflexfieldCombinename},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteBaseOrganizationTrlById" parameterType="Long">
+        delete from base_organization_trl where ID = #{id}
+    </delete>
+
+    <delete id="deleteBaseOrganizationTrlByIds" parameterType="String">
+        delete from base_organization_trl where ID in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -54,8 +54,8 @@ public interface ICyWdsumconService
     /**
      * 删除查询信息
      *
-     * @param id 查询主键
+     * @param
      * @return 结果
      */
-    public int deleteCyWdsumconById(Long id);
+    public int deleteCyWdsumconById();
 }

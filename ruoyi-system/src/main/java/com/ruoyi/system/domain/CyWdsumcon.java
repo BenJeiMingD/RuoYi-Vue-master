@@ -8,27 +8,19 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 查询对象 cy_wdsumcon
+ * 【请填写功能名称】对象 cy_wdsumcon
  *
- * @author Life
- * @date 2022-11-11
+ * @author ruoyi
+ * @date 2022-11-23
  */
 public class CyWdsumcon extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 批次号 */
-    @Excel(name = "批次号")
-    private String plancode;
-
     /**  销售订单日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = " 销售订单日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date modifiedon;
-
-    /** 单号 */
-    @Excel(name = "单号")
-    private String docno;
 
     /**  需求分类 */
     @Excel(name = " 需求分类")
@@ -44,7 +36,7 @@ public class CyWdsumcon extends BaseEntity
 
     /** 销售行id */
     @Excel(name = "销售行id")
-    private String saleslineid;
+    private String saleslineId;
 
     /** 生产组织 */
     @Excel(name = "生产组织")
@@ -94,21 +86,9 @@ public class CyWdsumcon extends BaseEntity
     @Excel(name = "订单数量")
     private String shuliang;
 
-    /** 累计释放数量 */
-    @Excel(name = "累计释放数量")
-    private String ljsf;
-
-    /** 可释放量 */
-    @Excel(name = "可释放量")
-    private String t3u3;
-
     /** 累计排产量 */
     @Excel(name = "累计排产量")
     private String ljpc;
-
-    /** 实际排产量 */
-    @Excel(name = "实际排产量")
-    private String y3ap3av3;
 
     /** 可排产量 */
     @Excel(name = "可排产量")
@@ -128,7 +108,7 @@ public class CyWdsumcon extends BaseEntity
 
     /** 夏季硫化定额 */
     @Excel(name = "夏季硫化定额")
-    private String cxj;
+    private String descflexfieldPrivatedescseg7;
 
     /** 冬季硫化定额 */
     @Excel(name = "冬季硫化定额")
@@ -156,7 +136,7 @@ public class CyWdsumcon extends BaseEntity
 
     /** 模具总量 */
     @Excel(name = "模具总量")
-    private String cmj;
+    private String descflexfieldPrivatedescseg9;
 
     /** 模具投产 */
     @Excel(name = "模具投产")
@@ -170,65 +150,73 @@ public class CyWdsumcon extends BaseEntity
     @Excel(name = "零头库存")
     private String ltkc;
 
-    /** 早 */
-    @Excel(name = "早")
-    private String dayShift;
+    /** 早1 */
+    @Excel(name = "早1")
+    private String dayShift1;
 
-    /** 晚 */
-    @Excel(name = "晚")
-    private String noonShift;
+    /** 晚1 */
+    @Excel(name = "晚1")
+    private String noonShift1;
+
+    /** 早2 */
+    @Excel(name = "早2")
+    private String dayShift2;
+
+    /** 晚2 */
+    @Excel(name = "晚2")
+    private String noonShift2;
+
+    /** 早3 */
+    @Excel(name = "早3")
+    private String dayShift3;
+
+    /** 晚3 */
+    @Excel(name = "晚3")
+    private String noonShift3;
+
+    /** 早4 */
+    @Excel(name = "早4")
+    private String dayShift4;
+
+    /** 晚4 */
+    @Excel(name = "晚4")
+    private String noonShift4;
+
+    /** 早5 */
+    @Excel(name = "早5")
+    private String dayShift5;
+
+    /** 晚5 */
+    @Excel(name = "晚5")
+    private String noonShift5;
+
+    /** 早6 */
+    @Excel(name = "早6")
+    private String dayShift6;
+
+    /** 晚6 */
+    @Excel(name = "晚6")
+    private String noonShift6;
+
+    /** 早7 */
+    @Excel(name = "早7")
+    private String dayShift7;
+
+    /** 晚7 */
+    @Excel(name = "晚7")
+    private String noonShift7;
 
     /** 本周生产计划量 */
     @Excel(name = "本周生产计划量")
     private String suman3;
 
-    /** 差异量 */
-    @Excel(name = "差异量")
-    private String ap3y3;
-
-    /** 实际释放量 */
-    @Excel(name = "实际释放量")
-    private String qtys;
-
-    /** 累计在制数量 */
-    @Excel(name = "累计在制数量")
-    private String u3;
-
     /** 新增排产 */
     @Excel(name = "新增排产")
     private String ap3;
 
-    /** 剩余排产 */
-    @Excel(name = "剩余排产")
-    private String t3w3;
-
-    /** 上周排产数 */
-    @Excel(name = "上周排产数")
-    private String lastWeek;
-
-    /** 填报日期 */
-    @Excel(name = "填报日期")
-    private String filldata;
-
-    /** 零头库存 */
-    @Excel(name = "零头库存")
-    private String zero;
-
     /** 是否有BOM */
     @Excel(name = "是否有BOM")
     private String iflen;
-
-    /** 客户编码 */
-    @Excel(name = "客户编码")
-    private String custcode;
-
-    /** 客户名称 */
-    @Excel(name = "客户名称")
-    private String custname;
-
-    /** 错误信息 */
-    @Excel(name = "错误信息")
-    private String error;
 
     /** 工艺标志 */
     @Excel(name = "工艺标志")
@@ -241,15 +229,6 @@ public class CyWdsumcon extends BaseEntity
     /** 主键 */
     private Long id;
 
-    public void setPlancode(String plancode)
-    {
-        this.plancode = plancode;
-    }
-
-    public String getPlancode()
-    {
-        return plancode;
-    }
     public void setModifiedon(Date modifiedon)
     {
         this.modifiedon = modifiedon;
@@ -258,15 +237,6 @@ public class CyWdsumcon extends BaseEntity
     public Date getModifiedon()
     {
         return modifiedon;
-    }
-    public void setDocno(String docno)
-    {
-        this.docno = docno;
-    }
-
-    public String getDocno()
-    {
-        return docno;
     }
     public void setDemandname(String demandname)
     {
@@ -295,14 +265,55 @@ public class CyWdsumcon extends BaseEntity
     {
         return plmItemCode;
     }
-    public void setSaleslineid(String saleslineid)
+    public void setSaleslineId(String saleslineId)
     {
-        this.saleslineid = saleslineid;
+        this.saleslineId = saleslineId;
     }
 
-    public String getSaleslineid()
+    public CyWdsumcon() {
+    }
+
+    public CyWdsumcon(Date modifiedon, String demandname, String code, String plmItemCode, String salesLineId, String supplyorg, String name, String plmname2, String seibancode, String ckzzd, String plmname5, String plmname3, String plmname4, String plmname6, String ctt, String descflexfieldPubdescseg32, String shuliang, String ljpc, String t3, String t3ab3, String bzpc, String swan, String descflexfieldPrivatedescseg7, String cdj, String descflexfieldPrivatedescseg13, String gydm, String tc, String memo, String dd, String descflexfieldPrivatedescseg9, String mj, String mjh, String ap3, String gybz, String gyyq) {
+        this.modifiedon = modifiedon;
+        this.demandname = demandname;
+        this.code = code;
+        this.plmItemCode = plmItemCode;
+        this.saleslineId = salesLineId;
+        this.supplyorg = supplyorg;
+        this.name = name;
+        this.plmname2 = plmname2;
+        this.seibancode = seibancode;
+        this.ckzzd = ckzzd;
+        this.plmname5 = plmname5;
+        this.plmname3 = plmname3;
+        this.plmname4 = plmname4;
+        this.plmname6 = plmname6;
+        this.ctt = ctt;
+        this.descflexfieldPubdescseg32 = descflexfieldPubdescseg32;
+        this.shuliang = shuliang;
+        this.ljpc = ljpc;
+        this.t3 = t3;
+        this.t3ab3 = t3ab3;
+        this.bzpc = bzpc;
+        this.swan = swan;
+        this.descflexfieldPrivatedescseg7 = descflexfieldPrivatedescseg7;
+        this.cdj = cdj;
+        this.descflexfieldPrivatedescseg13 = descflexfieldPrivatedescseg13;
+        this.gydm = gydm;
+        this.tc = tc;
+        this.memo = memo;
+        this.dd = dd;
+        this.descflexfieldPrivatedescseg9 = descflexfieldPrivatedescseg9;
+        this.mj = mj;
+        this.mjh = mjh;
+        this.ap3 = ap3;
+        this.gybz = gybz;
+        this.gyyq = gyyq;
+    }
+
+    public String getSaleslineId()
     {
-        return saleslineid;
+        return saleslineId;
     }
     public void setSupplyorg(String supplyorg)
     {
@@ -412,24 +423,6 @@ public class CyWdsumcon extends BaseEntity
     {
         return shuliang;
     }
-    public void setLjsf(String ljsf)
-    {
-        this.ljsf = ljsf;
-    }
-
-    public String getLjsf()
-    {
-        return ljsf;
-    }
-    public void setT3u3(String t3u3)
-    {
-        this.t3u3 = t3u3;
-    }
-
-    public String getT3u3()
-    {
-        return t3u3;
-    }
     public void setLjpc(String ljpc)
     {
         this.ljpc = ljpc;
@@ -438,15 +431,6 @@ public class CyWdsumcon extends BaseEntity
     public String getLjpc()
     {
         return ljpc;
-    }
-    public void setY3ap3av3(String y3ap3av3)
-    {
-        this.y3ap3av3 = y3ap3av3;
-    }
-
-    public String getY3ap3av3()
-    {
-        return y3ap3av3;
     }
     public void setT3(String t3)
     {
@@ -484,14 +468,14 @@ public class CyWdsumcon extends BaseEntity
     {
         return swan;
     }
-    public void setCxj(String cxj)
+    public void setDescflexfieldPrivatedescseg7(String descflexfieldPrivatedescseg7)
     {
-        this.cxj = cxj;
+        this.descflexfieldPrivatedescseg7 = descflexfieldPrivatedescseg7;
     }
 
-    public String getCxj()
+    public String getDescflexfieldPrivatedescseg7()
     {
-        return cxj;
+        return descflexfieldPrivatedescseg7;
     }
     public void setCdj(String cdj)
     {
@@ -547,14 +531,14 @@ public class CyWdsumcon extends BaseEntity
     {
         return dd;
     }
-    public void setCmj(String cmj)
+    public void setDescflexfieldPrivatedescseg9(String descflexfieldPrivatedescseg9)
     {
-        this.cmj = cmj;
+        this.descflexfieldPrivatedescseg9 = descflexfieldPrivatedescseg9;
     }
 
-    public String getCmj()
+    public String getDescflexfieldPrivatedescseg9()
     {
-        return cmj;
+        return descflexfieldPrivatedescseg9;
     }
     public void setMj(String mj)
     {
@@ -583,23 +567,131 @@ public class CyWdsumcon extends BaseEntity
     {
         return ltkc;
     }
-    public void setDayShift(String dayShift)
+    public void setDayShift1(String dayShift1)
     {
-        this.dayShift = dayShift;
+        this.dayShift1 = dayShift1;
     }
 
-    public String getDayShift()
+    public String getDayShift1()
     {
-        return dayShift;
+        return dayShift1;
     }
-    public void setNoonShift(String noonShift)
+    public void setNoonShift1(String noonShift1)
     {
-        this.noonShift = noonShift;
+        this.noonShift1 = noonShift1;
     }
 
-    public String getNoonShift()
+    public String getNoonShift1()
     {
-        return noonShift;
+        return noonShift1;
+    }
+    public void setDayShift2(String dayShift2)
+    {
+        this.dayShift2 = dayShift2;
+    }
+
+    public String getDayShift2()
+    {
+        return dayShift2;
+    }
+    public void setNoonShift2(String noonShift2)
+    {
+        this.noonShift2 = noonShift2;
+    }
+
+    public String getNoonShift2()
+    {
+        return noonShift2;
+    }
+    public void setDayShift3(String dayShift3)
+    {
+        this.dayShift3 = dayShift3;
+    }
+
+    public String getDayShift3()
+    {
+        return dayShift3;
+    }
+    public void setNoonShift3(String noonShift3)
+    {
+        this.noonShift3 = noonShift3;
+    }
+
+    public String getNoonShift3()
+    {
+        return noonShift3;
+    }
+    public void setDayShift4(String dayShift4)
+    {
+        this.dayShift4 = dayShift4;
+    }
+
+    public String getDayShift4()
+    {
+        return dayShift4;
+    }
+    public void setNoonShift4(String noonShift4)
+    {
+        this.noonShift4 = noonShift4;
+    }
+
+    public String getNoonShift4()
+    {
+        return noonShift4;
+    }
+    public void setDayShift5(String dayShift5)
+    {
+        this.dayShift5 = dayShift5;
+    }
+
+    public String getDayShift5()
+    {
+        return dayShift5;
+    }
+    public void setNoonShift5(String noonShift5)
+    {
+        this.noonShift5 = noonShift5;
+    }
+
+    public String getNoonShift5()
+    {
+        return noonShift5;
+    }
+    public void setDayShift6(String dayShift6)
+    {
+        this.dayShift6 = dayShift6;
+    }
+
+    public String getDayShift6()
+    {
+        return dayShift6;
+    }
+    public void setNoonShift6(String noonShift6)
+    {
+        this.noonShift6 = noonShift6;
+    }
+
+    public String getNoonShift6()
+    {
+        return noonShift6;
+    }
+    public void setDayShift7(String dayShift7)
+    {
+        this.dayShift7 = dayShift7;
+    }
+
+    public String getDayShift7()
+    {
+        return dayShift7;
+    }
+    public void setNoonShift7(String noonShift7)
+    {
+        this.noonShift7 = noonShift7;
+    }
+
+    public String getNoonShift7()
+    {
+        return noonShift7;
     }
     public void setSuman3(String suman3)
     {
@@ -610,33 +702,6 @@ public class CyWdsumcon extends BaseEntity
     {
         return suman3;
     }
-    public void setAp3y3(String ap3y3)
-    {
-        this.ap3y3 = ap3y3;
-    }
-
-    public String getAp3y3()
-    {
-        return ap3y3;
-    }
-    public void setQtys(String qtys)
-    {
-        this.qtys = qtys;
-    }
-
-    public String getQtys()
-    {
-        return qtys;
-    }
-    public void setU3(String u3)
-    {
-        this.u3 = u3;
-    }
-
-    public String getU3()
-    {
-        return u3;
-    }
     public void setAp3(String ap3)
     {
         this.ap3 = ap3;
@@ -646,42 +711,6 @@ public class CyWdsumcon extends BaseEntity
     {
         return ap3;
     }
-    public void setT3w3(String t3w3)
-    {
-        this.t3w3 = t3w3;
-    }
-
-    public String getT3w3()
-    {
-        return t3w3;
-    }
-    public void setLastWeek(String lastWeek)
-    {
-        this.lastWeek = lastWeek;
-    }
-
-    public String getLastWeek()
-    {
-        return lastWeek;
-    }
-    public void setFilldata(String filldata)
-    {
-        this.filldata = filldata;
-    }
-
-    public String getFilldata()
-    {
-        return filldata;
-    }
-    public void setZero(String zero)
-    {
-        this.zero = zero;
-    }
-
-    public String getZero()
-    {
-        return zero;
-    }
     public void setIflen(String iflen)
     {
         this.iflen = iflen;
@@ -690,33 +719,6 @@ public class CyWdsumcon extends BaseEntity
     public String getIflen()
     {
         return iflen;
-    }
-    public void setCustcode(String custcode)
-    {
-        this.custcode = custcode;
-    }
-
-    public String getCustcode()
-    {
-        return custcode;
-    }
-    public void setCustname(String custname)
-    {
-        this.custname = custname;
-    }
-
-    public String getCustname()
-    {
-        return custname;
-    }
-    public void setError(String error)
-    {
-        this.error = error;
-    }
-
-    public String getError()
-    {
-        return error;
     }
     public void setGybz(String gybz)
     {
@@ -749,13 +751,11 @@ public class CyWdsumcon extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-                .append("plancode", getPlancode())
                 .append("modifiedon", getModifiedon())
-                .append("docno", getDocno())
                 .append("demandname", getDemandname())
                 .append("code", getCode())
                 .append("plmItemCode", getPlmItemCode())
-                .append("saleslineid", getSaleslineid())
+                .append("saleslineId", getSaleslineId())
                 .append("supplyorg", getSupplyorg())
                 .append("name", getName())
                 .append("plmname2", getPlmname2())
@@ -768,40 +768,39 @@ public class CyWdsumcon extends BaseEntity
                 .append("ctt", getCtt())
                 .append("descflexfieldPubdescseg32", getDescflexfieldPubdescseg32())
                 .append("shuliang", getShuliang())
-                .append("ljsf", getLjsf())
-                .append("t3u3", getT3u3())
                 .append("ljpc", getLjpc())
-                .append("y3ap3av3", getY3ap3av3())
                 .append("t3", getT3())
                 .append("t3ab3", getT3ab3())
                 .append("bzpc", getBzpc())
                 .append("swan", getSwan())
-                .append("cxj", getCxj())
+                .append("descflexfieldPrivatedescseg7", getDescflexfieldPrivatedescseg7())
                 .append("cdj", getCdj())
                 .append("descflexfieldPrivatedescseg13", getDescflexfieldPrivatedescseg13())
                 .append("gydm", getGydm())
                 .append("tc", getTc())
                 .append("memo", getMemo())
                 .append("dd", getDd())
-                .append("cmj", getCmj())
+                .append("descflexfieldPrivatedescseg9", getDescflexfieldPrivatedescseg9())
                 .append("mj", getMj())
                 .append("mjh", getMjh())
                 .append("ltkc", getLtkc())
-                .append("dayShift", getDayShift())
-                .append("noonShift", getNoonShift())
+                .append("dayShift1", getDayShift1())
+                .append("noonShift1", getNoonShift1())
+                .append("dayShift2", getDayShift2())
+                .append("noonShift2", getNoonShift2())
+                .append("dayShift3", getDayShift3())
+                .append("noonShift3", getNoonShift3())
+                .append("dayShift4", getDayShift4())
+                .append("noonShift4", getNoonShift4())
+                .append("dayShift5", getDayShift5())
+                .append("noonShift5", getNoonShift5())
+                .append("dayShift6", getDayShift6())
+                .append("noonShift6", getNoonShift6())
+                .append("dayShift7", getDayShift7())
+                .append("noonShift7", getNoonShift7())
                 .append("suman3", getSuman3())
-                .append("ap3y3", getAp3y3())
-                .append("qtys", getQtys())
-                .append("u3", getU3())
                 .append("ap3", getAp3())
-                .append("t3w3", getT3w3())
-                .append("lastWeek", getLastWeek())
-                .append("filldata", getFilldata())
-                .append("zero", getZero())
                 .append("iflen", getIflen())
-                .append("custcode", getCustcode())
-                .append("custname", getCustname())
-                .append("error", getError())
                 .append("gybz", getGybz())
                 .append("gyyq", getGyyq())
                 .append("id", getId())

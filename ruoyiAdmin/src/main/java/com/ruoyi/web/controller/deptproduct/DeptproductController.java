@@ -1,4 +1,4 @@
-package com.ruoyi.system.controller;
+package com.ruoyi.web.controller.deptproduct;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -37,8 +37,8 @@ public class DeptproductController extends BaseController
     /**
      * 查询物料产能对照列表
      */
-    @PreAuthorize("@ss.hasPermi('system:deptproduct:list')")
-    @GetMapping("/list")
+    //@PreAuthorize("@ss.hasPermi('system:deptproduct:list')")
+    @GetMapping("/list")//开发接口
     public TableDataInfo list(Deptproduct deptproduct)
     {
         startPage();

@@ -4,8 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.ruoyi.system.domain.CyDeptwanda;
-import com.ruoyi.system.domain.Deptqi;
+import com.ruoyi.system.domain.*;
 import org.springframework.data.repository.query.Param;
 
 /**
@@ -45,6 +44,13 @@ public interface CyDeptwandaMapper
      * @return 插单集合
      */
     public List<CyDeptwanda> selectCyDeptwandaList(CyDeptwanda cyDeptwanda);
+    /**
+     * 查询插单列表
+     *
+     * @param cyWdsumcon 汇总表数据
+     * @return 插单集合
+     */
+    public List<CyWdsumcon> selectCyDeptExWanCoBin(CyWdsumcon cyWdsumcon);
 
     /**
      * 查询销售行id

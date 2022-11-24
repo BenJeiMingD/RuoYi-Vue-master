@@ -3,6 +3,7 @@ package com.ruoyi.system.service;
 import java.util.Date;
 import java.util.List;
 import com.ruoyi.system.domain.CyDeptwanda;
+import com.ruoyi.system.domain.CyWdsumcon;
 import com.ruoyi.system.domain.Deptqi;
 
 /**
@@ -52,6 +53,14 @@ public interface ICyDeptwandaService
      * @return 插单集合
      */
     public List<CyDeptwanda> selectCyDeptwandaList(CyDeptwanda cyDeptwanda);
+
+    /**
+     * 查询插单列表
+     *
+     * @param cyWdsumcon 汇总表
+     * @return 插单集合
+     */
+    public List<CyWdsumcon> selectCyDeptExWanCoBin(CyWdsumcon cyWdsumcon);
 
     /**
      * 新增插单

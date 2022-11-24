@@ -310,7 +310,25 @@ public class CyDeptpoController extends BaseController
                 cyDeptwanda.setDemandname(demandname);
                 cyDeptwanda.setCode(code);
                 cyDeptwanda.setName(name);
-                cyDeptwanda.setPlmname2(plmname2);
+                int index = plmname2.indexOf("~");
+                int index2 = plmname2.indexOf("~", index + 1);
+                String v4 = plmname2.substring(index+1,index2);
+
+                cyDeptwanda.setPlmname2(v4);
+                int index21 = plmname2.indexOf("~", index + 1);
+                int index3 = plmname2.indexOf("~",index21+1);
+                int index4 = plmname2.indexOf("~",index3+1);
+                int index5 = plmname2.indexOf("~",index4+1);
+                String result2 = plmname2.substring(index4+1,index5);
+                cyDeptwanda.setPlmname5(result2);
+
+                int index1 = plmname2.indexOf("~");
+                //根据第一个点的位置 获得第二个点的位置
+                int index20 = plmname2.indexOf("~", index1 + 1);
+                int index30 = plmname2.indexOf("~",index20+1);
+                String result1 = plmname2.substring(index20+1,index30);
+                cyDeptwanda.setPlmname3(result1);
+
                 cyDeptwanda.setSeibancode(seibancode);
                 cyDeptwanda.setDescflexfieldPubdescseg32(descflexfieldPubdescseg32);
                 cyDeptwanda.setShuliang(shuliang);

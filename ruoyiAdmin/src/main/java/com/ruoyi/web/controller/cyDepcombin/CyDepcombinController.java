@@ -75,29 +75,6 @@ public class CyDepcombinController extends BaseController
     }
 
     /**
-     * 导出合并汇总列表
-     */
-    /*@PreAuthorize("@ss.hasPermi('system:depcombin:export')")
-    @Log(title = "合并汇总", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, CyDepcombin cyDepcombin)
-    {
-        List<CyDepcombin> list = cyDepcombinService.selectCyDepcombinList(cyDepcombin);
-        ExcelUtil<CyDepcombin> util = new ExcelUtil<CyDepcombin>(CyDepcombin.class);
-        util.exportExcel(response, list, "合并汇总数据");
-    }*/
-
-    /**
-     * 获取合并汇总详细信息
-     */
-    /*@PreAuthorize("@ss.hasPermi('system:depcombin:query')")
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Integer id)
-    {
-        return AjaxResult.success(cyDepcombinService.selectCyDepcombinById(id));
-    }*/
-
-    /**
      * 新增合并汇总
      */
     /*@PreAuthorize("@ss.hasPermi('system:depcombin:add')")*/
@@ -158,17 +135,6 @@ public class CyDepcombinController extends BaseController
         }
         return null;
     }
-
-    /**
-     * 修改合并汇总
-     */
-    /*@PreAuthorize("@ss.hasPermi('system:depcombin:edit')")
-    @Log(title = "合并汇总", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody CyDepcombin cyDepcombin)
-    {
-        return toAjax(cyDepcombinService.updateCyDepcombin(cyDepcombin));
-    }*/
 
     /**
      * 删除合并汇总

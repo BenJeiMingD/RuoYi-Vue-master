@@ -178,26 +178,33 @@ public class DeptformController extends BaseController {
     public AjaxResult remove(@RequestBody String string) {
         JSONObject data = JSON.parseObject(string).getJSONObject("data");
         Deptform deptfor = JSON.toJavaObject(data, Deptform.class);
-        Integer id = deptfor.getId();//填报派单的id --通过id查询插单表的 番号 ，料号 ，需求分类 ==>进行删除
+        Integer id = deptfor.getId();//填报派单的id 以及是否是插单 判断要不要去查询 插单表--通过id查询插单表的 番号 ，料号 ，需求分类 ==>进行删除
         String userName = deptfor.getUserName();
         Deptform deptform = deptformService.selectDeptformById(id);
+        Integer insertOrder = deptform.getInsertOrder();//通过传入的id反查是否插单的标识
         Integer issueNumber = deptform.getIssueNumber();
         CyDeptsalesexcel cyDeptsalesexcel = new CyDeptsalesexcel();
         cyDeptsalesexcel.setIssueNumber(issueNumber);
         cyDeptsalesexcel.setUserName(userName);
-
-        CyDeptorderinsert cyDeptorderinsert = new CyDeptorderinsert();
-        CyDeptsalesexcel cyDeptsalesexcel1 = new CyDeptsalesexcel();//销售单
-        cyDeptorderinsert.setCyFromId(id);
-        List<CyDeptorderinsert> cyDeptorderinserts = cyDeptorderinsertService.selectCyDeptorderinsertList(cyDeptorderinsert);
-        cyDeptsalesexcel1.setDemandname(cyDeptorderinserts.get(0).getDemandname());//需求分类
-        cyDeptsalesexcel1.setIssueNumber(issueNumber);//期号
-        cyDeptsalesexcel1.setUserName(userName);//用户名
-        cyDeptsalesexcel1.setSeibancode(cyDeptorderinserts.get(0).getSeibancode());//番号
-        cyDeptsalesexcel1.setCode(cyDeptorderinserts.get(0).getCode());//料号
-        List<CyDeptsalesexcel> cyDeptsalesexcels1 = cyDeptsalesexcelService.selectCyDeptsalesexcelList(cyDeptsalesexcel1);//通过条件查询对应的一条数据
-        Integer id2 = cyDeptsalesexcels1.get(0).getId();
-        cyDeptsalesexcelService.deleteCyDeptsalesexcelById(id2);//删除对应的插单表
+        //填报派单的id 以及是否是插单 判断要不要去查询 插单表
+        if (insertOrder!=0) { //满足 1 ；此条数据为插单数据
+            CyDeptorderinsert cyDeptorderinsert = new CyDeptorderinsert();//创建插单表对象
+            CyDeptsalesexcel cyDeptsalesexcel1 = new CyDeptsalesexcel();//销售单
+            cyDeptorderinsert.setCyFromId(id);//将传入的id 给到插单表进行反查
+            List<CyDeptorderinsert> cyDeptorderinserts = cyDeptorderinsertService.selectCyDeptorderinsertList(cyDeptorderinsert);
+            //通过id进行反查 销售表单 对应数据
+            Integer id3 = cyDeptorderinserts.get(0).getId();
+            cyDeptsalesexcel1.setDemandname(cyDeptorderinserts.get(0).getDemandname());//需求分类
+            cyDeptsalesexcel1.setIssueNumber(issueNumber);//期号
+            cyDeptsalesexcel1.setUserName(userName);//用户名
+            cyDeptsalesexcel1.setSeibancode(cyDeptorderinserts.get(0).getSeibancode());//番号
+            cyDeptsalesexcel1.setCode(cyDeptorderinserts.get(0).getCode());//料号
+            List<CyDeptsalesexcel> cyDeptsalesexcels1 = cyDeptsalesexcelService.selectCyDeptsalesexcelList(cyDeptsalesexcel1);//通过条件查询对应的一条数据
+            if (cyDeptsalesexcels1.size()!=0){//当销售表中没有此数据，不对销售表进行操作
+            Integer id2 = cyDeptsalesexcels1.get(0).getId();//获取销售派单表单id
+            cyDeptsalesexcelService.deleteCyDeptsalesexcelById(id2);}//删除 插单 的对应销售派单表数据
+            cyDeptorderinsertService.deleteCyDeptorderinsertById(id3);
+        }
         //批量删除
         Integer[] array2 = null;
         ArrayList<Integer> objects = new ArrayList<>();
@@ -259,7 +266,7 @@ public class DeptformController extends BaseController {
         if (issueNumber!=null&&userName!=null){
             return AjaxResult.success("操作成功",200);
         }
-        return null;
+        return AjaxResult.error("获取参数不全");
     }
 
     //获取单行 的标题

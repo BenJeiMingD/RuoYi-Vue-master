@@ -174,34 +174,6 @@
                      #{userList.plmname3},#{userList.shuliang},#{userList.ljpc},#{userList.t3},#{userList.xq},#{userList.mark},
                      #{userList.descflexfieldPrivatedescseg7},#{userList.descflexfieldPrivatedescseg9},#{userList.descflexfieldPrivatedescseg11},
                      #{userList.deptformId},#{userList.userId},#{userList.saleslineId},#{userList.userName},#{userList.todayNumber},#{userList.personalNeeds},#{userList.sumZhu},#{userList.issueNumber})
-        <!--                <if test="id != null">#{id},</if>-->
-<!--                <if test="modifiedon != null">#{userList.modifiedon},</if>-->
-<!--                <if test="demandname != null">#{userList.demandname},</if>-->
-<!--                <if test="code != null">#{userList.code},</if>-->
-<!--                <if test="name != null">#{userList.name},</if>-->
-<!--                <if test="plmname2 != null">#{userList.plmname2},</if>-->
-<!--                <if test="seibancode != null">#{userList.seibancode},</if>-->
-<!--                <if test="plmname5 != null">#{userList.plmname5},</if>-->
-<!--                <if test="plmname3 != null">#{userList.plmname3},</if>-->
-<!--                <if test="descflexfieldPubdescseg32 != null">#{userList.descflexfieldPubdescseg32},</if>-->
-<!--                <if test="shuliang != null">#{userList.shuliang},</if>-->
-<!--                <if test="ljpc != null">#{userList.ljpc},</if>-->
-<!--                <if test="t3 != null">#{userList.t3},</if>-->
-<!--                <if test="xq != null">#{userList.xq},</if>-->
-<!--                <if test="mark != null">#{userList.mark},</if>-->
-<!--                <if test="descflexfieldPrivatedescseg7 != null">#{userList.descflexfieldPrivatedescseg7},</if>-->
-<!--                <if test="descflexfieldPrivatedescseg9 != null">#{userList.descflexfieldPrivatedescseg9},</if>-->
-<!--                <if test="descflexfieldPrivatedescseg11 != null">#{userList.descflexfieldPrivatedescseg11},</if>-->
-<!--                <if test="deptformId != null">#{userList.deptformId},</if>-->
-<!--                <if test="deptsumziId != null">#{userList.deptsumziId},</if>-->
-<!--                <if test="deptsumId != null">#{userList.deptsumId},</if>-->
-<!--                <if test="userId != null">#{userList.userId},#{userList.saleslineId},#{userList.userName},#{userList.todayNumber},#{userList.personalNeeds},#{userList.sumZhu},#{userList.issueNumber}</if>-->
-<!--                <if test="saleslineId != null">#{userList.saleslineId},</if>-->
-<!--                <if test="userName != null">#{userList.userName},</if>-->
-<!--                <if test="todayNumber != null">#{userList.todayNumber},</if>-->
-<!--                <if test="personalNeeds != null">#{userList.personalNeeds},</if>-->
-<!--                <if test="sumZhu != null">#{userList.sumZhu},</if>-->
-<!--                <if test="issueNumber != null">#{userList.issueNumber}</if>-->
         </foreach >
     </insert>
 

@@ -1,6 +1,9 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.annotation.DataSource;
+import com.ruoyi.common.enums.DataSourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CyWdsumconMapper;
@@ -26,6 +29,7 @@ public class CyWdsumconServiceImpl implements ICyWdsumconService
      * @return 查询
      */
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public CyWdsumcon selectCyWdsumconById(Long id)
     {
         return cyWdsumconMapper.selectCyWdsumconById(id);
@@ -38,6 +42,7 @@ public class CyWdsumconServiceImpl implements ICyWdsumconService
      * @return 查询
      */
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public List<CyWdsumcon> selectCyWdsumconList(CyWdsumcon cyWdsumcon)
     {
         return cyWdsumconMapper.selectCyWdsumconList(cyWdsumcon);
@@ -50,6 +55,7 @@ public class CyWdsumconServiceImpl implements ICyWdsumconService
      * @return 结果
      */
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public int insertCyWdsumcon(CyWdsumcon cyWdsumcon)
     {
         return cyWdsumconMapper.insertCyWdsumcon(cyWdsumcon);
@@ -62,6 +68,7 @@ public class CyWdsumconServiceImpl implements ICyWdsumconService
      * @return 结果
      */
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public int updateCyWdsumcon(CyWdsumcon cyWdsumcon)
     {
         return cyWdsumconMapper.updateCyWdsumcon(cyWdsumcon);
@@ -74,6 +81,7 @@ public class CyWdsumconServiceImpl implements ICyWdsumconService
      * @return 结果
      */
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public int deleteCyWdsumconByIds(Long[] ids)
     {
         return cyWdsumconMapper.deleteCyWdsumconByIds(ids);
@@ -82,12 +90,13 @@ public class CyWdsumconServiceImpl implements ICyWdsumconService
     /**
      * 删除查询信息
      *
-     * @param id 查询主键
+     * @param
      * @return 结果
      */
     @Override
-    public int deleteCyWdsumconById(Long id)
+    @DataSource(value = DataSourceType.SLAVE)
+    public int deleteCyWdsumconById()
     {
-        return cyWdsumconMapper.deleteCyWdsumconById(id);
+        return cyWdsumconMapper.deleteCyWdsumconById();
     }
 }

@@ -1,11 +1,7 @@
 package com.ruoyi.web.controller.cydeptSalesExcel;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -14,13 +10,11 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.ExcelUtils;
-import com.ruoyi.LuckySheetExportUtil;
+
 import com.ruoyi.common.annotation.DataSource;
 import com.ruoyi.common.enums.DataSourceType;
 import com.ruoyi.system.domain.*;
 import com.ruoyi.system.service.*;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -58,7 +52,7 @@ public class CyDeptsalesexcelController extends BaseController {
     private  ICyDeptpoService cyDeptpoService;
 
     @Autowired
-    private  IDeptzhuService deptzhuService;
+    private  ICyWdsumconService wdsumconService;
 
     @Autowired
     private  ICyDeptorderinsertService cyDeptorderinsertService;
@@ -67,7 +61,7 @@ public class CyDeptsalesexcelController extends BaseController {
     private IDeptproductService deptproductService;
 
     @Autowired
-    private  IDeptformService deptformService;
+    private  IBaseOrganizationTrlService baseOrganizationTrlService;
 
     //查询redis缓存
     @Autowired
@@ -592,16 +586,17 @@ public class CyDeptsalesexcelController extends BaseController {
                         Integer xq = lists.get(i-1).getXq();
                         v = xq.toString();
                     } else {
-                        v = "0";
+                        v = "";
                     }
 
                 }
                 if (j == 13) {
                     if (lists.get(i-1).getMark() != null) {
                         String mark = lists.get(i-1).getMark();
-                        v = mark.toString();
+                        if (mark.equals("0")){v = "";}else {
+                        v = mark.toString();}
                     } else {
-                        v = "0";
+                        v = "";
                     }
                 }
                 if (j == 14) {
@@ -695,7 +690,7 @@ public class CyDeptsalesexcelController extends BaseController {
         Integer issueNumber = cyDeptsalesexcel.getIssueNumber();
         Issue = issueNumber;
         if (issueNumber!=null){
-            return AjaxResult.success("传入的期数为null");
+            return AjaxResult.success("传入的期数为:"+issueNumber);
         }
         return null;
     }
@@ -733,7 +728,93 @@ public class CyDeptsalesexcelController extends BaseController {
                 cyDeptorderinsertService.deleteCyDeptorderinsertById(cyDeptorderinserts.get(i).getId());*/
             }
         }
+        //查询出有效数据行数
         List<CyDeptsalesexcel> lists = cyDeptsalesexcelService.selectCyDeptSummaryList(cyDeptsalesexcel);
+
+        //查询出视图表 Cy_deptExWanCobin 的code对应行
+        CyWdsumcon cyWdsumcon = new CyWdsumcon();
+        for (int i = 0; i < lists.size(); i++) {
+
+            cyWdsumcon.setCode(lists.get(i).getCode());//获取每条数据的code
+            cyWdsumcon.setName(lists.get(i).getName());//获取每条数据的料号
+            cyWdsumcon.setDemandname(lists.get(i).getDemandname());//获取每条数据的需求分类号
+            List<CyWdsumcon> cyWdsumcons = cyDeptwandaService.selectCyDeptExWanCoBin(cyWdsumcon);//查询 视图汇总表,新表
+            CyWdsumcon cyWdsumcon1 = cyWdsumcons.get(0);//把查询到的一条数据插入到 cy_wdsumcon 视图汇总表,新表
+            String descflexfieldPrivatedescseg13 = cyWdsumcon1.getDescflexfieldPrivatedescseg13();
+            String plmname2 = cyWdsumcon1.getPlmname2();
+            int index = plmname2.indexOf("~");
+            int index2 = plmname2.indexOf("~", index + 1);
+            plmname2 = plmname2.substring(index+1,index2);
+            String plmname3 = cyWdsumcon1.getPlmname3();
+            index = plmname3.indexOf("~");
+            index2 = plmname3.indexOf("~", index + 1);
+            int index3 = plmname3.indexOf("~", index2 + 1);
+            plmname3 = plmname3.substring(index2+1,index3);
+            String plmname4 = cyWdsumcon1.getPlmname4();
+            index = plmname4.indexOf("~");
+            index2 = plmname4.indexOf("~", index + 1);
+            index3 = plmname4.indexOf("~", index2 + 1);
+            int index4 = plmname4.indexOf("~", index3 + 1);
+            plmname4 = plmname4.substring(index3+1,index4);
+            String plmname5 = cyWdsumcon1.getPlmname5();
+            index = plmname5.indexOf("~");
+            index2 = plmname5.indexOf("~", index + 1);
+            index3 = plmname5.indexOf("~", index2 + 1);
+            index4 = plmname5.indexOf("~", index3 + 1);
+            int index5 = plmname5.indexOf("~", index4 + 1);
+            plmname5 = plmname5.substring(index4+1,index5);
+            String plmname6 = cyWdsumcon1.getPlmname6();
+            index = plmname6.indexOf("~");
+            index2 = plmname6.indexOf("~", index + 1);
+            index3 = plmname6.indexOf("~", index2 + 1);
+            index4 = plmname6.indexOf("~", index3 + 1);
+            index5 = plmname6.indexOf("~", index4 + 1);
+            int index6 = plmname6.indexOf("~", index5 + 1);
+            plmname6 = plmname6.substring(index5+1,index6);
+            //CyWdsumcon cyWdsumcon2 = new CyWdsumcon(cyWdsumcon1.getModifiedon(),cyWdsumcon1.getDemandname(),cyWdsumcon1.getCode(),cyWdsumcon1.getPlmItemCode(),cyWdsumcon1.getSaleslineId(),cyWdsumcon1.getSupplyorg(),cyWdsumcon1.getName(),plmname2,cyWdsumcon1.getSeibancode(),cyWdsumcon1.getCkzzd(),plmname5,plmname3,plmname4,plmname6,cyWdsumcon1.getCtt(),cyWdsumcon1.getDescflexfieldPubdescseg32(),cyWdsumcon1.getShuliang(),cyWdsumcon1.getLjpc(),cyWdsumcon1.getT3(),cyWdsumcon1.getT3ab3(),cyWdsumcon1.getSwan(),cyWdsumcon1.getDescflexfieldPrivatedescseg7(),cyWdsumcon1.getCdj(),descflexfieldPrivatedescseg13,cyWdsumcon1.getGydm(),cyWdsumcon1.getTc(),cyWdsumcon1.getMemo(),cyWdsumcon1.getDd(),cyWdsumcon1.getDescflexfieldPrivatedescseg9(),cyWdsumcon1.getMj(),cyWdsumcon1.getMjh(),cyWdsumcon1.getLtkc(),cyWdsumcon1.getAp3(),cyWdsumcon1.getGybz(),cyWdsumcon1.getGyyq());
+            CyWdsumcon cyWdsumcon2 = new CyWdsumcon();
+            cyWdsumcon2.setModifiedon(cyWdsumcon1.getModifiedon());
+            cyWdsumcon2.setDemandname(cyWdsumcon1.getDemandname());
+            cyWdsumcon2.setCode(cyWdsumcon1.getCode());
+            cyWdsumcon2.setPlmItemCode(cyWdsumcon1.getPlmItemCode());
+            cyWdsumcon2.setSaleslineId(cyWdsumcon1.getSaleslineId());
+            String supplyorg = cyWdsumcon1.getSupplyorg();
+            BaseOrganizationTrl baseOrganizationTrl = baseOrganizationTrlService.selectBaseOrganizationTrlById(Long.parseLong(supplyorg));
+            cyWdsumcon2.setSupplyorg(baseOrganizationTrl.getName());
+            cyWdsumcon2.setName(cyWdsumcon1.getName());
+            cyWdsumcon2.setPlmname2(plmname2);
+            cyWdsumcon2.setPlmname3(plmname3);
+            cyWdsumcon2.setPlmname4(plmname4);
+            cyWdsumcon2.setPlmname5(plmname5);
+            cyWdsumcon2.setPlmname6(plmname6);
+            cyWdsumcon2.setSeibancode(cyWdsumcon1.getSeibancode());
+            cyWdsumcon2.setCkzzd(cyWdsumcon1.getCkzzd());
+            cyWdsumcon2.setCtt(cyWdsumcon1.getCtt());
+            cyWdsumcon2.setDescflexfieldPubdescseg32(cyWdsumcon1.getDescflexfieldPubdescseg32());
+            cyWdsumcon2.setShuliang(cyWdsumcon1.getShuliang());
+            cyWdsumcon2.setLjpc(cyWdsumcon1.getLjpc());
+            cyWdsumcon2.setT3(cyWdsumcon1.getT3());
+            cyWdsumcon2.setT3ab3(cyWdsumcon1.getT3ab3());
+            cyWdsumcon2.setBzpc(cyWdsumcon1.getBzpc());
+            cyWdsumcon2.setSwan(cyWdsumcon1.getSwan());
+            cyWdsumcon2.setDescflexfieldPrivatedescseg7(cyWdsumcon1.getDescflexfieldPrivatedescseg7());
+            cyWdsumcon2.setCdj(cyWdsumcon1.getCdj());
+            cyWdsumcon2.setDescflexfieldPrivatedescseg13(cyWdsumcon1.getDescflexfieldPrivatedescseg13());
+            cyWdsumcon2.setGydm(cyWdsumcon1.getGydm());
+            cyWdsumcon2.setTc(cyWdsumcon1.getTc());
+            cyWdsumcon2.setMemo(cyWdsumcon1.getMemo());
+            cyWdsumcon2.setDd(cyWdsumcon1.getDd());
+            cyWdsumcon2.setMj(cyWdsumcon1.getMj());
+            cyWdsumcon2.setMjh(cyWdsumcon1.getMjh());
+            cyWdsumcon2.setAp3(cyWdsumcon1.getAp3());
+            cyWdsumcon2.setGybz(cyWdsumcon1.getGybz());
+            cyWdsumcon2.setGyyq(cyWdsumcon1.getGyyq());
+
+            wdsumconService.insertCyWdsumcon(cyWdsumcon2);//将对应的数据插入汇总表中
+        }
+        List<CyWdsumcon> cyWdsumcons = wdsumconService.selectCyWdsumconList(new CyWdsumcon());
+
+        //查出的数据找到对应的code写到 汇总表中 Cy_deptExWanCobin 进行反查code对应的数据
         //将数据转成字段返回
         List<SheetOption> list = new ArrayList<>();
         Map keys = new HashMap();
@@ -744,9 +825,10 @@ public class CyDeptsalesexcelController extends BaseController {
         stop.setIndex("1");
         stop.setStatus(1);
         stop.setHide(0);
-        for (int i = 0; i < lists.size()+1; i++) {//行
+        //for (int i = 0; i < lists.size()+1; i++) {//行
+            for (int i = 0; i < lists.size()+1; i++) {//行
             String v = null;
-            for (int j = 0; j < 49; j++) {//列
+            for (int j = 0; j < 56; j++) {//列
                 if (i == 0) {
                     if (j == 0) {
                         v = "销售订单日期";
@@ -809,91 +891,105 @@ public class CyDeptsalesexcelController extends BaseController {
                         v = "期数";
                     }
                     if (j == 20){
+                        v = "PLM料号";
+                    }if (j == 21){
+                        v = "生产组织";
+                    }if (j == 22){
+                        v = "料品扩展字段";
+                    }if (j == 23){
+                        v = "TT/TL";
+                    }if (j == 24){
                         v = "配方";
-                    }
-                    if (j == 21){
+                    }if (j == 25){
+                        v = "工艺";
+                    }if (j == 26){
                         v = "静态订单差数";
-                    }
-                    if (j == 22){
-                        v = "上期排产数";
-                    }
-                    if (j == 23){
+                    }if (j == 27){
                         v = "累计到上周的完工数";
                     }
-                    if (j == 24){
+                    if (j == 28){
                         v = "冬季硫化定额";
                     }
-                    if (j == 25){
+                    if (j == 29){
                         v = "平均时间";
                     }
-                    if (j == 26){
+                    if (j == 30){
                         v = "工艺代码";
                     }
-                    if (j == 27){
+                    if (j == 31){
                         v = "胎侧标识页码";
                     }
-                    if (j == 28){
+                    if (j == 32){
                         v = "排产要求";
                     }
-                    if (j == 29){
+                    if (j == 33){
                         v = "排产要求确认";
                     }
-                    if (j == 30){
+                    if (j == 34){
                         v = "模具总量";
                     }
-                    if (j == 31){
+                    if (j == 35){
                         v = "模具投产";
                     }
-                    if (j == 32){
+                    if (j == 36){
                         v = "模具号";
                     }
-                    if (j == 33){
-                        v = "零头库存";
-                    }
-                    if (j == 34){
-                        v = "本周生产计划量";
-                    }
-                    if (j == 35){
-                        v = "差异量";
-                    }
-                    if (j == 36){
-                        v = "实际释放量";
-                    }
                     if (j == 37){
-                        v = "累计在制数量";
+                        v = "零头库存";
                     }
                     if (j == 38){
-                        v = "新增排产";
+                        v = "早";
                     }
                     if (j == 39){
-                        v = "剩余排产";
+                        v = "晚";
                     }
                     if (j == 40){
-                        v = "上周排产数";
+                        v = "早";
                     }
                     if (j == 41){
-                        v = "填报日期";
+                        v = "晚";
                     }
                     if (j == 42){
-                        v = "零头库存";
+                        v = "早";
                     }
                     if (j == 43){
-                        v = "是否有BOM";
+                        v = "晚";
                     }
                     if (j == 44){
-                        v = "客户编码";
+                        v = "早";
                     }
                     if (j == 45){
-                        v = "客户名称";
+                        v = "晚";
                     }
                     if (j == 46){
-                        v = "错误信息";
+                        v = "早";
                     }
                     if (j == 47){
-                        v = "工艺标志";
+                        v = "晚";
                     }
                     if (j == 48){
-                        v = "生成组织";
+                        v = "早";
+                    }
+                    if (j == 49){
+                        v = "晚";
+                    }
+                    if (j == 50){
+                        v = "早";
+                    }
+                    if (j == 51){
+                        v = "晚";
+                    }
+                    if (j == 52){
+                        v = "差异量";
+                    }
+                    if (j == 53){
+                        v = "是否有BOM";
+                    }
+                    if (j == 54){
+                        v = "工艺标志";
+                    }
+                    if (j == 55){
+                        v = "工艺要求";
                     }
                     //随机生成点数据
                     Celldata celldata = new Celldata(i + "", j + "", i + j + "", v + "");
@@ -904,7 +1000,6 @@ public class CyDeptsalesexcelController extends BaseController {
                     if (lists.get(i-1).getModifiedon() != null) {
                         Date modifiedon = lists.get(i-1).getModifiedon();
                         v=sdf.format(modifiedon);
-                        //v = modifiedon.toString();
                     } else {
                         v = "0";
                     }
@@ -932,7 +1027,6 @@ public class CyDeptsalesexcelController extends BaseController {
                     } else {
                         v = "0";
                     }
-
                 }
                 if (j == 4) {
                     if (lists.get(i-1).getPlmname2() != null) {
@@ -996,7 +1090,7 @@ public class CyDeptsalesexcelController extends BaseController {
                 }
                 if (j == 11) {
                     if (lists.get(i-1).getT3() != null) {
-                        String t3 = lists.get(i-1).getT3();
+                       String t3 = lists.get(i-1).getT3();
                         v = t3.toString();
                     } else {
                         v = "0";
@@ -1013,9 +1107,10 @@ public class CyDeptsalesexcelController extends BaseController {
                 if (j == 13) {
                     if (lists.get(i-1).getMark() != null) {
                         String mark = lists.get(i-1).getMark();
-                        v = mark.toString();
+                        if (mark.equals("0")){v = "";}else {
+                            v = mark.toString();}
                     } else {
-                        v = "0";
+                        v = "";
                     }
                 }
                 if (j == 14) {
@@ -1066,12 +1161,295 @@ public class CyDeptsalesexcelController extends BaseController {
                         v = "0";
                     }
                 }
+                //从 汇总表中查找字段
                 if (j == 20) {
-                    if (lists.get(i-1).getSumZhu() != null) {
-                        BigDecimal sumZhu = lists.get(i - 1).getSumZhu();
-                        v = sumZhu.toString();
+                    if (cyWdsumcons.get(i-1).getPlmItemCode() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getPlmItemCode();
+                        v = plmItemCode.toString();
                     } else {
-                        v = "0";
+                        v = "";
+                    }
+                }
+                if (j == 21) {
+                    if (cyWdsumcons.get(i-1).getSupplyorg() != null) {
+                        String supplyorg = cyWdsumcons.get(i - 1).getSupplyorg();
+                        v = supplyorg.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 22) {
+                    if (cyWdsumcons.get(i-1).getCkzzd() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getCkzzd();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 23) {
+                    if (cyWdsumcons.get(i-1).getPlmname4() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getPlmname4();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 24) {
+                    if (cyWdsumcons.get(i-1).getPlmname6() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getPlmname6();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 25) {
+                    if (cyWdsumcons.get(i-1).getDescflexfieldPubdescseg32() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getDescflexfieldPubdescseg32();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 26) {
+                    if (cyWdsumcons.get(i-1).getT3ab3() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getT3ab3();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 27) {
+                    if (cyWdsumcons.get(i-1).getSwan() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getSwan();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 28) {
+                    if (cyWdsumcons.get(i-1).getCdj() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getCdj();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 29) {//descflexfieldPrivatedescseg13
+                    if (cyWdsumcons.get(i-1).getDescflexfieldPrivatedescseg13() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getDescflexfieldPrivatedescseg13();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 30) {
+                    if (cyWdsumcons.get(i-1).getGydm() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getGydm();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 31) {
+                    if (cyWdsumcons.get(i-1).getTc() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getTc();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 32) {
+                    if (cyWdsumcons.get(i-1).getMemo() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getMemo();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 33) {
+                    if (cyWdsumcons.get(i-1).getDd() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getDd();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                //cmj 模具总量
+                if (j == 34) {
+                    if (cyWdsumcons.get(i-1).getMj() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getPlmItemCode();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 35) {
+                    if (cyWdsumcons.get(i-1).getMj() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getMj();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 36) {
+                    if (cyWdsumcons.get(i-1).getMjh() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getMjh();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 37) {
+                    if (cyWdsumcons.get(i-1).getLtkc() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getLtkc();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 38) {
+                    if (cyWdsumcons.get(i-1).getDayShift1() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getDayShift1();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 39) {
+                    if (cyWdsumcons.get(i-1).getNoonShift1() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getNoonShift1();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 40) {
+                    if (cyWdsumcons.get(i-1).getDayShift2() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getDayShift2();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 41) {
+                    if (cyWdsumcons.get(i-1).getNoonShift2() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getNoonShift2();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 42) {
+                    if (cyWdsumcons.get(i-1).getDayShift3() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getDayShift3();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 43) {
+                    if (cyWdsumcons.get(i-1).getNoonShift3() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getNoonShift3();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 44) {
+                    if (cyWdsumcons.get(i-1).getDayShift4() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getDayShift4();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 45) {
+                    if (cyWdsumcons.get(i-1).getNoonShift4() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getNoonShift4();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 46) {
+                    if (cyWdsumcons.get(i-1).getDayShift5() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getDayShift5();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 47) {
+                    if (cyWdsumcons.get(i-1).getNoonShift5() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getNoonShift5();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 48) {
+                    if (cyWdsumcons.get(i-1).getDayShift6() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getDayShift6();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 49) {
+                    if (cyWdsumcons.get(i-1).getNoonShift6() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getNoonShift6();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 50) {
+                    if (cyWdsumcons.get(i-1).getDayShift7() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getDayShift7();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 51) {
+                    if (cyWdsumcons.get(i-1).getNoonShift7() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getNoonShift7();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 52) {
+                    if (cyWdsumcons.get(i-1).getAp3() != null) {
+                        String t3 = lists.get(i-1).getT3();
+                        String plmItemCode = "-"+t3;
+                        v = plmItemCode;
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 53) {
+                    if (cyWdsumcons.get(i-1).getIflen() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getIflen();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 54) {
+                    if (cyWdsumcons.get(i-1).getGybz() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getGybz();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
+                    }
+                }
+                if (j == 55) {
+                    if (cyWdsumcons.get(i-1).getGyyq() != null) {
+                        String plmItemCode = cyWdsumcons.get(i - 1).getGyyq();
+                        v = plmItemCode.toString();
+                    } else {
+                        v = "";
                     }
                 }
                 //随机生成点数据
@@ -1081,10 +1459,9 @@ public class CyDeptsalesexcelController extends BaseController {
         }
         list.add(stop);
         JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(list));
+        wdsumconService.deleteCyWdsumconById();//每次汇总完删除 汇总表
         return jsonArray.toString();
     }
-
-
         /**
          * 获取填报派单详细信息
          */

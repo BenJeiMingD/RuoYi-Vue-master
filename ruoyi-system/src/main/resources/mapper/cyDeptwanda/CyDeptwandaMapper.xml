@@ -46,8 +46,49 @@
         <result property="saleslineId"    column="salesLine_id"    />
     </resultMap>
 
+    <resultMap type="CyWdsumcon" id="CyWdsumconResult">
+        <result property="modifiedon"    column="ModifiedOn"    />
+        <result property="demandname"    column="DemandName"    />
+        <result property="code"    column="Code"    />
+        <result property="plmItemCode"    column="plm_item_code"    />
+        <result property="saleslineId"    column="salesLine_id"    />
+        <result property="supplyorg"    column="SupplyOrg"    />
+        <result property="name"    column="Name"    />
+        <result property="plmname2"    column="PLMName2"    />
+        <result property="seibancode"    column="SeibanCode"    />
+        <result property="ckzzd"    column="ckzzd"    />
+        <result property="plmname5"    column="PLMName5"    />
+        <result property="plmname3"    column="PLMName3"    />
+        <result property="plmname4"    column="plmName4"    />
+        <result property="plmname6"    column="plmName6"    />
+        <result property="ctt"    column="ctt"    />
+        <result property="descflexfieldPubdescseg32"    column="DescFlexField_PubDescSeg32"    />
+        <result property="shuliang"    column="shuliang"    />
+        <result property="ljpc"    column="ljpc"    />
+        <result property="t3"    column="T3"    />
+        <result property="t3ab3"    column="T3AB3"    />
+        <result property="swan"    column="swan"    />
+        <result property="descflexfieldPrivatedescseg7"    column="DescFlexField_PrivateDescSeg7"    />
+        <result property="cdj"    column="cdj"    />
+        <result property="descflexfieldPrivatedescseg13"    column="DescFlexField_PrivateDescSeg13"    />
+        <result property="gydm"    column="gydm"    />
+        <result property="tc"    column="tc"    />
+        <result property="memo"    column="memo"    />
+        <result property="dd"    column="dd"    />
+        <result property="descflexfieldPrivatedescseg9"    column="DescFlexField_PrivateDescSeg9"    />
+        <result property="mj"    column="mj"    />
+        <result property="mjh"    column="mjh"    />
+        <result property="gybz"    column="gybz"    />
+        <result property="gyyq"    column="gyyq"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
     <sql id="selectCyDeptwandaVo"> -- Cy_deptExWan
         select ModifiedOn, DemandName, Code, Name, PLMName2, SeibanCode,DescFlexField_PubDescSeg32, shuliang, ljpc, T3, DescFlexField_PrivateDescSeg7, DescFlexField_PrivateDescSeg9, salesLine_id from Cy_deptExWan
+    </sql>
+
+    <sql id="selectCyDeptExWanCobin"> -- Cy_deptExWanCobin
+    select ModifiedOn, DemandName, Code,plm_item_code,salesLine_id,SupplyOrg, Name, PLMName2, SeibanCode,ckzzd,PLMName5,PLMName3,plmName4,plmName6,ctt,DescFlexField_PubDescSeg32, shuliang, ljpc, T3,T3AB3, DescFlexField_PrivateDescSeg7,cdj,DescFlexField_PrivateDescSeg13,gydm,tc,memo,dd, DescFlexField_PrivateDescSeg9,mj,mjh,Ap3,gybz,gyyq from Cy_deptExWanCobin
     </sql>
 
     <sql id="selectCydeptWanda"> -- cy_deptwanda
@@ -68,6 +109,45 @@
     <!--importyear 传入上一期开始时间，当开始时间为一年的第一期，则取上一年的最后一期-->
 
 <!--查询的远程库-->
+    <select id="selectCyDeptExWanCoBin" parameterType="CyWdsumcon" resultMap="CyWdsumconResult">
+        <include refid="selectCyDeptExWanCobin"/>
+        <where>
+            <if test="modifiedon != null "> and ModifiedOn = #{modifiedon}</if>
+            <if test="demandname != null  and demandname != ''"> and DemandName like concat('%', #{demandname}, '%')</if>
+            <if test="code != null  and code != ''"> and Code = #{code}</if>
+            <if test="plmItemCode != null  and plmItemCode != ''"> and plm_item_code = #{plmItemCode}</if>
+            <if test="saleslineId != null  and saleslineId != ''"> and salesLine_id = #{saleslineId}</if>
+            <if test="supplyorg != null  and supplyorg != ''"> and SupplyOrg = #{supplyorg}</if>
+            <if test="name != null  and name != ''"> and Name like concat('%', #{name}, '%')</if>
+            <if test="plmname2 != null  and plmname2 != ''"> and PLMName2 = #{plmname2}</if>
+            <if test="seibancode != null  and seibancode != ''"> and SeibanCode = #{seibancode}</if>
+            <if test="ckzzd != null  and ckzzd != ''"> and ckzzd = #{ckzzd}</if>
+            <if test="plmname5 != null  and plmname5 != ''"> and PLMName5 = #{plmname5}</if>
+            <if test="plmname3 != null  and plmname3 != ''"> and PLMName3 = #{plmname3}</if>
+            <if test="plmname4 != null  and plmname4 != ''"> and plmName4 = #{plmname4}</if>
+            <if test="plmname6 != null  and plmname6 != ''"> and plmName6 = #{plmname6}</if>
+            <if test="ctt != null  and ctt != ''"> and ctt = #{ctt}</if>
+            <if test="descflexfieldPubdescseg32 != null  and descflexfieldPubdescseg32 != ''"> and DescFlexField_PubDescSeg32 = #{descflexfieldPubdescseg32}</if>
+            <if test="shuliang != null  and shuliang != ''"> and shuliang = #{shuliang}</if>
+            <if test="ljpc != null  and ljpc != ''"> and ljpc = #{ljpc}</if>
+            <if test="t3 != null  and t3 != ''"> and T3 = #{t3}</if>
+            <if test="t3ab3 != null  and t3ab3 != ''"> and T3AB3 = #{t3ab3}</if>
+            <if test="descflexfieldPrivatedescseg7 != null  and descflexfieldPrivatedescseg7 != ''"> and DescFlexField_PrivateDescSeg7 = #{descflexfieldPrivatedescseg7}</if>
+            <if test="cdj != null  and cdj != ''"> and cdj = #{cdj}</if>
+            <if test="descflexfieldPrivatedescseg13 != null  and descflexfieldPrivatedescseg13 != ''"> and DescFlexField_PrivateDescSeg13 = #{descflexfieldPrivatedescseg13}</if>
+            <if test="gydm != null  and gydm != ''"> and gydm = #{gydm}</if>
+            <if test="tc != null  and tc != ''"> and tc = #{tc}</if>
+            <if test="memo != null  and memo != ''"> and memo = #{memo}</if>
+            <if test="dd != null  and dd != ''"> and dd = #{dd}</if>
+            <if test="descflexfieldPrivatedescseg9 != null  and descflexfieldPrivatedescseg9 != ''"> and DescFlexField_PrivateDescSeg9 = #{descflexfieldPrivatedescseg9}</if>
+            <if test="mj != null  and mj != ''"> and mj = #{mj}</if>
+            <if test="mjh != null  and mjh != ''"> and mjh = #{mjh}</if>
+            <if test="ap3 != null  and ap3 != ''"> and AP3 = #{ap3}</if>
+            <if test="gybz != null  and gybz != ''"> and gybz = #{gybz}</if>
+            <if test="gyyq != null  and gyyq != ''"> and gyyq = #{gyyq}</if>
+        </where>
+    </select>
+
     <select id="selectCyDeptwandaList" parameterType="CyDeptwanda" resultMap="CyDeptdeptExWan">
         <include refid="selectCyDeptwandaVo"/>
         <where>

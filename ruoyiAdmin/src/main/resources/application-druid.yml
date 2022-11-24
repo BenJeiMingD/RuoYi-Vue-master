@@ -3,7 +3,7 @@ spring:
         druid:
             # 主库数据源
             master:
-                url: jdbc:mysql://localhost:3306/ry?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                url: jdbc:mysql://192.168.1.10:3306/ry?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
                 username: root
                 password: root
                 driverClassName: com.mysql.cj.jdbc.Driver
@@ -13,6 +13,7 @@ spring:
                 enabled: true
                 # url: jdbc:sqlserver://free.svipss.top:59153;DatabaseName=WDZSK1 WDPAICHAN
                 url: jdbc:sqlserver://192.168.1.5:14333;DatabaseName=WDZSK1
+                # url: jdbc:sqlserver://41e94e6000.oicp.vip:34626;DatabaseName=WDZSK1
                 username: sa
                 password: Cy123456
                 # 远程 20.19万达测试库

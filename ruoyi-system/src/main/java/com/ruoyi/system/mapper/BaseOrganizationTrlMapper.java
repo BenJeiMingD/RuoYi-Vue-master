@@ -1,15 +1,15 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
-import com.ruoyi.system.domain.CyWdsumcon;
+import com.ruoyi.system.domain.BaseOrganizationTrl;
 
 /**
  * 【请填写功能名称】Mapper接口
  *
  * @author ruoyi
- * @date 2022-11-23
+ * @date 2022-11-24
  */
-public interface CyWdsumconMapper
+public interface BaseOrganizationTrlMapper
 {
     /**
      * 查询【请填写功能名称】
@@ -17,39 +17,39 @@ public interface CyWdsumconMapper
      * @param id 【请填写功能名称】主键
      * @return 【请填写功能名称】
      */
-    public CyWdsumcon selectCyWdsumconById(Long id);
+    public BaseOrganizationTrl selectBaseOrganizationTrlById(Long id);
 
     /**
      * 查询【请填写功能名称】列表
      *
-     * @param cyWdsumcon 【请填写功能名称】
+     * @param baseOrganizationTrl 【请填写功能名称】
      * @return 【请填写功能名称】集合
      */
-    public List<CyWdsumcon> selectCyWdsumconList(CyWdsumcon cyWdsumcon);
+    public List<BaseOrganizationTrl> selectBaseOrganizationTrlList(BaseOrganizationTrl baseOrganizationTrl);
 
     /**
      * 新增【请填写功能名称】
      *
-     * @param cyWdsumcon 【请填写功能名称】
+     * @param baseOrganizationTrl 【请填写功能名称】
      * @return 结果
      */
-    public int insertCyWdsumcon(CyWdsumcon cyWdsumcon);
+    public int insertBaseOrganizationTrl(BaseOrganizationTrl baseOrganizationTrl);
 
     /**
      * 修改【请填写功能名称】
      *
-     * @param cyWdsumcon 【请填写功能名称】
+     * @param baseOrganizationTrl 【请填写功能名称】
      * @return 结果
      */
-    public int updateCyWdsumcon(CyWdsumcon cyWdsumcon);
+    public int updateBaseOrganizationTrl(BaseOrganizationTrl baseOrganizationTrl);
 
     /**
      * 删除【请填写功能名称】
      *
-     * @param  【请填写功能名称】主键
+     * @param id 【请填写功能名称】主键
      * @return 结果
      */
-    public int deleteCyWdsumconById();
+    public int deleteBaseOrganizationTrlById(Long id);
 
     /**
      * 批量删除【请填写功能名称】
@@ -57,5 +57,5 @@ public interface CyWdsumconMapper
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteCyWdsumconByIds(Long[] ids);
+    public int deleteBaseOrganizationTrlByIds(Long[] ids);
 }
