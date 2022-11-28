@@ -129,6 +129,7 @@ public class CyDeptwandaServiceImpl implements ICyDeptwandaService
     }
 
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public int deleteCyDeptwanda() {
         return cyDeptwandaMapper.deleteCyDeptwanda();
     }

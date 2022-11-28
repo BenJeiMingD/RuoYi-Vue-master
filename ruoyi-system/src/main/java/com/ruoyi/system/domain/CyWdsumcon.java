@@ -11,7 +11,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 【请填写功能名称】对象 cy_wdsumcon
  *
  * @author ruoyi
- * @date 2022-11-23
+ * @date 2022-11-25
  */
 public class CyWdsumcon extends BaseEntity
 {
@@ -268,47 +268,6 @@ public class CyWdsumcon extends BaseEntity
     public void setSaleslineId(String saleslineId)
     {
         this.saleslineId = saleslineId;
-    }
-
-    public CyWdsumcon() {
-    }
-
-    public CyWdsumcon(Date modifiedon, String demandname, String code, String plmItemCode, String salesLineId, String supplyorg, String name, String plmname2, String seibancode, String ckzzd, String plmname5, String plmname3, String plmname4, String plmname6, String ctt, String descflexfieldPubdescseg32, String shuliang, String ljpc, String t3, String t3ab3, String bzpc, String swan, String descflexfieldPrivatedescseg7, String cdj, String descflexfieldPrivatedescseg13, String gydm, String tc, String memo, String dd, String descflexfieldPrivatedescseg9, String mj, String mjh, String ap3, String gybz, String gyyq) {
-        this.modifiedon = modifiedon;
-        this.demandname = demandname;
-        this.code = code;
-        this.plmItemCode = plmItemCode;
-        this.saleslineId = salesLineId;
-        this.supplyorg = supplyorg;
-        this.name = name;
-        this.plmname2 = plmname2;
-        this.seibancode = seibancode;
-        this.ckzzd = ckzzd;
-        this.plmname5 = plmname5;
-        this.plmname3 = plmname3;
-        this.plmname4 = plmname4;
-        this.plmname6 = plmname6;
-        this.ctt = ctt;
-        this.descflexfieldPubdescseg32 = descflexfieldPubdescseg32;
-        this.shuliang = shuliang;
-        this.ljpc = ljpc;
-        this.t3 = t3;
-        this.t3ab3 = t3ab3;
-        this.bzpc = bzpc;
-        this.swan = swan;
-        this.descflexfieldPrivatedescseg7 = descflexfieldPrivatedescseg7;
-        this.cdj = cdj;
-        this.descflexfieldPrivatedescseg13 = descflexfieldPrivatedescseg13;
-        this.gydm = gydm;
-        this.tc = tc;
-        this.memo = memo;
-        this.dd = dd;
-        this.descflexfieldPrivatedescseg9 = descflexfieldPrivatedescseg9;
-        this.mj = mj;
-        this.mjh = mjh;
-        this.ap3 = ap3;
-        this.gybz = gybz;
-        this.gyyq = gyyq;
     }
 
     public String getSaleslineId()

@@ -298,7 +298,7 @@
         where id = #{id}
     </update>
 
-    <delete id="deleteCyWdsumconById" parameterType="Integer">
+    <delete id="deleteCyWdsumconById" parameterType="integer">
         delete from cy_wdsumcon
     </delete>
 

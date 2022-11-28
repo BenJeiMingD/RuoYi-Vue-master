@@ -723,7 +723,10 @@ public class CyDeptsalesexcelController extends BaseController {
                 cyDeptsalesexcel.setUserName(cyDeptorderinserts.get(i).getUserName());
                 //这里通过读取每一条的code，找到对应的寸别和成型方式所对应的组--将最大产能填入
                 cyDeptsalesexcel.setIssueNumber(cyDeptorderinserts.get(i).getIssueNumber());
+                List<CyDeptsalesexcel> cyDeptsalesexcels = cyDeptsalesexcelService.selectCyDeptsalesexcelList(cyDeptsalesexcel);
+                if (cyDeptsalesexcels.size()==0){//当为空插入
                 cyDeptsalesexcelService.insertCyDeptsalesexcel(cyDeptsalesexcel);//将插单表的字段添加到合并表中
+                     }
                 /*//删除对应的插单表数据
                 cyDeptorderinsertService.deleteCyDeptorderinsertById(cyDeptorderinserts.get(i).getId());*/
             }

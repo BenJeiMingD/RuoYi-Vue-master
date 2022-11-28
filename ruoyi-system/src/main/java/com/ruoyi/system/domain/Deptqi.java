@@ -44,6 +44,11 @@ public class Deptqi extends BaseEntity
     @Excel(name = "年号")
     private Integer yearCode;
 
+    /** 提单日期 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "提单日期", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date ladingTime;
+
     public char getDeptOrder() {
         return deptOrder;
     }
@@ -127,6 +132,16 @@ public class Deptqi extends BaseEntity
         this.username = username;
     }
 
+    public void setLadingTime(Date ladingTime)
+    {
+        this.ladingTime = ladingTime;
+    }
+
+    public Date getLadingTime()
+    {
+        return ladingTime;
+    }
+
     @Override
     public String toString() {
         return "Deptqi{" +
@@ -137,6 +152,7 @@ public class Deptqi extends BaseEntity
                 ", yearCode=" + yearCode +
                 ", InsertOrder=" + deptOrder +
                 ", issueNumber=" + issueNumber +
+                ", ladingTime=" + ladingTime +
                 '}';
     }
 }

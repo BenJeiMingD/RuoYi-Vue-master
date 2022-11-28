@@ -12,10 +12,11 @@
         <result property="yearCode"    column="year_code"    />
         <result property="issueNumber"    column="Issue_number"    />
         <result property="deptOrder"    column="dept_order"    />
+        <result property="ladingTime"    column="lading_time"    />
     </resultMap>
 
     <sql id="selectDeptqiVo">
-        select id, start_time, end_time, duration, year_code, Issue_number, dept_order from cy_deptqi
+        select id, start_time, end_time, duration, year_code, Issue_number, dept_order, lading_time from cy_deptqi
     </sql>
 
     <select id="selectDeptqiList" parameterType="Deptqi" resultMap="CyDeptqiResult">
@@ -27,6 +28,7 @@
             <if test="yearCode != null "> and year_code = #{yearCode}</if>
             <if test="issueNumber != null "> and Issue_number = #{issueNumber}</if>
             <if test="deptOrder != null  and deptOrder != ''"> and dept_order = #{deptOrder}</if>
+            <if test="ladingTime != null "> and lading_time = #{ladingTime}</if>
         </where>
     </select>
     <!--传入年号，查询出最大的期号-->
@@ -50,6 +52,7 @@
             <if test="yearCode != null">year_code,</if>
             <if test="issueNumber != null">Issue_number,</if>
             <if test="deptOrder != null">dept_order,</if>
+            <if test="ladingTime != null">lading_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <!--<if test="id != null">#{id},</if>-->
@@ -59,6 +62,7 @@
             <if test="yearCode != null">#{yearCode},</if>
             <if test="issueNumber != null">#{issueNumber},</if>
             <if test="deptOrder != null">#{deptOrder},</if>
+            <if test="ladingTime != null">#{ladingTime},</if>
         </trim>
     </insert>
 
@@ -71,6 +75,7 @@
             <if test="yearCode != null">year_code = #{yearCode},</if>
             <if test="issueNumber != null">Issue_number = #{issueNumber},</if>
             <if test="deptOrder != null">dept_order = #{deptOrder},</if>
+            <if test="ladingTime != null">lading_time = #{ladingTime},</if>
         </trim>
         where id = #{id}
     </update>

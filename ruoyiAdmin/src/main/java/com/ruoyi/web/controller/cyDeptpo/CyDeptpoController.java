@@ -152,9 +152,10 @@ public class CyDeptpoController extends BaseController
     @RequestMapping("/deptpo/insert")//新增的时候会传入期表表id---生成一期节点
     public AjaxResult add(@RequestBody String string)
     {
+
         JSONObject jsonObject = JSON.parseObject(string).getJSONObject("data");
         CyDeptpo cyDeptpo = JSON.toJavaObject(jsonObject, CyDeptpo.class);
-        Integer deptqiId = cyDeptpo.getDeptqiId();
+        Integer deptqiId = cyDeptpo.getDeptqiId();//期表的id
         Deptzi deptzi = new Deptzi();
         BigDecimal todayNumber=null;
         BigDecimal duration = null;
@@ -216,17 +217,14 @@ public class CyDeptpoController extends BaseController
                     }
                 }
             }
-
-        System.out.println("cyDeptpo = " + string);
-        JSONObject jsonObjects = JSON.parseObject(string).getJSONObject("data");
-        Deptqi deptqi = JSON.toJavaObject(jsonObjects, Deptqi.class);
-        Date startTime = deptqi.getStartTime();
-        if (startTime != null) {//执行完存储过程
+        Deptqi deptqi2 = deptqiService.selectDeptqiById(deptqiId);
+        Date startTime = deptqi2.getLadingTime();
+        if (startTime != null) {//执行完存储过程   -- 考虑在 期表中添加一个字段
             cyDeptwandaService.deleteCyDeptwanda();
             deptqiService.AsyncService(startTime);
             //查询出·cyCompleterptrcvxes表的所有数据，进行遍历比对
             List<CyCompleterptrcvx> cyCompleterptrcvxes = completerptrcvxService.selectCyCompleterptrcvxList(new CyCompleterptrcvx());
-            Integer issueNumber = deptqi.getIssueNumber();//期号
+            Integer issueNumber = deptqi2.getIssueNumber();//期号
             Deptqi deptqi1 = new Deptqi();
             deptqi1.setIssueNumber(issueNumber);
             List<Deptqi> deptqis = deptqiService.selectDeptqiList(deptqi1);

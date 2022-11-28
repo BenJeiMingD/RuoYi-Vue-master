@@ -126,7 +126,7 @@ public class DeptqiController extends BaseController {
         Date startTime = deptqi.getStartTime();
         String userName = deptqi.getUsername();
         if (startTime==null||userName==null){
-            return AjaxResult.error(500,"数据没有填写");
+            return AjaxResult.error("数据没有填写",500);
         }
         //填入日期的时间,年份
         int year = startTime.getYear() + 1900;
@@ -157,37 +157,7 @@ public class DeptqiController extends BaseController {
         }else {
             return AjaxResult.error("操作失败");
         }
-        /*//默认初始值1
-        List<Deptqi> deptqis = deptqiService.selectDeptqiList(new Deptqi());
-        if (deptqis.size() == 1) {//说明没有数据 为1期===这里先插入后更新
-            IssueNumber=1;
-            deptqi.setIssueNumber(IssueNumber);
-            int row = deptqiService.updateDeptqi(deptqi);//当前的指定下的id数据进行更新---期号
-            if (row != rows) {
-                rows = 0;
-            }
-            return toAjax(rows, deptqiId, IssueNumber);//当数据库无信息时
-        }
-        if (deptqis.size() > 1 && year == SystemYear) {
-            Integer issueNumber = deptqis.get(deptqis.size() - 2).getIssueNumber();//获取他的最近一条的期数 +1
-            IssueNumber = issueNumber += 1;//当有数据时；查找最近一期加1
-            deptqi.setIssueNumber(IssueNumber);
-            int row = deptqiService.updateDeptqi(deptqi);//当前的指定下的id数据进行更新---期号
-            if (row != rows) {
-                rows = 0;
-            }
-            return toAjax(rows, deptqiId, IssueNumber);
-        }
-        if (deptqis.size() > 1 && year != SystemYear) {//输入不同年份
-            ++Number ;//将期号置为1
-            deptqi.setIssueNumber(Number);
-            int row = deptqiService.updateDeptqi(deptqi);//当前的指定下的id数据进行更新---期号
-            if (row != rows) {
-                rows = 0;
-            }
-            return toAjax(rows, deptqiId, Number);
-        }
-        return null;*/
+
     }
 
     /**
@@ -225,7 +195,6 @@ public class DeptqiController extends BaseController {
                 array2 = arrayList.toArray(new Integer[arrayList.size()]);//将arrays转成list
                 int ids = deptpoService.deleteCyDeptpoByDeptpoIds(array2);
             }
-
             cyDeptwandaService.deleteCyDeptwanda();
             return toAjax(deptqiService.deleteDeptqiById(id));
         }
@@ -300,6 +269,25 @@ public class DeptqiController extends BaseController {
                 String code = listw.get(i).getCode();//料号
                 String name = listw.get(i).getName();
                 String plmname2 = listw.get(i).getPlmname2();
+
+
+
+                int index = plmname2.indexOf("~");
+                int index2 = plmname2.indexOf("~", index + 1);
+                String v4 = plmname2.substring(index+1,index2);//2
+
+                int index21 = plmname2.indexOf("~", index + 1);
+                int index3 = plmname2.indexOf("~",index21+1);
+                int index4 = plmname2.indexOf("~",index3+1);
+                int index5 = plmname2.indexOf("~",index4+1);
+                String result2 = plmname2.substring(index4+1,index5);//5
+
+
+                //根据第一个点的位置 获得第二个点的位置
+                int index20 = plmname2.indexOf("~", index + 1);
+                int index30 = plmname2.indexOf("~",index20+1);
+                String result1 = plmname2.substring(index20+1,index30);
+
                 String seibancode = listw.get(i).getSeibancode();//番号
                 String descflexfieldPubdescseg32 = listw.get(i).getDescflexfieldPubdescseg32();
                 Integer shuliang = listw.get(i).getShuliang();
@@ -326,7 +314,9 @@ public class DeptqiController extends BaseController {
                                     cyDeptwanda.setDemandname(demandname);
                                     cyDeptwanda.setCode(code);
                                     cyDeptwanda.setName(name);
-                                    cyDeptwanda.setPlmname2(plmname2);
+                                    cyDeptwanda.setPlmname2(v4);//2
+                                    cyDeptwanda.setPlmname3(result1);//3
+                                    cyDeptwanda.setPlmname5(result2);//5
                                     cyDeptwanda.setSeibancode(seibancode);
                                     cyDeptwanda.setDescflexfieldPubdescseg32(descflexfieldPubdescseg32);
                                     cyDeptwanda.setShuliang(shuliang);

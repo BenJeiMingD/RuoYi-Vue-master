@@ -193,6 +193,7 @@ public class DeptformController extends BaseController {
             cyDeptorderinsert.setCyFromId(id);//将传入的id 给到插单表进行反查
             List<CyDeptorderinsert> cyDeptorderinserts = cyDeptorderinsertService.selectCyDeptorderinsertList(cyDeptorderinsert);
             //通过id进行反查 销售表单 对应数据
+            if (cyDeptorderinserts.size()!=0){
             Integer id3 = cyDeptorderinserts.get(0).getId();
             cyDeptsalesexcel1.setDemandname(cyDeptorderinserts.get(0).getDemandname());//需求分类
             cyDeptsalesexcel1.setIssueNumber(issueNumber);//期号
@@ -202,9 +203,15 @@ public class DeptformController extends BaseController {
             List<CyDeptsalesexcel> cyDeptsalesexcels1 = cyDeptsalesexcelService.selectCyDeptsalesexcelList(cyDeptsalesexcel1);//通过条件查询对应的一条数据
             if (cyDeptsalesexcels1.size()!=0){//当销售表中没有此数据，不对销售表进行操作
             Integer id2 = cyDeptsalesexcels1.get(0).getId();//获取销售派单表单id
-            cyDeptsalesexcelService.deleteCyDeptsalesexcelById(id2);}//删除 插单 的对应销售派单表数据
-            cyDeptorderinsertService.deleteCyDeptorderinsertById(id3);
+                CyDeptsalesexcel cyDeptsalesexcel2 = cyDeptsalesexcelService.selectCyDeptsalesexcelById(id2);
+                Integer xq = cyDeptsalesexcel2.getXq();
+                if (xq!=0||xq!=null){  //else 当需求是 0 ，不做操作
+                    cyDeptsalesexcel2.setXq(0);
+                    cyDeptsalesexcel2.setId(id2);
+            cyDeptsalesexcelService.updateCyDeptsalesexcel(cyDeptsalesexcel2);}}//更新对应 插单 的对应销售派单表数据 需求为 0；
+            cyDeptorderinsertService.deleteCyDeptorderinsertById(id3);}//删除插单表数据
         }
+        else {
         //批量删除
         Integer[] array2 = null;
         ArrayList<Integer> objects = new ArrayList<>();
@@ -223,7 +230,7 @@ public class DeptformController extends BaseController {
                 array2 = objects.toArray(new Integer[objects.size()]);//将arrays转成list
                 cyDeptsalesexcelService.deleteCyDeptsalesexcelByIds(array2);
             }
-        }
+        }}
         int row1 = deptformService.deleteDeptformById(id);
         return toAjax(row1);
     }
@@ -268,7 +275,7 @@ public class DeptformController extends BaseController {
         }
         return AjaxResult.error("获取参数不全");
     }
-
+    //对 插单表进行查询
     //获取单行 的标题
     @PostMapping("/system/deptform/ordInsert")
     public String selectInsert(Deptform deptform) {
@@ -546,6 +553,8 @@ public class DeptformController extends BaseController {
         JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(list));
         return jsonArray.toString();
     }
+
+    // 对查单表进行保存 -- 每次插入的时候判断 数据库中是否有，如果有 对销售需求进行 sum 并且更新销售需求
     @RequestMapping("/order/insterSave/save")
     public AjaxResult orderInsterSave(@RequestBody(required = false) String string) {
         //每次插入前先执行 通过 id直接删除
@@ -557,7 +566,7 @@ public class DeptformController extends BaseController {
             cyDeptorderinsertService.deleteCyDeptorderinsertById(id);
         }
         //先删除
-        //再保存
+        //再保存  每次插入的时候判断 数据库中是否有，如果有 对销售需求进行 sum 并且更新销售需求
         JSONObject jsonObject = JSON.parseObject(string);
         JSONArray dataList = jsonObject.getJSONObject("data").getJSONArray("dataList");//将json格式转换成数组
         JSONObject json = JSON.parseObject(string).getJSONObject("data");
@@ -619,7 +628,7 @@ public class DeptformController extends BaseController {
                             cyDeptorderinsert.setShuliang(cyDeptorderinserts.get(0).getShuliang());
                             cyDeptorderinsert.setLjpc(cyDeptorderinserts.get(0).getLjpc());
                             cyDeptorderinsert.setT3(cyDeptorderinserts.get(0).getT3());
-                            cyDeptorderinsert.setXq(cyDeptsal.getXq());//需求从插单表中获取
+                            Integer xq1 = cyDeptsal.getXq();
                             cyDeptorderinsert.setMark(cyDeptorderinserts.get(0).getMark());
                             cyDeptorderinsert.setDescflexfieldPrivatedescseg7(cyDeptorderinserts.get(0).getDescflexfieldPrivatedescseg7());
                             cyDeptorderinsert.setDescflexfieldPrivatedescseg9(cyDeptorderinserts.get(0).getDescflexfieldPrivatedescseg9());
@@ -628,12 +637,44 @@ public class DeptformController extends BaseController {
                             //这里通过读取每一条的code，找到对应的寸别和成型方式所对应的组--将最大产能填入
                             cyDeptorderinsert.setIssueNumber(cyDeptsal.getIssueNumber());
                             cyDeptorderinsert.setCyFromId(cyFromId);
-                            rows = cyDeptorderinsertService.insertCyDeptorderinsert(cyDeptorderinsert);
+                            // 每次插入的时候判断 数据库中是否有，如果有 对销售需求进行 sum 并且更新销售需求
+                            CyDeptorderinsert cyDeptorderinsert1 = new CyDeptorderinsert();
+                            cyDeptorderinsert1.setModifiedon(cyDeptorderinserts.get(0).getModifiedon());
+                            cyDeptorderinsert1.setDemandname(cyDeptsal.getDemandname());
+                            cyDeptorderinsert1.setCode(cyDeptsal.getCode());
+                            cyDeptorderinsert1.setName(cyDeptsal.getName());
+                            cyDeptorderinsert1.setPlmname2(cyDeptorderinserts.get(0).getPlmname2());
+                            cyDeptorderinsert1.setSeibancode(cyDeptorderinserts.get(0).getSeibancode());
+                            cyDeptorderinsert1.setPlmname5(cyDeptorderinserts.get(0).getPlmname5());
+                            cyDeptorderinsert1.setPlmname3(cyDeptorderinserts.get(0).getPlmname3());
+                            cyDeptorderinsert1.setDescflexfieldPubdescseg32(cyDeptorderinserts.get(0).getDescflexfieldPubdescseg32());
+                            cyDeptorderinsert1.setShuliang(cyDeptorderinserts.get(0).getShuliang());
+                            cyDeptorderinsert1.setLjpc(cyDeptorderinserts.get(0).getLjpc());
+                            cyDeptorderinsert1.setT3(cyDeptorderinserts.get(0).getT3());
+                            cyDeptorderinsert1.setMark(cyDeptorderinserts.get(0).getMark());
+                            cyDeptorderinsert1.setDescflexfieldPrivatedescseg7(cyDeptorderinserts.get(0).getDescflexfieldPrivatedescseg7());
+                            cyDeptorderinsert1.setDescflexfieldPrivatedescseg9(cyDeptorderinserts.get(0).getDescflexfieldPrivatedescseg9());
+                            cyDeptorderinsert1.setSaleslineId(cyDeptorderinserts.get(0).getSaleslineId());
+                            cyDeptorderinsert1.setUserName(cyDeptsal.getUserName());
+                            List<CyDeptorderinsert> cyDeptorderinserts1 = cyDeptorderinsertService.selectCyDeptorderinsertList(cyDeptorderinsert1);
+                            if (cyDeptorderinserts1.size()!=0){//说明插单表中有存在数据
+                                for (int i = 0; i < cyDeptorderinserts1.size(); i++) {
+                                    Integer xq = cyDeptorderinserts1.get(i).getXq();
+                                    xq1 = xq1 + xq;
+                                }
+                            }
+                            cyDeptorderinsert.setXq(xq1);//需求从插单表中获取
+                            rows = cyDeptorderinsertService.insertCyDeptorderinsert(cyDeptorderinsert);//保存到插单表
+                            if (rows==1){
+                                return toAjax(rows);
+                            }
+
                         }
+
                     }
             }
         }
-        return AjaxResult.success("操作成功");
+        return toAjax(0);
     }
 }
 
