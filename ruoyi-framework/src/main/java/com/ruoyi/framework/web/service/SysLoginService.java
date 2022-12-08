@@ -50,6 +50,49 @@ public class SysLoginService
     @Autowired
     private ISysConfigService configService;
 
+
+    /**
+     * sso使用用户名登录
+     * @param name
+     * @return
+     */
+    public String ssoLogin(String name,String str) {
+        //默认wanda773是我们的暗号
+        if(StringUtils.isBlank(name)&&(StringUtils.isBlank(str)||!"wanda773".equals(str))){
+            return null;
+        }
+        // 用户验证
+        Authentication authentication = null;
+        SysUser user = userService.selectUserByUserName(name);
+        String username=user.getUserName();
+        String password = user.getPassword();
+        try
+        {
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,password );
+            AuthenticationContextHolder.setContext(authenticationToken);
+            // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
+            authentication = authenticationManager.authenticate(authenticationToken);
+        }
+        catch (Exception e)
+        {
+            if (e instanceof BadCredentialsException)
+            {
+                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match")));
+                throw new UserPasswordNotMatchException();
+            }
+            else
+            {
+                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage()));
+                throw new ServiceException(e.getMessage());
+            }
+        }
+        AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        recordLoginInfo(loginUser.getUserId());
+        // 生成token
+        return tokenService.createToken(loginUser);
+    }
+
     /**
      * 登录验证
      * 

@@ -3,10 +3,7 @@ package com.ruoyi.web.controller.system;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysMenu;
@@ -33,6 +30,20 @@ public class SysLoginController
 
     @Autowired
     private SysPermissionService permissionService;
+
+
+    /**
+     * sso登录方法 单点登录
+     *
+     * @return 结果
+     */
+    @PostMapping("/ssoLogin")
+    public AjaxResult ssoLogin(@RequestParam String name, String str) {
+        AjaxResult ajax = AjaxResult.success();
+        String token = loginService.ssoLogin(name, str);
+        ajax.put(Constants.TOKEN, token);
+        return ajax;
+    }
 
     /**
      * 登录方法
