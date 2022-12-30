@@ -27,7 +27,7 @@ import com.ruoyi.system.service.ISysUserService;
 /**
  * 个人信息 业务处理
  * 
- * @author ruoyi
+ * @author ruoy
  */
 @RestController
 @RequestMapping("/system/user/profile")
@@ -45,7 +45,13 @@ public class SysProfileController extends BaseController
     @GetMapping
     public AjaxResult profile()
     {
-        LoginUser loginUser = getLoginUser();
+        LoginUser loginUser = null;
+        try {
+            loginUser = getLoginUser();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         SysUser user = loginUser.getUser();
         AjaxResult ajax = AjaxResult.success(user);
         ajax.put("roleGroup", userService.selectUserRoleGroup(loginUser.getUsername()));

@@ -128,10 +128,11 @@ public class TokenService
     {
         long expireTime = loginUser.getExpireTime();
         long currentTime = System.currentTimeMillis();
-        if (expireTime - currentTime <= MILLIS_MINUTE_TEN)
-        {
-            refreshToken(loginUser);
-        }
+        //取消token20分钟刷新一次
+        //if (expireTime - currentTime <= MILLIS_MINUTE_TEN)
+        /*{
+            refreshToken(loginUser);//刷新token
+        }*/
     }
 
     /**

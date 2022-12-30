@@ -35,6 +35,12 @@ public interface SysUserMapper
      */
     public List<SysUser> selectUnallocatedList(SysUser user);
 
+
+    /*
+    * 新填无关联查询
+    * */
+    public List<SysUser> selectSysUserL(SysUser user);
+
     /**
      * 通过用户名查询用户
      * 
@@ -59,13 +65,8 @@ public interface SysUserMapper
      */
     public int insertUser(SysUser user);
 
-    /**
-     * 新增用户信息
-     *
-     * @param user 用户信息
-     * @return 结果 插入数据到mysql
-     */
-    public int insertUser2(SysUser user);
+
+
 
     /**
      * 修改用户信息

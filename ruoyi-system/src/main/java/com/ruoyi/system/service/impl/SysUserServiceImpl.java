@@ -76,6 +76,13 @@ public class SysUserServiceImpl implements ISysUserService
         return userMapper.selectUserList(user);
     }
 
+
+    @Override
+    public List<SysUser> selectSysUserL(SysUser user)
+    {
+        return userMapper.selectSysUserL(user);
+    }
+
     /**
      * 根据条件分页查询已分配用户角色列表
      * 
@@ -281,7 +288,7 @@ public class SysUserServiceImpl implements ISysUserService
      * @return 结果 insertUser2插入数据到mysql
      *
      */
-    @Override
+    /*@Override
     @Transactional
     public int insertUser2(SysUser user)
     {
@@ -292,7 +299,7 @@ public class SysUserServiceImpl implements ISysUserService
         // 新增用户与角色管理
         insertUserRole(user);
         return rows;
-    }
+    }*/
 
     /**
      * 注册用户信息

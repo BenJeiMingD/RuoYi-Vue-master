@@ -33,6 +33,10 @@ public class SysUser extends BaseEntity
     @Excel(name = "登录名称")
     private String userName;
 
+    /** token */
+    @Excel(name = "token")
+    private String token;
+
     /** 用户昵称 */
     @Excel(name = "用户名称")
     private String nickName;
@@ -77,6 +81,14 @@ public class SysUser extends BaseEntity
         @Excel(name = "部门负责人", targetAttr = "leader", type = Type.EXPORT)
     })
     private SysDept dept;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     /** 角色对象 */
     private List<SysRole> roles;

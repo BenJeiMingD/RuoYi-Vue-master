@@ -19,6 +19,10 @@ public interface ISysUserService
 
     public List<SysUser> selectUserList(SysUser user);
 
+
+
+    public List<SysUser> selectSysUserL(SysUser user);
+
     /**
      * 根据条件分页查询已分配用户角色列表
      * 
@@ -119,7 +123,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    public int insertUser2(SysUser user);
+    //public int insertUser2(SysUser user);
 
     /**
      * 注册用户信息
