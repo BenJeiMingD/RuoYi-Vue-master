@@ -1813,9 +1813,8 @@ public class CyDeptsalesexcelController extends BaseController {
         return "exceldata";
     }
 
-    @GetMapping("/")
+    /*@GetMapping("/")
     public String index(){
-        return "index";
+        return "index";*/
     }
 
-}

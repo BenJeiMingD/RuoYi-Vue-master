@@ -23,17 +23,17 @@ class sqltese {
     @RequestMapping("/capacity/templatedate/Test")
     void contextLoads() throws ParseException {
 
-        /*String beginTime=new String("2017-06-09 10:22:22");
+        String beginTime=new String("2017-06-09 10:22:22");
         String endTime=new String("2017-06-09 10:22:22");
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date sd1=df.parse(beginTime);//2017-06-09 10:22:22
         Date sd2=df.parse(endTime);//2017-05-08 11:22:22
 
-        String nowDay= 2022+"-12-31";
+        String nowDay= "2022-12-31";
         Date nowDate =   DateUtil.parseYYYYMMDDDate(nowDay);
         System.out.println(nowDate);
         //22年之前的日期--开始时间在最后一天前
-        System.out.println(sd2.before(nowDate));//false*/
+        /*System.out.println(sd2.before(nowDate));//false
         Calendar currCal=Calendar.getInstance();
         int currentYear =currCal.get(Calendar.YEAR);//当前年
         Calendar calendar=Calendar.getInstance();
@@ -42,7 +42,7 @@ class sqltese {
         calendar.roll(Calendar.DAY_OF_YEAR,-1);
         Date currYearLast=calendar.getTime();
 
-        System.out.println("i = " + currYearLast);
+        System.out.println("i = " + currYearLast);*/
 
 
 
